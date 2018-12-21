@@ -3,7 +3,7 @@
 Simple mailer micro-service for static websites
 
 [![Build Status Travis-CI](https://travis-ci.org/rclement/mailer.svg)](https://travis-ci.org/rclement/mailer)
-[![Coverage Status](https://coveralls.io/repos/github/rclement/carnet/badge.svg?branch=develop)](https://coveralls.io/github/rclement/carnet?branch=develop)
+[![Coverage Status](https://coveralls.io/repos/github/rclement/mailer/badge.svg?branch=develop)](https://coveralls.io/github/rclement/mailer?branch=develop)
 
 
 ## Build
