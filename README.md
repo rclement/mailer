@@ -6,7 +6,7 @@ Simple mailer micro-service for static websites
 [![Coverage Status](https://coveralls.io/repos/github/rclement/mailer/badge.svg?branch=develop)](https://coveralls.io/github/rclement/mailer?branch=develop)
 
 
-## Build
+## Building
 
 ```
 pipenv install -d
@@ -14,12 +14,37 @@ pipenv run inv qa
 ```
 
 
-## Deployment
+## Running locally
+
+1. Generate `flask` secret key:
+    ```
+    flask run generate-secret-key
+    ```
+
+2. Set environment variables:
+    ```
+    cp .env.example .env
+    edit .env
+    ```
+
+3. Run dev server:
+    ```
+    flask run
+    ```
+
+4. Try it:
+    ```
+    http GET localhost:5000/api/
+    http POST localhost:5000/api/mail email="john@doe.com" name="John Doe" subject="Test" message="Hello"
+    ```
+
+
+## Deploying
 
 ### Docker Hub deployment
 
 ```
-pipenv run docker-deploy -u <username> -p <password> -r <repository> -t <tag>
+pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag>
 ```
 
 ### Zeit Now
