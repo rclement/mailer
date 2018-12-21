@@ -1,0 +1,32 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[packages]
+flask = "*"
+flask-apispec = "*"
+flask-cors = "*"
+flask-limiter = "*"
+flask-talisman = "*"
+gevent = "*"
+gunicorn = "*"
+honcho = "*"
+sendgrid = "*"
+
+[dev-packages]
+black = "*"
+"flake8" = "*"
+invoke = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-flask = "*"
+pytest-mock = "*"
+python-dotenv = "*"
+safety = "*"
+
+[requires]
+python_version = "3.7"
+
+[pipenv]
+allow_prereleases = true

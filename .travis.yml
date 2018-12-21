@@ -1,0 +1,22 @@
+language: python
+python:
+    - "3.7"
+
+services:
+  - docker
+
+install:
+  - pipenv install --dev
+  - pipenv run pip install coveralls
+
+script:
+  - pipenv run inv qa
+  - pipenv run coveralls
+
+deploy:
+  - provider: script
+    script: pipenv run inv docker_deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "$TRAVIS_TAG"
+    on:
+      tags: true
+  - provider: script
+    script: pipenv run inv docker_deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "latest"
