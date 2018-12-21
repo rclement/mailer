@@ -17,8 +17,11 @@ script:
 
 deploy:
   - provider: script
-    script: pipenv run inv docker_deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "$TRAVIS_TAG"
+    script: pipenv run inv docker-deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "$TRAVIS_TAG"
     on:
       tags: true
   - provider: script
-    script: pipenv run inv docker_deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "latest"
+    script: pipenv run inv docker-deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "latest"
+    on:
+      tags: false
+      all_branches: true
