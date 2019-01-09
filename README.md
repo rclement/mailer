@@ -6,6 +6,7 @@ Simple mailer micro-service for static websites
 [![Build Status Travis-CI](https://travis-ci.org/rclement/mailer.svg?branch=master)](https://travis-ci.org/rclement/mailer)
 [![Coverage Status](https://coveralls.io/repos/github/rclement/mailer/badge.svg?branch=master)](https://coveralls.io/github/rclement/mailer)
 
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/rclement/mailer&env=SERVER_NAME&env=PREFERRED_URL_SCHEME&env=SECRET_KEY&env=TO_EMAIL&env=TO_NAME&env=CORS_ORIGINS&env=RATELIMIT_DEFAULT&env=RATELIMIT_APPLICATION&env=MAILER_SERVICE&env=SENDGRID_API_KEY)
 
 ## Building
 
@@ -53,23 +54,23 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
 1. Deploy `mailer` as Docker-based app:
 
     ```
-    now secrets add secret-key xxxx
-    now secrets add sendgrid-api-key xxxx
+    now secrets add mailer-secret-key xxxx
+    now secrets add mailer-sendgrid-api-key xxxx
     now \
         -e SERVER_NAME="sub.domain.com" \
         -e PREFERRED_URL_SCHEME="https" \
-        -e SECRET_KEY="@secret-key" \
+        -e SECRET_KEY="@mailer-secret-key" \
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
         -e CORS_ORIGINS="https://domain.com" \
         -e MAILER_SERVICE="sendgrid" \
-        -e SENDGRID_API_KEY="@sendgrid-api-key" \
+        -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
     ```
 
 2. (optional) add external domain to `now`:
 
     ```
-    now domain add --external <domain.com>
+    now domain add <domain.com>
     ```
 
     which will output `<token>`
