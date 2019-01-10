@@ -121,12 +121,7 @@ def test_post_mail_empty_message(client):
 
 
 def test_post_mail_bad_email(client):
-    params = {
-        "email": "john@",
-        "name": "John Doe",
-        "subject": "Test",
-        "message": "",
-    }
+    params = {"email": "john@", "name": "John Doe", "subject": "Test", "message": ""}
     _post_mail_error(client, params)
 
 
