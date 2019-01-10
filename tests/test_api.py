@@ -96,7 +96,6 @@ def test_post_mail_empty_name(client):
         "name": "",
         "subject": "Test",
         "message": "Hi there!",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
@@ -107,7 +106,6 @@ def test_post_mail_empty_subject(client):
         "name": "John Doe",
         "subject": "",
         "message": "Hi there!",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
@@ -118,7 +116,6 @@ def test_post_mail_empty_message(client):
         "name": "John Doe",
         "subject": "Test",
         "message": "",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
@@ -129,7 +126,6 @@ def test_post_mail_bad_email(client):
         "name": "John Doe",
         "subject": "Test",
         "message": "",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
@@ -140,7 +136,6 @@ def test_post_mail_too_long_email(client):
         "name": "John Doe",
         "subject": "Test",
         "message": "Hi there!",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
@@ -151,7 +146,6 @@ def test_post_mail_too_long_name(client):
         "name": "JohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohnJohn Doe",
         "subject": "Test",
         "message": "Hi there!",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
@@ -162,7 +156,6 @@ def test_post_mail_too_long_subject(client):
         "name": "John Doe",
         "subject": "Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test Test ",
         "message": "Hi there!",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
@@ -173,7 +166,6 @@ def test_post_mail_too_long_message(client):
         "name": "John Doe",
         "subject": "Test",
         "message": "Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! ",
-        "honeypot": "",
     }
     _post_mail_error(client, params)
 
