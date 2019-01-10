@@ -62,6 +62,7 @@ def test_post_mail_accepted(client, mocker):
         "name": "John Doe",
         "subject": "Test",
         "message": "Hi there!",
+        "honeypot": "",
     }
 
     _post_mail_accepted(client, mocker, params)
@@ -73,6 +74,7 @@ def test_post_mail_unauthorized(client, mocker):
         "name": "John Doe",
         "subject": "Test",
         "message": "Hi there!",
+        "honeypot": "",
     }
 
     _post_mail_unauthorized(client, mocker, params)
@@ -84,7 +86,7 @@ def test_post_mail_none(client):
 
 
 def test_post_mail_empty_all(client):
-    params = {"email": "", "name": "", "subject": "", "message": ""}
+    params = {"email": "", "name": "", "subject": "", "message": "", "honeypot": ""}
     _post_mail_error(client, params)
 
 
@@ -159,5 +161,16 @@ def test_post_mail_too_long_message(client):
         "name": "John Doe",
         "subject": "Test",
         "message": "Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! Hi there! ",
+    }
+    _post_mail_error(client, params)
+
+
+def test_post_mail_non_empty_honeypot(client):
+    params = {
+        "email": "john@doe.com",
+        "name": "John Doe",
+        "subject": "Test",
+        "message": "Hi there!",
+        "honeypot": "abcdefghijklmnopqrs",
     }
     _post_mail_error(client, params)

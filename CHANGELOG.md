@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2019-01-10
+### Added
+- Add optional `honeypot` param for spam-bot protection
+
 ## [0.2.0] - 2019-01-09
 ### Added
 - Add CHANGELOG.md
@@ -20,5 +24,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.3.0...HEAD
+[0.3.0]: https://github.com/rclement/mailer/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/rclement/mailer/compare/0.1.0...0.2.0
