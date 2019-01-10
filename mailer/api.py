@@ -29,6 +29,7 @@ class MailSchema(StrictSchema):
     name = fields.String(required=True, validate=validate.Length(1, 50))
     subject = fields.String(required=True, validate=validate.Length(1, 100))
     message = fields.String(required=True, validate=validate.Length(1, 200))
+    honeypot = fields.String(required=True, validate=validate.Equal(""))
 
 
 # ------------------------------------------------------------------------------
