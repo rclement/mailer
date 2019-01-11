@@ -1,8 +1,6 @@
 # Mailer
 
-Simple mailer micro-service for static websites. Only support Sendgrid backend for now.
-
-Available for Docker and Zeit Now Lambda deployments.
+> Dead-simple mailer micro-service for static websites
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/rmnclmnt/mailer.svg)](https://hub.docker.com/r/rmnclmnt/mailer)
 [![Github Tag](https://img.shields.io/github/tag/rclement/mailer.svg)](https://github.com/rclement/mailer/releases/latest)
@@ -10,6 +8,25 @@ Available for Docker and Zeit Now Lambda deployments.
 [![Coverage Status](https://coveralls.io/repos/github/rclement/mailer/badge.svg?branch=master)](https://coveralls.io/github/rclement/mailer)
 
 [![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/rclement/mailer&env=SECRET_KEY&env=TO_EMAIL&env=TO_NAME&env=CORS_ORIGINS&env=MAILER_SERVICE&env=SENDGRID_API_KEY)
+
+When building static websites, everyone needs a contact form, but that requires some server-side processing.
+`mailer` provides a dead-simple micro-service (usable as a serverless function) for this purpose,
+enabling one to send mails from a simple form using a single AJAX request:
+
+```js
+axios.post('https://mailer.domain.me/api/mail', {
+  email: 'john@doe.com',
+  name: 'John Doe',
+  subject: 'Contact',
+  message: 'Hey there! Up for a coffee?',
+  honeypot: ''
+})
+```
+
+Create a free [Sendgrid](https://sendgrid.com) account (allows up to 100 mails per day forever)
+and deploy with the [Zeit Now 2.0](https://zeit.co) serverless platform within minutes!
+
+Proudly made using the [Flask](http://flask.pocoo.org) micro-framework.
 
 
 ## Building
