@@ -1,5 +1,6 @@
 from http import HTTPStatus
 from python_http_client import exceptions as phce
+from mailer import __about__
 from .utils import JsonRequest
 
 
@@ -49,11 +50,15 @@ def _post_mail_error(client, params):
     assert rv.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_get_index(client):
+def test_get_api_info(client):
     rv = client.get(routes["index"])
 
     assert rv.status_code == HTTPStatus.OK
-    assert rv.json == {"version": "v1"}
+    assert rv.json == {
+        "name": __about__.__title__,
+        "version": __about__.__version__,
+        "api_version": "v1",
+    }
 
 
 def test_post_mail_accepted(client, mocker):

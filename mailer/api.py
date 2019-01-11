@@ -1,9 +1,10 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint
 from flask_apispec import use_kwargs, marshal_with
 from marshmallow import fields, validate, Schema
 from http import HTTPStatus
 
-from .extensions import mailer
+from . import __about__
+from .extensions import limiter, mailer
 
 
 # ------------------------------------------------------------------------------
@@ -24,6 +25,12 @@ class StrictSchema(Schema):
         strict = True
 
 
+class ApiInfoSchema(StrictSchema):
+    name = fields.String(required=True)
+    version = fields.String(required=True)
+    api_version = fields.String(required=True)
+
+
 class MailSchema(StrictSchema):
     email = fields.Email(required=True, validate=validate.Length(1, 50))
     name = fields.String(required=True, validate=validate.Length(1, 50))
@@ -36,9 +43,16 @@ class MailSchema(StrictSchema):
 
 
 @bp.route("/")
-def get_index():
-    data = {"version": api_version}
-    return jsonify(data), HTTPStatus.OK
+@limiter.exempt
+@marshal_with(ApiInfoSchema)
+def get_api_info():
+    data = {
+        "name": __about__.__title__,
+        "version": __about__.__version__,
+        "api_version": api_version,
+    }
+
+    return data, HTTPStatus.OK
 
 
 @bp.route("/mail", methods=["POST"])
