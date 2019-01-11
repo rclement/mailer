@@ -4,7 +4,7 @@ from marshmallow import fields, validate, Schema
 from http import HTTPStatus
 
 from . import __about__
-from .extensions import mailer
+from .extensions import limiter, mailer
 
 
 # ------------------------------------------------------------------------------
@@ -43,6 +43,7 @@ class MailSchema(StrictSchema):
 
 
 @bp.route("/")
+@limiter.exempt
 @marshal_with(ApiInfoSchema)
 def get_api_info():
     data = {
