@@ -1,0 +1,17 @@
+.git/
+.idea/
+.pytest_cache/
+tests/
+
+.coverage
+.dockerignore
+.env
+.env.example
+.gitignore
+.travis.yml
+CHANGELOG.md
+Dockerfile
+LICENSE
+Procfile
+README.md
+tasks.py
