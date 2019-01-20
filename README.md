@@ -81,23 +81,23 @@ pipenv run inv qa
 
 The following environment variables are available:
 
-| Variable | Default | Description |
-|----------|---------|-------------|
-| `SECRET_KEY` | `None` | Flask secret key |
-| `TO_EMAIL` | `None` | E-mail address to send mails to |
-| `TO_NAME` | `None` | Name of the recipient
-| `CORS_ORIGINS` | `[]` | List of comma-separated authorized CORS origins, such as `https://domain.me, https://mydomain.me`
-| `RATELIMIT_ENABLED` | `False` | Enable rate-limiting for the API, based on IP address
-| `RATELIMIT_DEFAULT` | `10 per hour` | Rate-limit per API end-point (cf. `flask-limiter`)
-| `RATELIMIT_APPLICATION` | `100 per day` | Rate-limit for all API end-points (cf. `flask-limiter`)
-| `RATELIMIT_STORAGE_URL` | `memory://` | Rate-limit storage URL (cf. `flask-limiter`)
-| `RATELIMIT_STRATEGY` | `moving-window` | Rate-limit strategy (cf. `flask-limiter`)
-| `RECAPTCHA_ENABLED` | `False` | Enable Google ReCaptcha v2 validation
-| `RECAPTCHA_SITE_KEY` | `None` | Google ReCaptcha v2 site key
-| `RECAPTCHA_SECRET_KEY` | `None` | Google ReCaptcha v2 secret key
-| `MAILER_SERVICE` | `None` | Mailer service, only `sendgrid` value is supported
-| `SENDGRID_API_KEY` | `key` | Sendgrid secret API key
-| `SENDGRID_SANDBOX` | `false` | Enable Sendgrid sandbox for testing purposes (does not send e-mails)
+| Variable | Default | Format | Description |
+|----------|:-------:|:------:|-------------|
+| `SECRET_KEY` | `""` | base64-encoded string | Flask secret key (generated with `flask generate-secret-key`)
+| `TO_EMAIL` | `""` | `contact@domain.me` | E-mail address of the recipient
+| `TO_NAME` | `""` | `My Name` | Name of the recipient
+| `CORS_ORIGINS` | `""` | `https://domain.me, https://mydomain.me` | List of comma-separated authorized CORS origins
+| `RATELIMIT_ENABLED` | `false` | {`false`, `true`} | Enable rate-limiting for the API, based on IP address
+| `RATELIMIT_DEFAULT` | `10 per hour` | cf. `flask-limiter` |Rate-limit per API end-point
+| `RATELIMIT_APPLICATION` | `100 per day` | cf. `flask-limiter` | Rate-limit for all API end-points
+| `RATELIMIT_STORAGE_URL` | `memory://` | cf. `flask-limiter` | Rate-limit storage URL
+| `RATELIMIT_STRATEGY` | `moving-window` | cf. `flask-limiter` | Rate-limit strategy
+| `RECAPTCHA_ENABLED` | `false` | {`false`, `true`} | Enable Google ReCaptcha v2 validation
+| `RECAPTCHA_SITE_KEY` | `""` | `string` | Google ReCaptcha v2 site key
+| `RECAPTCHA_SECRET_KEY` | `""` | `string` | Google ReCaptcha v2 secret key
+| `MAILER_SERVICE` | `""` | {`sendgrid`} | Mailer back-end service
+| `SENDGRID_API_KEY` | `""` | `string` | Sendgrid secret API key
+| `SENDGRID_SANDBOX` | `false` | {`false`, `true`} | Enable Sendgrid sandbox for testing purposes (does not send e-mails)
 
 ### Docker Hub deployment
 
@@ -119,6 +119,7 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
         -e CORS_ORIGINS="https://domain.com" \
+        -e RECAPTCHA_ENABLED="true" \
         -e RECAPTCHA_SITE_KEY="@mailer-recaptcha-site-key" \
         -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
         -e MAILER_SERVICE="sendgrid" \
