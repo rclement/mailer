@@ -19,7 +19,8 @@ axios.post('https://mailer.domain.me/api/mail', {
   name: 'John Doe',
   subject: 'Contact',
   message: 'Hey there! Up for a coffee?',
-  honeypot: ''
+  honeypot: '',
+  recaptcha: 'azertyuiopqsdfghjklmwxcvbn'
 })
 ```
 
@@ -27,6 +28,18 @@ Create a free [Sendgrid](https://sendgrid.com) account (allows up to 100 mails p
 and deploy with the [Zeit Now 2.0](https://zeit.co) serverless platform within minutes!
 
 Proudly made using the [Flask](http://flask.pocoo.org) micro-framework.
+
+
+## Features
+
+- Self-hostable micro-service
+- Docker and serverless support
+- Unicode message support
+- CORS domain validation
+- Rate-limiting support
+- Spam-bot filtering with honeypot field
+- Google ReCaptcha v2 validation
+- Only Sendgrid back-end supported (for now)
 
 
 ## Building
@@ -64,6 +77,28 @@ pipenv run inv qa
 
 ## Deploying
 
+### Configuration
+
+The following environment variables are available:
+
+| Variable | Default | Format | Description |
+|----------|:-------:|:------:|-------------|
+| `SECRET_KEY` | `""` | base64-encoded string | Flask secret key (generated with `flask generate-secret-key`)
+| `TO_EMAIL` | `""` | `contact@domain.me` | E-mail address of the recipient
+| `TO_NAME` | `""` | `My Name` | Name of the recipient
+| `CORS_ORIGINS` | `""` | `https://domain.me, https://mydomain.me` | List of comma-separated authorized CORS origins
+| `RATELIMIT_ENABLED` | `false` | {`false`, `true`} | Enable rate-limiting for the API, based on IP address
+| `RATELIMIT_DEFAULT` | `10 per hour` | cf. `flask-limiter` |Rate-limit per API end-point
+| `RATELIMIT_APPLICATION` | `100 per day` | cf. `flask-limiter` | Rate-limit for all API end-points
+| `RATELIMIT_STORAGE_URL` | `memory://` | cf. `flask-limiter` | Rate-limit storage URL
+| `RATELIMIT_STRATEGY` | `moving-window` | cf. `flask-limiter` | Rate-limit strategy
+| `RECAPTCHA_ENABLED` | `false` | {`false`, `true`} | Enable Google ReCaptcha v2 validation
+| `RECAPTCHA_SITE_KEY` | `""` | `string` | Google ReCaptcha v2 site key
+| `RECAPTCHA_SECRET_KEY` | `""` | `string` | Google ReCaptcha v2 secret key
+| `MAILER_SERVICE` | `""` | {`sendgrid`} | Mailer back-end service
+| `SENDGRID_API_KEY` | `""` | `string` | Sendgrid secret API key
+| `SENDGRID_SANDBOX` | `false` | {`false`, `true`} | Enable Sendgrid sandbox for testing purposes (does not send e-mails)
+
 ### Docker Hub deployment
 
 ```
@@ -77,11 +112,16 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
     ```
     now secrets add mailer-secret-key $(flask generate-secret-key)
     now secrets add mailer-sendgrid-api-key xxxx
+    now secrets add mailer-recaptcha-site-key yyyy
+    now secrets add mailer-recaptcha-secret-key zzzz
     now \
         -e SECRET_KEY="@mailer-secret-key" \
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
         -e CORS_ORIGINS="https://domain.com" \
+        -e RECAPTCHA_ENABLED="true" \
+        -e RECAPTCHA_SITE_KEY="@mailer-recaptcha-site-key" \
+        -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
         -e MAILER_SERVICE="sendgrid" \
         -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
     ```

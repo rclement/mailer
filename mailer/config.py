@@ -26,19 +26,21 @@ class Config:
 
     CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "").replace(" ", "").split(",")
 
-    RATELIMIT_ENABLED = True
+    RATELIMIT_ENABLED = os.environ.get("RATELIMIT_ENABLED", "false") == "true"
     RATELIMIT_DEFAULT = os.environ.get("RATELIMIT_DEFAULT", "10 per hour")
     RATELIMIT_APPLICATION = os.environ.get("RATELIMIT_APPLICATION", "100 per day")
     RATELIMIT_STORAGE_URL = os.environ.get("RATELIMIT_STORAGE_URL", "memory://")
     RATELIMIT_STRATEGY = os.environ.get("RATELIMIT_STRATEGY", "moving-window")
     RATELIMIT_HEADERS_ENABLED = True
 
+    RECAPTCHA_ENABLED = os.environ.get("RECAPTCHA_ENABLED", "false") == "true"
+    RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY")
+    RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
+
     MAILER_SERVICE = os.environ.get("MAILER_SERVICE")
 
     SENDGRID_API_KEY = _get_sensitive_config("SENDGRID_API_KEY")
-    SENDGRID_SANDBOX = (
-        False if os.environ.get("SENDGRID_SANDBOX", "false") == "false" else True
-    )
+    SENDGRID_SANDBOX = os.environ.get("SENDGRID_SANDBOX", "false") == "true"
 
 
 class ProductionConfig(Config):

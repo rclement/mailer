@@ -1,10 +1,10 @@
-from flask import Blueprint
+from flask import Blueprint, request
 from flask_apispec import use_kwargs, marshal_with
-from marshmallow import fields, validate, Schema
+from marshmallow import ValidationError, fields, validate, Schema
 from http import HTTPStatus
 
 from . import __about__
-from .extensions import limiter, mailer
+from .extensions import limiter, mailer, recaptcha
 
 
 # ------------------------------------------------------------------------------
@@ -18,6 +18,11 @@ bp = Blueprint(bp_name, __name__, url_prefix="/api")
 
 
 # ------------------------------------------------------------------------------
+
+
+def validate_recaptcha(response):
+    if not recaptcha.verify(response=response, remote_ip=request.remote_addr):
+        raise ValidationError("Invalid recaptcha response")
 
 
 class StrictSchema(Schema):
@@ -37,6 +42,9 @@ class MailSchema(StrictSchema):
     subject = fields.String(required=True, validate=validate.Length(1, 100))
     message = fields.String(required=True, validate=validate.Length(1, 200))
     honeypot = fields.String(required=False, validate=validate.Equal(""))
+    recaptcha = fields.String(
+        required=recaptcha.is_enabled, validate=validate_recaptcha
+    )
 
 
 # ------------------------------------------------------------------------------
