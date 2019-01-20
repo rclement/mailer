@@ -40,9 +40,7 @@ class Config:
     MAILER_SERVICE = os.environ.get("MAILER_SERVICE")
 
     SENDGRID_API_KEY = _get_sensitive_config("SENDGRID_API_KEY")
-    SENDGRID_SANDBOX = (
-        False if os.environ.get("SENDGRID_SANDBOX", "false") == "false" else True
-    )
+    SENDGRID_SANDBOX = os.environ.get("SENDGRID_SANDBOX", "false") == "true"
 
 
 class ProductionConfig(Config):
