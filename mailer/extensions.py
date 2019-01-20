@@ -1,6 +1,7 @@
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
+from flask_recaptcha import ReCaptcha
 from flask_talisman import Talisman
 
 
@@ -62,4 +63,5 @@ class Security:
 cors = CORS()
 limiter = Limiter(key_func=get_ipaddr)
 mailer = Mailer()
+recaptcha = ReCaptcha()
 security = Security()

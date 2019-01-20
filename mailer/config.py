@@ -33,6 +33,10 @@ class Config:
     RATELIMIT_STRATEGY = os.environ.get("RATELIMIT_STRATEGY", "moving-window")
     RATELIMIT_HEADERS_ENABLED = True
 
+    RECAPTCHA_ENABLED = os.environ.get("RECAPTCHA_ENABLED", "false") == "true"
+    RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY")
+    RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
+
     MAILER_SERVICE = os.environ.get("MAILER_SERVICE")
 
     SENDGRID_API_KEY = _get_sensitive_config("SENDGRID_API_KEY")

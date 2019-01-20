@@ -5,11 +5,12 @@ def _get_app_config(config_name):
 
 
 def _init_extensions(app):
-    from .extensions import cors, limiter, mailer, security
+    from .extensions import cors, limiter, mailer, recaptcha, security
 
     cors.init_app(app)
     limiter.init_app(app)
     mailer.init_app(app)
+    recaptcha.init_app(app)
     security.init_app(app)
 
 
