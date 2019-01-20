@@ -26,7 +26,7 @@ class Config:
 
     CORS_ORIGINS = os.environ.get("CORS_ORIGINS", "").replace(" ", "").split(",")
 
-    RATELIMIT_ENABLED = True
+    RATELIMIT_ENABLED = os.environ.get("RATELIMIT_ENABLED", "false") == "true"
     RATELIMIT_DEFAULT = os.environ.get("RATELIMIT_DEFAULT", "10 per hour")
     RATELIMIT_APPLICATION = os.environ.get("RATELIMIT_APPLICATION", "100 per day")
     RATELIMIT_STORAGE_URL = os.environ.get("RATELIMIT_STORAGE_URL", "memory://")
