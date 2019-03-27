@@ -58,7 +58,6 @@ class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
 
-    SERVER_NAME = os.environ.get("SERVER_NAME")
     PREFERRED_URL_SCHEME = os.environ.get("PREFERRED_URL_SCHEME", "https")
 
 
@@ -70,9 +69,6 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-
-    SERVER_NAME = None
-    PREFERRED_URL_SCHEME = None
 
     RATELIMIT_ENABLED = False
 
