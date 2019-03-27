@@ -23,8 +23,6 @@ def _get_sensitive_config(config_name, default_value=None):
 
 
 class Config:
-    SECRET_KEY = _get_sensitive_config("SECRET_KEY")
-
     TO_EMAIL = os.environ.get("TO_EMAIL")
     TO_NAME = os.environ.get("TO_NAME")
 

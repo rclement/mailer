@@ -50,16 +50,6 @@ def _register_error_handlers(app):
         return error_json(error)
 
 
-def _register_cli_commands(app):
-    import base64
-    import secrets
-
-    @app.cli.command()
-    def generate_secret_key():
-        key = base64.urlsafe_b64encode(secrets.token_bytes(128)).decode("utf-8")
-        print(key)
-
-
 def create_app(config_name="default"):
     from flask import Flask
     from werkzeug.middleware.proxy_fix import ProxyFix
@@ -74,6 +64,5 @@ def create_app(config_name="default"):
     _init_extensions(app)
     _register_blueprints(app)
     _register_error_handlers(app)
-    _register_cli_commands(app)
 
     return app
