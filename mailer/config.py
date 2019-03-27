@@ -44,6 +44,9 @@ class Config:
     SENDGRID_API_KEY = _get_sensitive_config("SENDGRID_API_KEY")
     SENDGRID_SANDBOX = os.environ.get("SENDGRID_SANDBOX", "false") == "true"
 
+    SENTRY_ENABLED = os.environ.get("SENTRY_ENABLED", "false") == "true"
+    SENTRY_DSN = os.environ.get("SENTRY_DSN")
+
     APISPEC_SPEC = APISpec(
         title=__about__.__title__,
         version=__about__.__version__,

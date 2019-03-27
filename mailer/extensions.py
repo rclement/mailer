@@ -63,9 +63,34 @@ class Security:
 # ------------------------------------------------------------------------------
 
 
+class Sentry:
+    def init_app(self, app):
+        import sentry_sdk
+
+        from sentry_sdk.integrations.flask import FlaskIntegration
+        from . import __about__
+
+        sentry_enabled = app.config.get("SENTRY_ENABLED", False)
+        sentry_dsn = app.config.get("SENTRY_DSN", None)
+        sentry_environment = app.config.get("ENV", "production")
+        sentry_release = __about__.__version__
+
+        if sentry_enabled and sentry_dsn is not None:
+            sentry_sdk.init(
+                dsn=sentry_dsn,
+                environment=sentry_environment,
+                release=sentry_release,
+                integrations=[FlaskIntegration()],
+            )
+
+
+# ------------------------------------------------------------------------------
+
+
 docs = FlaskApiSpec()
 cors = CORS()
 limiter = Limiter(key_func=get_ipaddr)
 mailer = Mailer()
 recaptcha = ReCaptcha()
 security = Security()
+sentry = Sentry()

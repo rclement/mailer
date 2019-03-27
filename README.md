@@ -35,10 +35,12 @@ Proudly made using the [Flask](http://flask.pocoo.org) micro-framework.
 - Self-hostable micro-service
 - Docker and serverless support
 - Unicode message support
+- Swagger OpenAPI documentation
 - CORS domain validation
 - Rate-limiting support
 - Spam-bot filtering with honeypot field
 - Google ReCaptcha v2 validation
+- Sentry crash reporting
 - Only Sendgrid back-end supported (for now)
 
 
@@ -69,6 +71,8 @@ pipenv run inv qa
     http POST http://localhost:5000/api/mail email="john@doe.com" name="John Doe" subject="Test" message="Hello"
     ```
 
+4. Open the Swagger OpenAPI documentation at `http://localhost:5000/docs`
+
 
 ## Deploying
 
@@ -92,6 +96,8 @@ The following environment variables are available:
 | `RECAPTCHA_ENABLED` | `false` | {`false`, `true`} | (optional) Enable Google ReCaptcha v2 validation
 | `RECAPTCHA_SITE_KEY` | `""` | `string` | (optional) Google ReCaptcha v2 site key
 | `RECAPTCHA_SECRET_KEY` | `""` | `string` | (optional) Google ReCaptcha v2 secret key
+| `SENTRY_ENABLED` | `false` | {`false`, `true`} | (optional) Enable Sentry crash reporting
+| `SENTRY_DSN` | `""` | `string` | (optional) Sentry DSN
 
 ### Docker Hub deployment
 
@@ -107,6 +113,7 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
     now secrets add mailer-sendgrid-api-key xxxx
     now secrets add mailer-recaptcha-site-key yyyy
     now secrets add mailer-recaptcha-secret-key zzzz
+    now secrets add mailer-sentry-dsn azerty
     now \
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
@@ -116,6 +123,8 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
         -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
         -e MAILER_SERVICE="sendgrid" \
         -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
+        -e SENTRY_ENABLED="true" \
+        -e SENTRY_DSN="@mailer-sentry-dsn"
     ```
 
 2. (optional) add external domain to `now`:
