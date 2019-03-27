@@ -1,3 +1,4 @@
+from flask_apispec.extension import FlaskApiSpec
 from flask_cors import CORS
 from flask_limiter import Limiter
 from flask_limiter.util import get_ipaddr
@@ -53,13 +54,16 @@ class Security:
 
     def init_app(self, app):
         force_https = app.config.get("PREFERRED_URL_SCHEME", "https") == "https"
-
-        self.talisman.init_app(app=app, force_https=force_https)
+        csp_policy = {}
+        self.talisman.init_app(
+            app=app, force_https=force_https, content_security_policy=csp_policy
+        )
 
 
 # ------------------------------------------------------------------------------
 
 
+docs = FlaskApiSpec()
 cors = CORS()
 limiter = Limiter(key_func=get_ipaddr)
 mailer = Mailer()

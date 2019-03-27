@@ -1,5 +1,9 @@
 import os
 
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin
+from . import __about__
+
 
 # ------------------------------------------------------------------------------
 
@@ -41,6 +45,15 @@ class Config:
 
     SENDGRID_API_KEY = _get_sensitive_config("SENDGRID_API_KEY")
     SENDGRID_SANDBOX = os.environ.get("SENDGRID_SANDBOX", "false") == "true"
+
+    APISPEC_SPEC = APISpec(
+        title=__about__.__title__,
+        version=__about__.__version__,
+        openapi_version="2.0",
+        plugins=[MarshmallowPlugin()],
+    )
+    APISPEC_SWAGGER_URL = "/docs-json/"
+    APISPEC_SWAGGER_UI_URL = "/docs/"
 
 
 class ProductionConfig(Config):

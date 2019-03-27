@@ -5,8 +5,9 @@ def _get_app_config(config_name):
 
 
 def _init_extensions(app):
-    from .extensions import cors, limiter, mailer, recaptcha, security
+    from .extensions import docs, cors, limiter, mailer, recaptcha, security
 
+    docs.init_app(app)
     cors.init_app(app)
     limiter.init_app(app)
     mailer.init_app(app)
@@ -16,11 +17,14 @@ def _init_extensions(app):
 
 def _register_blueprints(app):
     from .api import bp as api_bp
+    from .extensions import docs
 
     blueprints = [api_bp]
 
     for b in blueprints:
         app.register_blueprint(b)
+
+    docs.register_existing_resources()
 
 
 def _register_error_handlers(app):
