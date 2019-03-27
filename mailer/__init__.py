@@ -58,7 +58,7 @@ def _register_cli_commands(app):
 
 def create_app(config_name="default"):
     from flask import Flask
-    from werkzeug.contrib.fixers import ProxyFix
+    from werkzeug.middleware.proxy_fix import ProxyFix
     from . import __about__
 
     app_config = _get_app_config(config_name)
