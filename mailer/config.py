@@ -1,5 +1,9 @@
 import os
 
+from apispec import APISpec
+from apispec.ext.marshmallow import MarshmallowPlugin
+from . import __about__
+
 
 # ------------------------------------------------------------------------------
 
@@ -19,8 +23,6 @@ def _get_sensitive_config(config_name, default_value=None):
 
 
 class Config:
-    SECRET_KEY = _get_sensitive_config("SECRET_KEY")
-
     TO_EMAIL = os.environ.get("TO_EMAIL")
     TO_NAME = os.environ.get("TO_NAME")
 
@@ -42,12 +44,23 @@ class Config:
     SENDGRID_API_KEY = _get_sensitive_config("SENDGRID_API_KEY")
     SENDGRID_SANDBOX = os.environ.get("SENDGRID_SANDBOX", "false") == "true"
 
+    SENTRY_ENABLED = os.environ.get("SENTRY_ENABLED", "false") == "true"
+    SENTRY_DSN = os.environ.get("SENTRY_DSN")
+
+    APISPEC_SPEC = APISpec(
+        title=__about__.__title__,
+        version=__about__.__version__,
+        openapi_version="2.0",
+        plugins=[MarshmallowPlugin()],
+    )
+    APISPEC_SWAGGER_URL = "/docs-json/"
+    APISPEC_SWAGGER_UI_URL = "/docs/"
+
 
 class ProductionConfig(Config):
     DEBUG = False
     TESTING = False
 
-    SERVER_NAME = os.environ.get("SERVER_NAME")
     PREFERRED_URL_SCHEME = os.environ.get("PREFERRED_URL_SCHEME", "https")
 
 
@@ -59,9 +72,6 @@ class DevelopmentConfig(Config):
 class TestingConfig(Config):
     DEBUG = True
     TESTING = True
-
-    SERVER_NAME = None
-    PREFERRED_URL_SCHEME = None
 
     RATELIMIT_ENABLED = False
 

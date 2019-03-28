@@ -5,22 +5,27 @@ def _get_app_config(config_name):
 
 
 def _init_extensions(app):
-    from .extensions import cors, limiter, mailer, recaptcha, security
+    from .extensions import docs, cors, limiter, mailer, recaptcha, security, sentry
 
+    docs.init_app(app)
     cors.init_app(app)
     limiter.init_app(app)
     mailer.init_app(app)
     recaptcha.init_app(app)
     security.init_app(app)
+    sentry.init_app(app)
 
 
 def _register_blueprints(app):
     from .api import bp as api_bp
+    from .extensions import docs
 
     blueprints = [api_bp]
 
     for b in blueprints:
         app.register_blueprint(b)
+
+    docs.register_existing_resources()
 
 
 def _register_error_handlers(app):
@@ -46,19 +51,9 @@ def _register_error_handlers(app):
         return error_json(error)
 
 
-def _register_cli_commands(app):
-    import base64
-    import secrets
-
-    @app.cli.command()
-    def generate_secret_key():
-        key = base64.urlsafe_b64encode(secrets.token_bytes(128)).decode("utf-8")
-        print(key)
-
-
 def create_app(config_name="default"):
     from flask import Flask
-    from werkzeug.contrib.fixers import ProxyFix
+    from werkzeug.middleware.proxy_fix import ProxyFix
     from . import __about__
 
     app_config = _get_app_config(config_name)
@@ -70,6 +65,5 @@ def create_app(config_name="default"):
     _init_extensions(app)
     _register_blueprints(app)
     _register_error_handlers(app)
-    _register_cli_commands(app)
 
     return app
