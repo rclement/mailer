@@ -43,8 +43,7 @@ deploy:
 
   - provider: script
     script: >-
-      npm install -g now
-
+      npm install -g now &&
       pipenv run inv now-deploy
       --now-token "$NOW_TOKEN"
       --now-project "$NOW_PROJECT"
@@ -55,8 +54,7 @@ deploy:
 
   - provider: script
     script: >-
-      npm install -g now
-
+      npm install -g now &&
       pipenv run inv now-deploy
       --now-token "$NOW_TOKEN"
       --now-project "$NOW_PROJECT"
