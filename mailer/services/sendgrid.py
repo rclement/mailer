@@ -8,7 +8,7 @@ from sendgrid.helpers.mail import (
     MailSettings,
     SandBoxMode,
     SpamCheck,
-    To
+    To,
 )
 
 
@@ -35,7 +35,7 @@ class SendgridMailer:
             from_email=from_email,
             to_emails=[to_email],
             subject=subject,
-            plain_text_content=content
+            plain_text_content=content,
         )
         mail.mail_settings = mail_settings
 
