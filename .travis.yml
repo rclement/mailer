@@ -19,13 +19,28 @@ script:
   - pipenv run inv qa
   - pipenv run coveralls
 
+before_deploy:
+  - npm install -g now
+
 deploy:
   - provider: script
     script: pipenv run inv docker-deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "$TRAVIS_TAG"
     on:
       tags: true
+
+  - provider: script
+    script: now deploy --token "$NOW_TOKEN" --name "$NOW_PROJECT" --target "production" && now alias "$NOW_ALIAS"
+    on:
+      tags: true
+
   - provider: script
     script: pipenv run inv docker-deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "latest"
+    on:
+      tags: false
+      all_branches: true
+
+  - provider: script
+    script: now deploy --token "$NOW_TOKEN" --name "$NOW_PROJECT" --target "staging"
     on:
       tags: false
       all_branches: true
