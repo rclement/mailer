@@ -21,7 +21,7 @@ script:
 
 deploy:
   - provider: script
-    script: |-
+    script: >-
       pipenv run inv docker-deploy
       --username "$DOCKER_USERNAME"
       --password "$DOCKER_PASSWORD"
@@ -31,7 +31,7 @@ deploy:
       tags: true
 
   - provider: script
-    script: |-
+    script: >-
       pipenv run inv docker-deploy
       --username "$DOCKER_USERNAME"
       --password "$DOCKER_PASSWORD"
@@ -42,8 +42,9 @@ deploy:
       all_branches: true
 
   - provider: script
-    script: |-
-      npm install -g now &&
+    script: >-
+      npm install -g now
+
       pipenv run inv now-deploy
       --now-token "$NOW_TOKEN"
       --now-project "$NOW_PROJECT"
@@ -53,8 +54,9 @@ deploy:
       tags: true
 
   - provider: script
-    script: |-
-      npm install -g now &&
+    script: >-
+      npm install -g now
+
       pipenv run inv now-deploy
       --now-token "$NOW_TOKEN"
       --now-project "$NOW_PROJECT"
