@@ -29,7 +29,7 @@ deploy:
       tags: true
 
   - provider: script
-    script: now deploy --token "$NOW_TOKEN" --name "$NOW_PROJECT" --target "production" && now alias "$NOW_ALIAS"
+    script: now deploy --token "$NOW_TOKEN" --name "$NOW_PROJECT" --target "production" && now alias --token "$NOW_TOKEN" "$NOW_ALIAS"
     on:
       tags: true
 
