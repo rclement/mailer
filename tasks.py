@@ -67,44 +67,59 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
     sentry_enabled = os.environ.get("MAILER_SENTRY_ENABLED", "false")
     sentry_dsn = os.environ.get("MAILER_SENTRY_DSN", None)
 
-    use_sendgrid = mailer_service == "sendgrid" and sendgrid_api_key
-    use_recaptcha = recaptcha_enabled and recaptcha_site_key and recaptcha_secret_key
-    use_sentry = sentry_enabled and sentry_dsn
+    now_token_arg = f" --token \'{now_token}\''" if now_token else ""
+    now_target_arg = f" --target \'{now_target}\'" if now_target else ""
 
+    use_sendgrid = mailer_service == "sendgrid" and sendgrid_api_key
     sendgrid_api_key_name = "mailer-sendgrid-api-key"
+    sendgrid_api_key_arg = f" -e SENDGRID_API_KEY=\'@{sendgrid_api_key_name}\'" if use_sendgrid else ""
+
+    use_recaptcha = recaptcha_enabled and recaptcha_site_key and recaptcha_secret_key
+    recaptcha_site_key_arg = f" -e RECAPTCHA_SITE_KEY=\'{recaptcha_site_key}\'" if use_recaptcha else ""
     recaptcha_secret_key_name = "mailer-recaptcha-secret-key"
+    recaptcha_secret_key_arg = f" -e RECAPTCHA_SECRET_KEY=\'@{recaptcha_secret_key_name}\'" if use_recaptcha else ""
+
+    use_sentry = sentry_enabled and sentry_dsn
+    sentry_dsn_arg = f" -e SENTRY_DSN=\'{sentry_dsn}\'" if use_sentry else ""
 
     if now_project and to_email and to_name and mailer_service:
         if use_sendgrid:
-            ctx.run(
+            sendgrid_secret = (
                 f"now secrets"
-                f" --token {now_token}" if now_token else ""
-                f" add {sendgrid_api_key_name} {sendgrid_api_key}"
+                f"{now_token_arg}"
+                f" add \'{sendgrid_api_key_name}\' \'{sendgrid_api_key}\'"
             )
+            ctx.run(sendgrid_secret, echo=True, warn=True)
 
         if use_recaptcha:
-            ctx.run(
+            recaptcha_secret = (
                 f"now secrets"
-                f" --token {now_token}" if now_token else ""
-                f" add {recaptcha_secret_key_name} {recaptcha_secret_key}"
+                f"{now_token_arg}"
+                f" add \'{recaptcha_secret_key_name}' \'{recaptcha_secret_key}\'"
             )
+            ctx.run(recaptcha_secret, echo=True, warn=True)
 
         deploy = (
-            f"now deploy"
-            f" --token {now_token}" if now_token else ""
-            f" --name {now_project}"
-            f" --target {now_target}" if now_target else ""
-            f" -e TO_EMAIL={to_email}"
-            f" -e TO_NAME={to_name}"
-            f" -e MAILER_SERVICE={mailer_service}"
-            f" -e SENDGRID_API_KEY=@{sendgrid_api_key_name}" if use_sendgrid else ""
-            f" -e CORS_ORIGINS={cors_origins}"
-            f" -e RECAPTCHA_ENABLED={recaptcha_enabled}"
-            f" -e RECAPTCHA_SITE_KEY={recaptcha_site_key}" if use_recaptcha else ""
-            f" -e RECAPTCHA_SECRET_KEY=@{recaptcha_secret_key_name}" if use_recaptcha else ""
-            f" -e SENTRY_ENABLED={sentry_enabled}"
-            f" -e SENTRY_DSN={sentry_dsn}" if use_sentry else ""
+            "now deploy"
+            f"{now_token_arg}"
+            f" --name \'{now_project}\'"
+            f"{now_target_arg}"
+            f" -e TO_EMAIL=\'{to_email}\'"
+            f" -e TO_NAME=\'{to_name}\'"
+            f" -e MAILER_SERVICE=\'{mailer_service}\'"
+            f"{sendgrid_api_key_arg}"
+            f" -e CORS_ORIGINS=\'{cors_origins}\'"
+            f" -e RECAPTCHA_ENABLED=\'{recaptcha_enabled}\'"
+            f"{recaptcha_site_key_arg}"
+            f"{recaptcha_secret_key_arg}"
+            f" -e SENTRY_ENABLED=\'{sentry_enabled}\'"
+            f"{sentry_dsn_arg}"
         )
 
         if ctx.run(deploy, echo=True) and now_alias:
-            ctx.run(f"now alias -t {now_token} {now_alias}")
+            alias = (
+                "now alias"
+                f"{now_token_arg}"
+                f"set \'{now_alias}\'"
+            )
+            ctx.run(alias, echo=True)
