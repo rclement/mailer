@@ -67,7 +67,7 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
     sentry_enabled = os.environ.get("MAILER_SENTRY_ENABLED", "false")
     sentry_dsn = os.environ.get("MAILER_SENTRY_DSN", None)
 
-    now_token_arg = f" --token \'{now_token}\''" if now_token else ""
+    now_token_arg = f" --token \'{now_token}\'" if now_token else ""
     now_target_arg = f" --target \'{now_target}\'" if now_target else ""
 
     use_sendgrid = mailer_service == "sendgrid" and sendgrid_api_key
