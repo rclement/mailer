@@ -111,20 +111,18 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
 
     ```
     now secrets add mailer-sendgrid-api-key xxxx
-    now secrets add mailer-recaptcha-site-key yyyy
     now secrets add mailer-recaptcha-secret-key zzzz
-    now secrets add mailer-sentry-dsn azerty
     now \
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
         -e CORS_ORIGINS="https://domain.com" \
         -e RECAPTCHA_ENABLED="true" \
-        -e RECAPTCHA_SITE_KEY="@mailer-recaptcha-site-key" \
+        -e RECAPTCHA_SITE_KEY="wxcvbn" \
         -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
         -e MAILER_SERVICE="sendgrid" \
         -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
         -e SENTRY_ENABLED="true" \
-        -e SENTRY_DSN="@mailer-sentry-dsn"
+        -e SENTRY_DSN="azerty"
     ```
 
 2. (optional) add external domain to `now`:

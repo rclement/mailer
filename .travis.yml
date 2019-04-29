@@ -21,11 +21,44 @@ script:
 
 deploy:
   - provider: script
-    script: pipenv run inv docker-deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "$TRAVIS_TAG"
+    script: >-
+      pipenv run inv docker-deploy
+      --username "$DOCKER_USERNAME"
+      --password "$DOCKER_PASSWORD"
+      --repository "mailer"
+      --tag "$TRAVIS_TAG"
     on:
       tags: true
+
   - provider: script
-    script: pipenv run inv docker-deploy -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" -r "mailer" -t "latest"
+    script: >-
+      pipenv run inv docker-deploy
+      --username "$DOCKER_USERNAME"
+      --password "$DOCKER_PASSWORD"
+      --repository "mailer"
+      --tag "latest"
+    on:
+      tags: false
+      all_branches: true
+
+  - provider: script
+    script: >-
+      npm install -g now &&
+      pipenv run inv now-deploy
+      --now-token "$NOW_TOKEN"
+      --now-project "$NOW_PROJECT"
+      --now-target "production"
+      --now-alias "$NOW_ALIAS"
+    on:
+      tags: true
+
+  - provider: script
+    script: >-
+      npm install -g now &&
+      pipenv run inv now-deploy
+      --now-token "$NOW_TOKEN"
+      --now-project "$NOW_PROJECT"
+      --now-target "staging"
     on:
       tags: false
       all_branches: true

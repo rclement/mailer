@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.1] - 2019-04-29
+### Security
+- Update Python dependencies
+- Fix `jinja2` vulnerability ([CVE-2019-10906](https://nvd.nist.gov/vuln/detail/CVE-2019-10906))
+- Fix `urllib3` vulnerability ([CVE-2019-11324](https://nvd.nist.gov/vuln/detail/CVE-2019-11324))
+
+### Fixed
+- Fix `sendgrid` >= `6.0.0` breaking changes
+
+### Added
+- Travis-CI deployment to Zeit Now serverless platform
+
 ## [0.6.0] - 2019-03-28
 ### Security
 - Fix `webargs` vulnerability ([CVE-2019-9710](https://nvd.nist.gov/vuln/detail/CVE-2019-9710))
@@ -55,7 +67,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.6.0...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.6.1...HEAD
+[0.6.1]: https://github.com/rclement/mailer/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/rclement/mailer/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/rclement/mailer/compare/0.4.0...0.5.0
 [0.4.0]: https://github.com/rclement/mailer/compare/0.3.0...0.4.0

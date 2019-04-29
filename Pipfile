@@ -19,7 +19,6 @@ sentry-sdk = {extras = ["flask"],version = "*"}
 [dev-packages]
 black = "*"
 coveralls = "*"
-"flake8" = "*"
 invoke = "*"
 pytest = "*"
 pytest-cov = "*"
