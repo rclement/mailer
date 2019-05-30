@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2] - 2019-05-30
+### Changed
+- Update Python dependencies
+- Migrate to Zeit Now official Python WSGI builder
+
 ## [0.6.1] - 2019-04-29
 ### Security
 - Update Python dependencies
@@ -67,7 +72,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.6.1...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.6.2...HEAD
+[0.6.2]: https://github.com/rclement/mailer/compare/0.6.1...0.6.2
 [0.6.1]: https://github.com/rclement/mailer/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/rclement/mailer/compare/0.5.0...0.6.0
 [0.5.0]: https://github.com/rclement/mailer/compare/0.4.0...0.5.0
