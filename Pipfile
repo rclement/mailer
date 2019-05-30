@@ -28,7 +28,7 @@ python-dotenv = "*"
 safety = "*"
 
 [requires]
-python_version = "3.7"
+python_version = "3.7.3"
 
 [pipenv]
 allow_prereleases = true
