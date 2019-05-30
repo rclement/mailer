@@ -21,7 +21,7 @@ os.environ["SENDGRID_SANDBOX"] = "true"
 def app(request):
     from mailer import wsgi
 
-    _app = wsgi.application
+    _app = wsgi.app
 
     ctx = _app.app_context()
     ctx.push()
