@@ -6,6 +6,7 @@ from sendgrid.helpers.mail import (
     From,
     Mail,
     MailSettings,
+    ReplyTo,
     SandBoxMode,
     SpamCheck,
     To,
@@ -20,23 +21,22 @@ class SendgridMailer:
         self.sg = sendgrid.SendGridAPIClient(api_key=api_key)
         self.sandbox = sandbox
 
-    def send_mail(self, from_email, from_name, to_email, to_name, subject, message):
+    def send_mail(
+        self, from_email, from_name, sender_email, to_email, to_name, subject, message
+    ):
         mail_settings = MailSettings()
         mail_settings.sandbox_mode = SandBoxMode(self.sandbox)
         mail_settings.spam_check = SpamCheck(
             True, 1, "https://spamcatcher.sendgrid.com"
         )
 
-        from_email = From(email=from_email, name=from_name)
-        to_email = To(email=to_email, name=to_name)
-        content = Content("text/plain", message)
-
         mail = Mail(
-            from_email=from_email,
-            to_emails=[to_email],
+            from_email=From(email=sender_email, name=from_name),
+            to_emails=[To(email=to_email, name=to_name)],
             subject=subject,
-            plain_text_content=content,
+            plain_text_content=Content("text/plain", message),
         )
+        mail.reply_to = ReplyTo(email=from_email, name=from_name)
         mail.mail_settings = mail_settings
 
         try:

@@ -6,6 +6,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.0] - 2019-06-23
+### Fixed
+- Force HTTPS protocol even behind reverse-proxies
+
+### Changed
+- Update Python dependencies
+- Rename `mailer.services` package to `mailer.providers`
+- BREAKING: rename `MAILER_SERVICE` config to `MAILER_PROVIDER`
+
+### Added
+- BREAKING: add `SENDER_EMAIL` config to specify the e-mail to send from (e.g. `no-reply@domain.me`)
+
 ## [0.6.2] - 2019-05-30
 ### Changed
 - Update Python dependencies
@@ -72,7 +84,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.6.2...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.7.0...HEAD
+[0.7.0]: https://github.com/rclement/mailer/compare/0.6.2...0.7.0
 [0.6.2]: https://github.com/rclement/mailer/compare/0.6.1...0.6.2
 [0.6.1]: https://github.com/rclement/mailer/compare/0.6.0...0.6.1
 [0.6.0]: https://github.com/rclement/mailer/compare/0.5.0...0.6.0

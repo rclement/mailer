@@ -23,6 +23,7 @@ def _get_sensitive_config(config_name, default_value=None):
 
 
 class Config:
+    SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
     TO_EMAIL = os.environ.get("TO_EMAIL")
     TO_NAME = os.environ.get("TO_NAME")
 
@@ -39,7 +40,7 @@ class Config:
     RECAPTCHA_SITE_KEY = os.environ.get("RECAPTCHA_SITE_KEY")
     RECAPTCHA_SECRET_KEY = os.environ.get("RECAPTCHA_SECRET_KEY")
 
-    MAILER_SERVICE = os.environ.get("MAILER_SERVICE")
+    MAILER_PROVIDER = os.environ.get("MAILER_PROVIDER")
 
     SENDGRID_API_KEY = _get_sensitive_config("SENDGRID_API_KEY")
     SENDGRID_SANDBOX = os.environ.get("SENDGRID_SANDBOX", "false") == "true"

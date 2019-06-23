@@ -56,9 +56,10 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
     now_target = now_target or os.environ.get("NOW_TARGET", "staging")
     now_alias = now_alias or os.environ.get("NOW_ALIAS", None)
 
+    sender_email = os.environ.get("MAILER_SENDER_EMAIL", None)
     to_email = os.environ.get("MAILER_TO_EMAIL", None)
     to_name = os.environ.get("MAILER_TO_NAME", None)
-    mailer_service = os.environ.get("MAILER_MAILER_SERVICE", None)
+    mailer_provider = os.environ.get("MAILER_MAILER_PROVIDER", None)
     sendgrid_api_key = os.environ.get("MAILER_SENDGRID_API_KEY", None)
     cors_origins = os.environ.get("MAILER_CORS_ORIGINS", "")
     recaptcha_enabled = os.environ.get("MAILER_RECAPTCHA_ENABLED", "false")
@@ -71,7 +72,7 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
     now_token_arg = f"--token \'{now_token}\'" if now_token else ""
     now_target_arg = f"--target \'{now_target}\'" if now_target else ""
 
-    use_sendgrid = mailer_service == "sendgrid" and sendgrid_api_key
+    use_sendgrid = mailer_provider == "sendgrid" and sendgrid_api_key
     sendgrid_api_key_name = "mailer-sendgrid-api-key"
     sendgrid_api_key_arg = f"-e SENDGRID_API_KEY=\'@{sendgrid_api_key_name}\'" if use_sendgrid else ""
 
@@ -83,7 +84,7 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
     use_sentry = sentry_enabled and sentry_dsn
     sentry_dsn_arg = f"-e SENTRY_DSN=\'{sentry_dsn}\'" if use_sentry else ""
 
-    if now_project and to_email and to_name and mailer_service:
+    if now_project and to_email and to_name and mailer_provider:
         if use_sendgrid:
             sendgrid_secret = (
                 f"now secrets"
@@ -105,9 +106,10 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
             f" {now_token_arg}"
             f" --name \'{now_project}\'"
             f" {now_target_arg}"
+            f" -e SENDER_EMAIL=\'{sender_email}\'"
             f" -e TO_EMAIL=\'{to_email}\'"
             f" -e TO_NAME=\'{to_name}\'"
-            f" -e MAILER_SERVICE=\'{mailer_service}\'"
+            f" -e MAILER_PROVIDER=\'{mailer_provider}\'"
             f" {sendgrid_api_key_arg}"
             f" -e CORS_ORIGINS=\'{cors_origins}\'"
             f" -e RECAPTCHA_ENABLED=\'{recaptcha_enabled}\'"
