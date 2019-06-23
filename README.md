@@ -68,7 +68,11 @@ pipenv run inv qa
 3. Try it:
     ```
     http GET http://localhost:5000/api/
-    http POST http://localhost:5000/api/mail email="john@doe.com" name="John Doe" subject="Test" message="Hello"
+    http POST http://localhost:5000/api/mail \
+        email="john@doe.com" \
+        name="John Doe" \
+        subject="Test" \
+        message="Hello"
     ```
 
 4. Open the Swagger OpenAPI documentation at `http://localhost:5000/docs`
