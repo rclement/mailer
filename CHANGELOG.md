@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Force HTTPS protocol even behind reverse-proxies
+
+### Changed
+- Update Python dependencies
+
+### Added
+- Add `SENDER_EMAIL` config to specify the e-mail to send from (e.g. `no-reply@domain.me`)
 
 ## [0.6.2] - 2019-05-30
 ### Changed
