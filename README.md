@@ -82,6 +82,7 @@ The following environment variables are available:
 
 | Variable | Default | Format | Description |
 |----------|:-------:|:------:|-------------|
+| `SENDER_EMAIL` | `""` | `no-reply@domain.me` | E-mail address to send e-mail from
 | `TO_EMAIL` | `""` | `contact@domain.me` | E-mail address of the recipient
 | `TO_NAME` | `""` | `My Name` | Name of the recipient
 | `MAILER_SERVICE` | `""` | {`sendgrid`} | Mailer back-end service

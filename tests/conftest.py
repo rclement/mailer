@@ -6,6 +6,7 @@ import pytest
 
 
 os.environ["FLASK_ENV"] = "testing"
+os.environ["SENDER_EMAIL"] = "no-reply@test.com"
 os.environ["TO_EMAIL"] = "contact@test.com"
 os.environ["TO_NAME"] = "Test"
 os.environ["RECAPTCHA_ENABLED"] = "false"

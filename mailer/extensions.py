@@ -18,6 +18,7 @@ class Mailer:
     def init_app(self, app):
         services = {"sendgrid": self._init_sendgrid}
 
+        self.sender_email = app.config.get("SENDER_EMAIL")
         self.to_email = app.config.get("TO_EMAIL")
         self.to_name = app.config.get("TO_NAME")
 
@@ -31,7 +32,13 @@ class Mailer:
         from http import HTTPStatus
 
         rv = self.client.send_mail(
-            from_email, from_name, self.to_email, self.to_name, subject, message
+            from_email,
+            from_name,
+            self.sender_email,
+            self.to_email,
+            self.to_name,
+            subject,
+            message,
         )
         if rv.status_code >= HTTPStatus.BAD_REQUEST:
             abort(rv.status_code)

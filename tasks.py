@@ -56,6 +56,7 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
     now_target = now_target or os.environ.get("NOW_TARGET", "staging")
     now_alias = now_alias or os.environ.get("NOW_ALIAS", None)
 
+    sender_email = os.environ.get("MAILER_SENDER_EMAIL", None)
     to_email = os.environ.get("MAILER_TO_EMAIL", None)
     to_name = os.environ.get("MAILER_TO_NAME", None)
     mailer_service = os.environ.get("MAILER_MAILER_SERVICE", None)
@@ -105,6 +106,7 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
             f" {now_token_arg}"
             f" --name \'{now_project}\'"
             f" {now_target_arg}"
+            f" -e SENDER_EMAIL=\'{sender_email}\'"
             f" -e TO_EMAIL=\'{to_email}\'"
             f" -e TO_NAME=\'{to_name}\'"
             f" -e MAILER_SERVICE=\'{mailer_service}\'"

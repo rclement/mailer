@@ -23,6 +23,7 @@ def _get_sensitive_config(config_name, default_value=None):
 
 
 class Config:
+    SENDER_EMAIL = os.environ.get("SENDER_EMAIL")
     TO_EMAIL = os.environ.get("TO_EMAIL")
     TO_NAME = os.environ.get("TO_NAME")
 
