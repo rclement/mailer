@@ -7,7 +7,7 @@
 [![Build Status Travis-CI](https://travis-ci.org/rclement/mailer.svg?branch=master)](https://travis-ci.org/rclement/mailer)
 [![Coverage Status](https://coveralls.io/repos/github/rclement/mailer/badge.svg?branch=master)](https://coveralls.io/github/rclement/mailer)
 
-[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/rclement/mailer&env=TO_EMAIL&env=TO_NAME&env=CORS_ORIGINS&env=RECAPTCHA_ENABLED&env=RECAPTCHA_SITE_KEY&env=RECAPTCHA_SECRET_KEY&env=MAILER_SERVICE&env=SENDGRID_API_KEY)
+[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/rclement/mailer&env=TO_EMAIL&env=TO_NAME&env=CORS_ORIGINS&env=RECAPTCHA_ENABLED&env=RECAPTCHA_SITE_KEY&env=RECAPTCHA_SECRET_KEY&env=MAILER_PROVIDER&env=SENDGRID_API_KEY)
 
 When building static websites, everyone needs a contact form, but that requires some server-side processing.
 `mailer` provides a dead-simple micro-service (usable as a serverless function) for this purpose,
@@ -89,7 +89,7 @@ The following environment variables are available:
 | `SENDER_EMAIL` | `""` | `no-reply@domain.me` | E-mail address to send e-mail from
 | `TO_EMAIL` | `""` | `contact@domain.me` | E-mail address of the recipient
 | `TO_NAME` | `""` | `My Name` | Name of the recipient
-| `MAILER_SERVICE` | `""` | {`sendgrid`} | Mailer back-end service
+| `MAILER_PROVIDER` | `""` | {`sendgrid`} | Mailer back-end provider
 | `SENDGRID_API_KEY` | `""` | `string` | Sendgrid secret API key
 | `SENDGRID_SANDBOX` | `false` | {`false`, `true`} | Enable Sendgrid sandbox for testing purposes (does not send e-mails)
 | `CORS_ORIGINS` | `""` | `https://domain.me, https://mydomain.me` | (optional) List of comma-separated authorized CORS origins
@@ -124,7 +124,7 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
         -e RECAPTCHA_ENABLED="true" \
         -e RECAPTCHA_SITE_KEY="wxcvbn" \
         -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
-        -e MAILER_SERVICE="sendgrid" \
+        -e MAILER_PROVIDER="sendgrid" \
         -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
         -e SENTRY_ENABLED="true" \
         -e SENTRY_DSN="azerty"

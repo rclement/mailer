@@ -16,16 +16,16 @@ class Mailer:
         self.client = None
 
     def init_app(self, app):
-        services = {"sendgrid": self._init_sendgrid}
+        providers = {"sendgrid": self._init_sendgrid}
 
         self.sender_email = app.config.get("SENDER_EMAIL")
         self.to_email = app.config.get("TO_EMAIL")
         self.to_name = app.config.get("TO_NAME")
 
-        mailer_service = app.config.get("MAILER_SERVICE")
-        if mailer_service is not None and mailer_service in services.keys():
-            service = services.get(mailer_service)
-            self.client = service(app)
+        mailer_provider = app.config.get("MAILER_PROVIDER")
+        if mailer_provider is not None and mailer_provider in providers.keys():
+            provider = providers.get(mailer_provider)
+            self.client = provider(app)
 
     def send_mail(self, from_email, from_name, subject, message):
         from flask import abort
@@ -45,7 +45,7 @@ class Mailer:
 
     @staticmethod
     def _init_sendgrid(app):
-        from .services import sendgrid
+        from .providers import sendgrid
 
         api_key = app.config.get("SENDGRID_API_KEY")
         sandbox = app.config.get("SENDGRID_SANDBOX")
