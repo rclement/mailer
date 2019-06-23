@@ -54,9 +54,7 @@ class Security:
 
     def init_app(self, app):
         csp_policy = {}
-        self.talisman.init_app(
-            app=app, content_security_policy=csp_policy
-        )
+        self.talisman.init_app(app=app, content_security_policy=csp_policy)
 
 
 # ------------------------------------------------------------------------------
