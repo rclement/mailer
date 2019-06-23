@@ -11,10 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Update Python dependencies
 - Rename `mailer.services` package to `mailer.providers`
+- BREAKING: rename `MAILER_SERVICE` config to `MAILER_PROVIDER`
 
-### Breaking
-- Add `SENDER_EMAIL` config to specify the e-mail to send from (e.g. `no-reply@domain.me`)
-- Rename `MAILER_SERVICE` config to `MAILER_PROVIDER`
+### Added
+- BREAKING: add `SENDER_EMAIL` config to specify the e-mail to send from (e.g. `no-reply@domain.me`)
 
 ## [0.6.2] - 2019-05-30
 ### Changed
