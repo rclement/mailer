@@ -53,10 +53,9 @@ class Security:
         self.talisman = Talisman()
 
     def init_app(self, app):
-        force_https = app.config.get("PREFERRED_URL_SCHEME", "https") == "https"
         csp_policy = {}
         self.talisman.init_app(
-            app=app, force_https=force_https, content_security_policy=csp_policy
+            app=app, content_security_policy=csp_policy
         )
 
 
