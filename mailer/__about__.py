@@ -1,5 +1,5 @@
 __title__ = "mailer"
-__version__ = "0.7.0"
+__version__ = "0.7.1"
 __description__ = "Simple mailer micro-service for static websites"
 __author__ = "Romain Clement"
 __author_email__ = "r.clement88@gmail.com"
