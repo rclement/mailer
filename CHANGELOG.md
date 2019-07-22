@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.1] - 2019-07-22
+### Changed
+- Update Python dependencies
+
+### Added
+- Use `flake8` as linter, `black` as code formatter
+- Use `pre-commit` for git hooks support
+
 ## [0.7.0] - 2019-06-23
 ### Fixed
 - Force HTTPS protocol even behind reverse-proxies
@@ -84,7 +92,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.7.0...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.7.1...HEAD
+[0.7.1]: https://github.com/rclement/mailer/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/rclement/mailer/compare/0.6.2...0.7.0
 [0.6.2]: https://github.com/rclement/mailer/compare/0.6.1...0.6.2
 [0.6.1]: https://github.com/rclement/mailer/compare/0.6.0...0.6.1
