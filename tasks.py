@@ -42,6 +42,9 @@ def docker_deploy(ctx, username=None, password=None, repository=None, tag="lates
         cmd = f"echo {password} | docker login -u {username} --password-stdin"
         ctx.run(cmd)
 
+        cmd = f"docker pull {username}/{repository}:latest"
+        ctx.run(cmd)
+
         cmd = f"docker build -t {username}/{repository}:{tag} ."
         ctx.run(cmd)
 
