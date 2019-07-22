@@ -21,7 +21,7 @@ def safety(ctx):
 
 @task
 def lint(ctx):
-    cmd = f"black --check {app_path} {tests_path}"
+    cmd = f"flake8 {app_path} {tests_path}"
     ctx.run(cmd)
 
 

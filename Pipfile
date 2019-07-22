@@ -17,8 +17,9 @@ sendgrid = "*"
 sentry-sdk = {extras = ["flask"],version = "*"}
 
 [dev-packages]
-black = "*"
+black = "==19.3b0"
 coveralls = "*"
+"flake8" = "*"
 invoke = "*"
 pytest = "*"
 pytest-cov = "*"
@@ -29,6 +30,3 @@ safety = "*"
 
 [requires]
 python_version = "3.7"
-
-[pipenv]
-allow_prereleases = true
