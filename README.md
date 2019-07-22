@@ -48,6 +48,7 @@ Proudly made using the [Flask](http://flask.pocoo.org) micro-framework.
 
 ```
 pipenv install -d
+pipenv run pre-commit install --config .pre-commit-config.yml
 pipenv run inv qa
 ```
 
