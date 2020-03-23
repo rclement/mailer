@@ -8,6 +8,7 @@ tests/
 .env
 .env.example
 .gitignore
+.pre-commit-config.yml
 .travis.yml
 CHANGELOG.md
 Dockerfile

@@ -1,9 +1,9 @@
 {
   "version": 2,
   "builds": [
-    { "src": "mailer/wsgi.py", "use": "@now/python", "config": { "maxLambdaSize": "15mb" } }
+    { "src": "mailer/__init__.py", "use": "@now/python", "config": { "maxLambdaSize": "15mb" } }
   ],
   "routes": [
-    { "src": "/(.*)", "dest": "mailer/wsgi.py"}
+    { "src": "/(.*)", "dest": "mailer/__init__.py"}
   ]
 }

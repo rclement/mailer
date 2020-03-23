@@ -9,29 +9,30 @@ tests_path = "tests"
 
 @task
 def test(ctx):
-    cmd = f"py.test -v --cov={app_path} --cov-report term-missing tests"
-    ctx.run(cmd, pty=True)
+    ctx.run(f"py.test -v --cov={app_path} --cov-report term-missing {tests_path}", pty=True)
 
 
 @task
-def safety(ctx):
-    cmd = "safety check"
-    ctx.run(cmd)
+def audit(ctx):
+    ctx.run("safety check")
 
 
 @task
 def lint(ctx):
-    cmd = f"flake8 {app_path} {tests_path}"
-    ctx.run(cmd)
+    ctx.run(f"flake8 {app_path} {tests_path}")
 
 
 @task
 def reformat(ctx):
-    cmd = f"black {app_path} {tests_path}"
-    ctx.run(cmd)
+    ctx.run(f"black {app_path} {tests_path}", pty=True)
 
 
-@task(test, safety, lint)
+@task
+def static_check(ctx):
+    ctx.run(f"mypy --strict {app_path}", pty=True)
+
+
+@task(test, audit, lint)
 def qa(ctx):
     pass
 
@@ -54,6 +55,8 @@ def docker_deploy(ctx, username=None, password=None, repository=None, tag="lates
 
 @task
 def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias=None):
+    # TODO: use Pydantic Settings
+
     now_token = now_token or os.environ.get("NOW_TOKEN", None)
     now_project = now_project or os.environ.get("NOW_PROJECT", None)
     now_target = now_target or os.environ.get("NOW_TARGET", "staging")
@@ -65,10 +68,8 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
     mailer_provider = os.environ.get("MAILER_MAILER_PROVIDER", None)
     sendgrid_api_key = os.environ.get("MAILER_SENDGRID_API_KEY", None)
     cors_origins = os.environ.get("MAILER_CORS_ORIGINS", "")
-    recaptcha_enabled = os.environ.get("MAILER_RECAPTCHA_ENABLED", "false")
-    recaptcha_site_key = os.environ.get("MAILER_RECAPTCHA_SITE_KEY", None)
     recaptcha_secret_key = os.environ.get("MAILER_RECAPTCHA_SECRET_KEY", None)
-    sentry_enabled = os.environ.get("MAILER_SENTRY_ENABLED", "false")
+
     sentry_dsn = os.environ.get("MAILER_SENTRY_DSN", None)
 
     use_now_alias = now_alias and now_target == "production"
@@ -81,30 +82,21 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
         f"-e SENDGRID_API_KEY='@{sendgrid_api_key_name}'" if use_sendgrid else ""
     )
 
-    use_recaptcha = recaptcha_enabled and recaptcha_site_key and recaptcha_secret_key
-    recaptcha_site_key_arg = (
-        f"-e RECAPTCHA_SITE_KEY='{recaptcha_site_key}'" if use_recaptcha else ""
-    )
     recaptcha_secret_key_name = "mailer-recaptcha-secret-key"
     recaptcha_secret_key_arg = (
-        f"-e RECAPTCHA_SECRET_KEY='@{recaptcha_secret_key_name}'"
-        if use_recaptcha
-        else ""
+        f"-e RECAPTCHA_SECRET_KEY='@{recaptcha_secret_key_name}'" if recaptcha_secret_key else ""
     )
-
-    use_sentry = sentry_enabled and sentry_dsn
-    sentry_dsn_arg = f"-e SENTRY_DSN='{sentry_dsn}'" if use_sentry else ""
 
     if now_project and to_email and to_name and mailer_provider:
         if use_sendgrid:
             sendgrid_secret = (
                 f"now secrets"
                 f" {now_token_arg}"
-                f" add '{sendgrid_api_key_name}' '{sendgrid_api_key}'"
+                f" add 'mailer-sendgrid-api-key' '{sendgrid_api_key}'"
             )
             ctx.run(sendgrid_secret, echo=True, warn=True)
 
-        if use_recaptcha:
+        if recaptcha_secret_key:
             recaptcha_secret = (
                 f"now secrets"
                 f" {now_token_arg}"
@@ -123,11 +115,8 @@ def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias
             f" -e MAILER_PROVIDER='{mailer_provider}'"
             f" {sendgrid_api_key_arg}"
             f" -e CORS_ORIGINS='{cors_origins}'"
-            f" -e RECAPTCHA_ENABLED='{recaptcha_enabled}'"
-            f" {recaptcha_site_key_arg}"
             f" {recaptcha_secret_key_arg}"
-            f" -e SENTRY_ENABLED='{sentry_enabled}'"
-            f" {sentry_dsn_arg}"
+            f" -e SENTRY_DSN='{sentry_dsn}'"
         )
 
         if ctx.run(deploy, echo=True) and use_now_alias:
