@@ -32,7 +32,7 @@ def static_check(ctx):
     ctx.run(f"mypy --strict {app_path}", pty=True)
 
 
-@task(test, audit, lint)
+@task(test, audit, lint, static_check)
 def qa(ctx):
     pass
 
