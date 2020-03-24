@@ -445,10 +445,10 @@
         },
         "identify": {
             "hashes": [
-                "sha256:46b5583a7ae1b0c5d8b51902940f8e11ab339515d1a40b91acf51d5c3ae83029",
-                "sha256:5793876ecee0475b4e78ba60869f3c8a4407535d9dffd898048753f61c68eacd"
+                "sha256:a7577a1f55cee1d21953a5cf11a3c839ab87f5ef909a4cba6cf52ed72b4c6059",
+                "sha256:ab246293e6585a1c6361a505b68d5b501a0409310932b7de2c2ead667b564d89"
             ],
-            "version": "==1.4.12"
+            "version": "==1.4.13"
         },
         "idna": {
             "hashes": [
