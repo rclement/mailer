@@ -30,6 +30,5 @@ jobs:
         run: pipenv run inv qa
       - name: Publish code coverage to Coveralls
         env:
-          COVERALLS_SERVICE_NAME: github
           COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
         run: pipenv run coveralls
