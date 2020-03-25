@@ -95,7 +95,7 @@ jobs:
             -e TO_EMAIL="${{ secrets.MAILER_TO_EMAIL }}" \
             -e TO_NAME="${{ secrets.MAILER_TO_NAME }}" \
             -e MAILER_PROVIDER="${{ secrets.MAILER_MAILER_PROVIDER }}" \
-            -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
-            -e CORS_ORIGINS="${{ secrets.MAILER_CORS_ORIGINS }}" \
-            -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
+            -e SENDGRID_API_KEY=@mailer-sendgrid-api-key \
+            -e CORS_ORIGINS=${{ secrets.MAILER_CORS_ORIGINS }} \
+            -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
             -e SENTRY_DSN="${{ secrets.MAILER_SENTRY_DSN }}"
