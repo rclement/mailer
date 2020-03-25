@@ -43,7 +43,7 @@ jobs:
     needs: test
 
     env:
-      IMAGE_NAME: rmnclmnt/mailer
+      IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/mailer
       IMAGE_TAG: ${{ github.sha }}
 
     steps:
