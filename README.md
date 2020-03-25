@@ -72,7 +72,7 @@ pipenv run inv qa
         name="John Doe" \
         subject="Test" \
         message="Hello" \
-        honeypot= ""
+        honeypot=""
     ```
 
 4. Open the Swagger OpenAPI documentation at `http://localhost:8000/docs`
