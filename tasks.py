@@ -9,7 +9,7 @@ tests_path = "tests"
 
 @task
 def test(ctx):
-    ctx.run(f"py.test -v --cov={app_path} --cov-report term-missing {tests_path}", pty=True)
+    ctx.run(f"py.test -v --cov={app_path} --cov-branch --cov-report term-missing {tests_path}", pty=True)
 
 
 @task
