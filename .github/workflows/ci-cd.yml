@@ -33,10 +33,10 @@ jobs:
       - name: Run QA
         run: |
           pipenv run inv qa
-      - name: Publish code coverage to Coveralls
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: pipenv run coveralls
+      # - name: Publish code coverage to Coveralls
+      #   env:
+      #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      #   run: pipenv run coveralls
 
   deploy-docker:
     name: Docker deployment
