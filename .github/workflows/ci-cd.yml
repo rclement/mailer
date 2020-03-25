@@ -44,12 +44,12 @@ jobs:
 
     env:
       IMAGE_NAME: rmnclmnt/mailer
-      IMAGE_TAG: ${GITHUB_SHA}
+      IMAGE_TAG: ${{ github.sha }}
 
     steps:
       - uses: actions/checkout@v2
       - name: Select Docker image tag (production)
-        if: $IS_PRODUCTION
+        if: ${{ env.IS_PRODUCTION }}
         run: echo "::set-env IMAGE_TAG=${GITHUB_REF##*/}"
       - name: Build Docker image
         run: |
@@ -79,7 +79,7 @@ jobs:
       - name: Install Zeit Now CLI
         run: npm install -g now
       - name: Select production environment
-        if: $IS_PRODUCTION
+        if: ${{ env.IS_PRODUCTION }}
         run: echo "::set-env NOW_ENV=production"
       - name: Deploy to Zeit Now (staging)
         run: |
