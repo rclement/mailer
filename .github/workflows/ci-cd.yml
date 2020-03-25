@@ -78,6 +78,7 @@ jobs:
         if: ${{ env.IS_PRODUCTION }}
         run: echo "::set-env NOW_ENV_ARG=--prod"
       - name: Register Zeit Now secrets
+        run: |
           now secrets \
             --token "${{ secrets.NOW_TOKEN }}" \
             add mailer-sendgrid-api-key "${{ secrets.MAILER_SENDGRID_API_KEY }}" || true
