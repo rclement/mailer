@@ -3,6 +3,10 @@ import pytest
 from http import HTTPStatus
 
 
+valid_recaptcha_secret = "valid-recaptcha-secret"
+valid_recaptcha_response = "valid-recaptcha-response"
+
+
 @pytest.fixture(scope="function")
 def enable_cors_origins(monkeypatch):
     monkeypatch.setenv("CORS_ORIGINS", '["https://domain.me"]')
@@ -10,7 +14,12 @@ def enable_cors_origins(monkeypatch):
 
 @pytest.fixture(scope="function")
 def enable_recaptcha(monkeypatch):
-    monkeypatch.setenv("RECAPTCHA_SECRET_KEY", "1234567890")
+    monkeypatch.setenv("RECAPTCHA_SECRET_KEY", valid_recaptcha_secret)
+
+
+@pytest.fixture(scope="function")
+def enable_recaptcha_invalid_secret(monkeypatch, faker):
+    monkeypatch.setenv("RECAPTCHA_SECRET_KEY", faker.pystr())
 
 
 @pytest.fixture(scope="function")
@@ -19,40 +28,49 @@ def mock_requests_post(mocker):
 
 
 @pytest.fixture(scope="function")
-def mock_recaptcha_success(faker, mocker, mock_requests_post):
-    def json():
-        return {
-            "success": True,
-            "challenge_ts": faker.iso8601(),
-            "hostname": faker.hostname(),
-        }
+def mock_recaptcha_verify_api(responses, faker):
+    from mailer import recaptcha
 
-    mock_requests_post.return_value.status_code = 200
-    mock_requests_post.return_value.json.side_effect = json
+    def request_callback(request):
+        import json
+        from urllib.parse import parse_qs
 
-    return mock_requests_post
+        headers = {}
 
+        params = parse_qs(request.body)
+        secret = params.get("secret")
+        response = params.get("response")
 
-@pytest.fixture(scope="function")
-def mock_recaptcha_missing_secret(faker, mocker, mock_requests_post):
-    def json():
-        return {"success": False, "error-codes": ["missing-input-secret"]}
+        errors = []
+        if not secret:
+            errors.append("missing-input-secret")
+        elif secret != [valid_recaptcha_secret]:
+            errors.append("invalid-input-secret")
 
-    mock_requests_post.return_value.status_code = 200
-    mock_requests_post.return_value.json.side_effect = json
+        if not response:
+            errors.append("missing-input-response")
+        elif response != [valid_recaptcha_response]:
+            errors.append("invalid-input-response")
 
-    return mock_requests_post
+        body = {}
+        if len(errors) > 0:
+            body["success"] = False
+            body["error-codes"] = errors
+        else:
+            body["success"] = True
+            body["challenge_ts"] = faker.iso8601()
+            body["hostname"] = faker.hostname()
 
+        return (HTTPStatus.OK, headers, json.dumps(body))
 
-@pytest.fixture(scope="function")
-def mock_recaptcha_missing_response(faker, mocker, mock_requests_post):
-    def json():
-        return {"success": False, "error-codes": ["missing-input-response"]}
+    responses.add_callback(
+        responses.POST,
+        recaptcha.verify_url,
+        callback=request_callback,
+        content_type="application/json",
+    )
 
-    mock_requests_post.return_value.status_code = 200
-    mock_requests_post.return_value.json.side_effect = json
-
-    return mock_requests_post
+    return responses
 
 
 @pytest.fixture(scope="function")
@@ -260,26 +278,54 @@ def test_send_mail_recaptcha_success(
     enable_recaptcha,
     app_client,
     mock_sendgrid_success,
-    mock_recaptcha_success,
+    mock_recaptcha_verify_api,
     params_success,
-    faker,
 ):
     params = params_success
-    params["recaptcha"] = faker.pystr()
+    params["recaptcha"] = valid_recaptcha_response
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.OK
+
+
+def test_send_mail_recaptcha_invalid_secret(
+    enable_recaptcha_invalid_secret,
+    app_client,
+    mock_sendgrid_success,
+    mock_recaptcha_verify_api,
+    params_success,
+):
+    params = params_success
+    params["recaptcha"] = valid_recaptcha_response
+
+    response = app_client.post("/api/mail", json=params)
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
 def test_send_mail_recaptcha_no_response(
     enable_recaptcha,
     app_client,
     mock_sendgrid_success,
-    mock_recaptcha_missing_response,
+    mock_recaptcha_verify_api,
     params_success,
 ):
     params = params_success
     params["recaptcha"] = ""
+
+    response = app_client.post("/api/mail", json=params)
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
+
+
+def test_send_mail_recaptcha_invalid_response(
+    enable_recaptcha,
+    app_client,
+    mock_sendgrid_success,
+    mock_recaptcha_verify_api,
+    params_success,
+    faker,
+):
+    params = params_success
+    params["recaptcha"] = faker.pystr()
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNAUTHORIZED

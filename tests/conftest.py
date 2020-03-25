@@ -31,6 +31,14 @@ def faker():
 
 
 @pytest.fixture(scope="function")
+def responses():
+    import responses
+
+    with responses.RequestsMock(assert_all_requests_are_fired=False) as rsps:
+        yield rsps
+
+
+@pytest.fixture(scope="function")
 def app_client():
     from starlette.testclient import TestClient
     from mailer import create_app
