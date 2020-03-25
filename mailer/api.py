@@ -7,7 +7,7 @@ from . import __about__, providers, recaptcha
 from .settings import Settings
 
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     NameStr = str
     SubjectStr = str
     MessageStr = str
