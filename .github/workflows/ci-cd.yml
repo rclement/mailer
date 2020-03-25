@@ -7,6 +7,7 @@ env:
 
 jobs:
   test:
+    name: Test
     runs-on: ubuntu-latest
 
     steps:
@@ -43,13 +44,10 @@ jobs:
 
     env:
       IMAGE_NAME: rmnclmnt/mailer
-      IMAGE_TAG: latest
+      IMAGE_TAG: ${GITHUB_SHA}
 
     steps:
       - uses: actions/checkout@v2
-      - name: Select Docker image tag (staging)
-        if: ! $IS_PRODUCTION
-        run: echo "::set-env IMAGE_TAG=${GITHUB_SHA}"
       - name: Select Docker image tag (production)
         if: $IS_PRODUCTION
         run: echo "::set-env IMAGE_TAG=${GITHUB_REF##*/}"
