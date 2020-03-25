@@ -4,30 +4,29 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-flask = "*"
-flask-apispec = "*"
-flask-cors = "*"
-flask-limiter = "*"
-flask-recaptcha = "*"
-flask-talisman = "*"
-gevent = "*"
+fastapi = "*"
 gunicorn = "*"
 honcho = "*"
+pydantic = {extras = ["email"],version = "*"}
+requests = "*"
 sendgrid = "*"
 sentry-sdk = {extras = ["flask"],version = "*"}
+uvicorn = "*"
 
 [dev-packages]
 black = "==19.3b0"
 coveralls = "*"
+faker = "*"
 "flake8" = "*"
 invoke = "*"
+mypy = "*"
 pre-commit = "*"
 pytest = "*"
 pytest-cov = "*"
-pytest-flask = "*"
 pytest-mock = "*"
 python-dotenv = "*"
+responses = "*"
 safety = "*"
 
 [requires]
-python_version = "3.7"
+python_full_version = "3.8.2"

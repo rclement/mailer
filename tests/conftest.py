@@ -5,28 +5,44 @@ import pytest
 # ------------------------------------------------------------------------------
 
 
-os.environ["FLASK_ENV"] = "testing"
+os.environ["APP_ENVIRONMENT"] = "testing"
 os.environ["SENDER_EMAIL"] = "no-reply@test.com"
 os.environ["TO_EMAIL"] = "contact@test.com"
 os.environ["TO_NAME"] = "Test"
-os.environ["RECAPTCHA_ENABLED"] = "false"
 os.environ["MAILER_PROVIDER"] = "sendgrid"
 os.environ["SENDGRID_API_KEY"] = "1234567890"
 os.environ["SENDGRID_SANDBOX"] = "true"
+os.environ["CORS_ORIGINS"] = "[]"
+os.environ["RECAPTCHA_SECRET_KEY"] = ""
+os.environ["SENTRY_DSN"] = ""
 
 
 # ------------------------------------------------------------------------------
 
 
 @pytest.fixture(scope="session")
-def app(request):
-    from mailer import wsgi
+def faker():
+    from faker import Faker
 
-    _app = wsgi.app
+    Faker.seed(1234)
+    faker_instance = Faker()
 
-    ctx = _app.app_context()
-    ctx.push()
+    return faker_instance
 
-    yield _app
 
-    ctx.pop()
+@pytest.fixture(scope="function")
+def responses():
+    import responses
+
+    with responses.RequestsMock(assert_all_requests_are_fired=False) as rsps:
+        yield rsps
+
+
+@pytest.fixture(scope="function")
+def app_client():
+    from starlette.testclient import TestClient
+    from mailer import create_app
+
+    app = create_app()
+    with TestClient(app) as test_client:
+        yield test_client

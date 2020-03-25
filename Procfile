@@ -1,1 +1,1 @@
-web: gunicorn --name=mailer --workers=3 --worker-class=gevent --access-logfile=- --error-logfile=- mailer.wsgi:app
+web: gunicorn --name=mailer --worker-class=uvicorn.workers.UvicornWorker --access-logfile=- --error-logfile=- mailer:app

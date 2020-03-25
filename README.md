@@ -7,8 +7,6 @@
 [![Build Status Travis-CI](https://travis-ci.org/rclement/mailer.svg?branch=master)](https://travis-ci.org/rclement/mailer)
 [![Coverage Status](https://coveralls.io/repos/github/rclement/mailer/badge.svg?branch=master)](https://coveralls.io/github/rclement/mailer)
 
-[![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/rclement/mailer&env=TO_EMAIL&env=TO_NAME&env=CORS_ORIGINS&env=RECAPTCHA_ENABLED&env=RECAPTCHA_SITE_KEY&env=RECAPTCHA_SECRET_KEY&env=MAILER_PROVIDER&env=SENDGRID_API_KEY)
-
 When building static websites, everyone needs a contact form, but that requires some server-side processing.
 `mailer` provides a dead-simple micro-service (usable as a serverless function) for this purpose,
 enabling one to send mails from a simple form using a single AJAX request:
@@ -27,7 +25,7 @@ axios.post('https://mailer.domain.me/api/mail', {
 Create a free [Sendgrid](https://sendgrid.com) account (allows up to 100 mails per day forever)
 and deploy with the [Zeit Now 2.0](https://zeit.co) serverless platform within minutes!
 
-Proudly made using the [Flask](http://flask.pocoo.org) micro-framework.
+Proudly made using the [FastAPI](https://fastapi.tiangolo.com) ASGI framework.
 
 
 ## Features
@@ -37,7 +35,6 @@ Proudly made using the [Flask](http://flask.pocoo.org) micro-framework.
 - Unicode message support
 - Swagger OpenAPI documentation
 - CORS domain validation
-- Rate-limiting support
 - Spam-bot filtering with honeypot field
 - Google ReCaptcha v2 validation
 - Sentry crash reporting
@@ -63,20 +60,22 @@ pipenv run inv qa
 
 2. Run dev server:
     ```
-    flask run
+    uvicorn mailer.app:app --host 0.0.0.0 --port 8000
     ```
 
 3. Try it:
     ```
-    http GET http://localhost:5000/api/
-    http POST http://localhost:5000/api/mail \
+    http GET http://localhost:8000/
+    http POST http://localhost:8000/api/mail \
+        Origin:http://localhost:8000 \
         email="john@doe.com" \
         name="John Doe" \
         subject="Test" \
-        message="Hello"
+        message="Hello" \
+        honeypot= ""
     ```
 
-4. Open the Swagger OpenAPI documentation at `http://localhost:5000/docs`
+4. Open the Swagger OpenAPI documentation at `http://localhost:8000/docs`
 
 
 ## Deploying
@@ -93,17 +92,9 @@ The following environment variables are available:
 | `MAILER_PROVIDER` | `""` | {`sendgrid`} | Mailer back-end provider
 | `SENDGRID_API_KEY` | `""` | `string` | Sendgrid secret API key
 | `SENDGRID_SANDBOX` | `false` | {`false`, `true`} | Enable Sendgrid sandbox for testing purposes (does not send e-mails)
-| `CORS_ORIGINS` | `""` | `https://domain.me, https://mydomain.me` | (optional) List of comma-separated authorized CORS origins
-| `RATELIMIT_ENABLED` | `false` | {`false`, `true`} | (optional) Enable rate-limiting for the API, based on IP address
-| `RATELIMIT_DEFAULT` | `10 per hour` | cf. `flask-limiter` | (optional) Rate-limit per API end-point
-| `RATELIMIT_APPLICATION` | `100 per day` | cf. `flask-limiter` | (optional) Rate-limit for all API end-points
-| `RATELIMIT_STORAGE_URL` | `memory://` | cf. `flask-limiter` | (optional) Rate-limit storage URL
-| `RATELIMIT_STRATEGY` | `moving-window` | cf. `flask-limiter` | (optional) Rate-limit strategy
-| `RECAPTCHA_ENABLED` | `false` | {`false`, `true`} | (optional) Enable Google ReCaptcha v2 validation
-| `RECAPTCHA_SITE_KEY` | `""` | `string` | (optional) Google ReCaptcha v2 site key
+| `CORS_ORIGINS` | `'[]'` | `'["https://domain.me", "https://mydomain.me"]'` | (optional) List (JSON string) of authorized origins for CORS origins and Origin request header validation
 | `RECAPTCHA_SECRET_KEY` | `""` | `string` | (optional) Google ReCaptcha v2 secret key
-| `SENTRY_ENABLED` | `false` | {`false`, `true`} | (optional) Enable Sentry crash reporting
-| `SENTRY_DSN` | `""` | `string` | (optional) Sentry DSN
+| `SENTRY_DSN` | `""` | `string` | (optional) Sentry crash reporting DSN
 
 ### Docker Hub deployment
 
@@ -119,15 +110,13 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
     now secrets add mailer-sendgrid-api-key xxxx
     now secrets add mailer-recaptcha-secret-key zzzz
     now \
+        -e SENDER_EMAIL="no-reply@domain.me" \
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
-        -e CORS_ORIGINS="https://domain.com" \
-        -e RECAPTCHA_ENABLED="true" \
-        -e RECAPTCHA_SITE_KEY="wxcvbn" \
-        -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
         -e MAILER_PROVIDER="sendgrid" \
         -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
-        -e SENTRY_ENABLED="true" \
+        -e CORS_ORIGINS="https://domain.com" \
+        -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
         -e SENTRY_DSN="azerty"
     ```
 

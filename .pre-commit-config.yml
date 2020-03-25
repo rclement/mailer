@@ -1,11 +1,29 @@
 repos:
-- repo: https://github.com/python/black
-  rev: stable
-  hooks:
-  - id: black
-    language_version: python3.7
+  - repo: local
+    hooks:
+      - id: reformat
+        name: reformat
+        description: "Code formatter"
+        entry: pipenv run inv reformat
+        language: python
+        types: [python]
+        require_serial: true
+        pass_filenames: false
 
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: master
-  hooks:
-  - id: flake8
+      - id: lint
+        name: lint
+        description: "Code linter"
+        entry: pipenv run inv lint
+        language: python
+        types: [python]
+        require_serial: true
+        pass_filenames: false
+
+      - id: static-check
+        name: static-check
+        description: "Static type checker"
+        entry: pipenv run inv static-check
+        language: python
+        types: [python]
+        require_serial: true
+        pass_filenames: false

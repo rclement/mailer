@@ -1,6 +1,7 @@
 import sendgrid
 import python_http_client
 
+from typing import Any
 from sendgrid.helpers.mail import (
     Content,
     From,
@@ -17,13 +18,20 @@ from sendgrid.helpers.mail import (
 
 
 class SendgridMailer:
-    def __init__(self, api_key, sandbox=False):
+    def __init__(self, api_key: str, sandbox: bool = False):
         self.sg = sendgrid.SendGridAPIClient(api_key=api_key)
         self.sandbox = sandbox
 
     def send_mail(
-        self, from_email, from_name, sender_email, to_email, to_name, subject, message
-    ):
+        self,
+        from_email: str,
+        from_name: str,
+        sender_email: str,
+        to_email: str,
+        to_name: str,
+        subject: str,
+        message: str,
+    ) -> Any:
         mail_settings = MailSettings()
         mail_settings.sandbox_mode = SandBoxMode(self.sandbox)
         mail_settings.spam_check = SpamCheck(

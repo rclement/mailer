@@ -1,77 +1,88 @@
-from flask import Blueprint, request
-from flask_apispec import use_kwargs, marshal_with
-from marshmallow import ValidationError, fields, validate, Schema
+from typing import Dict, Optional
 from http import HTTPStatus
+from fastapi import APIRouter, Depends, Header, HTTPException, Request
+from pydantic import BaseModel, EmailStr, Field, validator
 
-from . import __about__
-from .extensions import limiter, mailer, recaptcha
-
-
-# ------------------------------------------------------------------------------
-
-
-api_version = "v1"
-api_base_url = ""
-
-bp_name = "api"
-bp = Blueprint(bp_name, __name__, url_prefix="/api")
+from . import __about__, providers, recaptcha
+from .settings import Settings
 
 
-# ------------------------------------------------------------------------------
+router = APIRouter()
 
 
-def validate_recaptcha(response):
-    if not recaptcha.verify(response=response, remote_ip=request.remote_addr):
-        raise ValidationError("Invalid recaptcha response")
+class ApiInfoSchema(BaseModel):
+    name: str
+    version: str
+    api_version: str
 
 
-class StrictSchema(Schema):
-    class Meta:
-        strict = True
+class MailSchema(BaseModel):
+    email: EmailStr
+    name: str = Field(..., min_length=1, max_length=50)
+    subject: str = Field(..., min_length=1, max_length=100)
+    message: str = Field(..., min_length=1, max_length=200)
+    honeypot: str
+    recaptcha: Optional[str]
+
+    @validator("honeypot")
+    def honeypot_empty(cls, v: str) -> str:
+        if v != "":
+            raise ValueError("Honeypot is not empty")
+        return v
 
 
-class ApiInfoSchema(StrictSchema):
-    name = fields.String(required=True)
-    version = fields.String(required=True)
-    api_version = fields.String(required=True)
+def check_origin(req: Request, origin: str = Header(None)) -> None:
+    settings = req.app.settings
+    if len(settings.cors_origins) > 0:
+        if origin not in settings.cors_origins:
+            raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
 
 
-class MailSchema(StrictSchema):
-    email = fields.Email(required=True, validate=validate.Length(1, 50))
-    name = fields.String(required=True, validate=validate.Length(1, 50))
-    subject = fields.String(required=True, validate=validate.Length(1, 100))
-    message = fields.String(required=True, validate=validate.Length(1, 200))
-    honeypot = fields.String(required=False, validate=validate.Equal(""))
-    recaptcha = fields.String(
-        required=recaptcha.is_enabled, validate=validate_recaptcha
-    )
-
-
-# ------------------------------------------------------------------------------
-
-
-@bp.route("/")
-@limiter.exempt
-@marshal_with(ApiInfoSchema)
-def get_api_info():
+@router.get("/", response_model=ApiInfoSchema)
+def get_api_info() -> Dict[str, str]:
     data = {
         "name": __about__.__title__,
         "version": __about__.__version__,
-        "api_version": api_version,
+        "api_version": "v1",
     }
 
-    return data, HTTPStatus.OK
+    return data
 
 
-@bp.route("/mail", methods=["POST"])
-@use_kwargs(MailSchema, locations=("json",))
-@marshal_with(MailSchema)
-def post_mail(**kwargs):
-    email = kwargs.get("email")
-    name = kwargs.get("name")
-    subject = kwargs.get("subject")
-    message = kwargs.get("message")
+@router.post(
+    "/mail",
+    dependencies=[Depends(check_origin)],
+    response_model=MailSchema,
+    responses={
+        str(int(HTTPStatus.UNAUTHORIZED)): {"description": "Unauthorized operation"}
+    },
+)
+def post_mail(req: Request, mail: MailSchema) -> MailSchema:
+    settings: Settings = req.app.settings
 
-    mailer.send_mail(from_email=email, from_name=name, subject=subject, message=message)
+    mailer = providers.Mailer(
+        settings.sender_email,
+        settings.to_email,
+        settings.to_name,
+        settings.mailer_provider,
+        {
+            "sendgrid_api_key": settings.sendgrid_api_key,
+            "sendgrid_sandbox": settings.sendgrid_sandbox,
+        },
+    )
 
-    return kwargs, HTTPStatus.ACCEPTED
+    try:
+        recaptcha.verify(
+            secret_key=settings.recaptcha_secret_key, response=mail.recaptcha
+        )
+
+        mailer.send_mail(
+            from_email=mail.email,
+            from_name=mail.name,
+            subject=mail.subject,
+            message=mail.message,
+        )
+    except RuntimeError:
+        raise HTTPException(HTTPStatus.UNAUTHORIZED)
+
+    return mail
