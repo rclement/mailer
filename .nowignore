@@ -12,7 +12,6 @@ tests/
 .flake8
 .gitignore
 .pre-commit-config.yml
-.travis.yml
 CHANGELOG.md
 Dockerfile
 LICENSE

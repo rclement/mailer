@@ -4,7 +4,7 @@
 
 [![Docker Pulls](https://img.shields.io/docker/pulls/rmnclmnt/mailer.svg)](https://hub.docker.com/r/rmnclmnt/mailer)
 [![Github Tag](https://img.shields.io/github/tag/rclement/mailer.svg)](https://github.com/rclement/mailer/releases/latest)
-[![Build Status Travis-CI](https://travis-ci.org/rclement/mailer.svg?branch=master)](https://travis-ci.org/rclement/mailer)
+[![GitHub Action CI/CD](https://github.com/rclement/mailer/workflows/Mailer%20CI/CD/badge.svg)](https://github.com/rclement/mailer/actions?query=workflow%3A%22Mailer+CI%2FCD%22)
 [![Coverage Status](https://coveralls.io/repos/github/rclement/mailer/badge.svg?branch=master)](https://coveralls.io/github/rclement/mailer)
 
 When building static websites, everyone needs a contact form, but that requires some server-side processing.

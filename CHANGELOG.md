@@ -8,14 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use Python 3.8.2
 - Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
-- Removed `RECAPTCHA_SITE_KEY` from configuration
-- Removed `SENTRY_ENABLED` from configuration
-- BREAKING: remove rate-limiting feature
 
 ### Added
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
 - More tests
 - GitHub Action workflows support
+
+### Removed
+- BREAKING: removed rate-limiting feature (and all `RATELIMIT_*` configurations)
+- Removed `RECAPTCHA_SITE_KEY` from configuration
+- Removed `SENTRY_ENABLED` from configuration
+- Travis-CI support
 
 ## [0.7.1] - 2019-07-22
 ### Changed
