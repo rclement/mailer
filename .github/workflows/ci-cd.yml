@@ -68,25 +68,28 @@ jobs:
     needs: test
 
     env:
-      NOW_ENV: staging
+      NOW_ORG_ID: ${{ secrets.NOW_ORG_ID }}
+      NOW_PROJECT_ID: ${{ secrets.NOW_PROJECT_ID }}
+      NOW_ENV_ARG:
 
     steps:
       - uses: actions/checkout@v2
       - name: Select production environment
         if: ${{ env.IS_PRODUCTION }}
-        run: echo "::set-env NOW_ENV=production"
-      - name: Deploy to Zeit Now (${{ env.NOW_ENV }})
-        run: |
+        run: echo "::set-env NOW_ENV_ARG=--prod"
+      - name: Register Zeit Now secrets
           now secrets \
             --token "${{ secrets.NOW_TOKEN }}" \
             add mailer-sendgrid-api-key "${{ secrets.MAILER_SENDGRID_API_KEY }}" || true
           now secrets \
             --token "${{ secrets.NOW_TOKEN }}" \
             add mailer-recaptcha-secret-key "${{ secrets.MAILER_RECAPTCHA_SECRET_KEY }}" || true
+      - name: Deploy to Zeit Now
+        run: |
           now deploy \
+            --confirm \
             --token "${{ secrets.NOW_TOKEN }}" \
-            --name $NOW_PROJECT \
-            $NOW_ENV \
+            $NOW_ENV_ARG \
             -e SENDER_EMAIL="${{ secrets.MAILER_SENDER_EMAIL }}" \
             -e TO_EMAIL="${{ secrets.MAILER_TO_EMAIL }}" \
             -e TO_NAME="${{ secrets.MAILER_TO_NAME }}" \
