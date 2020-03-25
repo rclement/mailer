@@ -114,9 +114,9 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
         -e MAILER_PROVIDER="sendgrid" \
-        -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
-        -e CORS_ORIGINS="https://domain.com" \
-        -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
+        -e SENDGRID_API_KEY=@mailer-sendgrid-api-key \
+        -e CORS_ORIGINS='["https://domain.com"]' \
+        -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
         -e SENTRY_DSN="azerty"
     ```
 
