@@ -5,6 +5,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Use Python 3.8.2
+- Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
+- Removed `RECAPTCHA_SITE_KEY` from configuration
+- Removed `SENTRY_ENABLED` from configuration
+- BREAKING: remove rate-limiting feature
+
+### Added
+- Static typing analysis using [mypy](https://mypy.readthedocs.io)
+- More tests
+- GitHub Action workflows support
 
 ## [0.7.1] - 2019-07-22
 ### Changed
