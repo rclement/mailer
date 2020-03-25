@@ -31,7 +31,14 @@ jobs:
       - name: Check environment
         run: pipenv check
       - name: Run QA
-        run: pipenv run inv qa
+        run: |
+          pipenv run inv qa
+          pipenv run coveralls --output=coverage.json
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.COVERALLS_REPO_TOKEN }}
+          path-to-lcov: './coverage.json'
       # - name: Publish code coverage to Coveralls
       #   env:
       #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
