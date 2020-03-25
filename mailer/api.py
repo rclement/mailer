@@ -1,20 +1,10 @@
-from typing import Dict, Optional, TYPE_CHECKING
+from typing import Dict, Optional
 from http import HTTPStatus
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
-from pydantic import BaseModel, EmailStr, constr, validator
+from pydantic import BaseModel, EmailStr, Field, validator
 
 from . import __about__, providers, recaptcha
 from .settings import Settings
-
-
-if TYPE_CHECKING:  # pragma: no cover
-    NameStr = str
-    SubjectStr = str
-    MessageStr = str
-else:
-    NameStr = constr(min_length=1, max_length=50)
-    SubjectStr = constr(min_length=1, max_length=100)
-    MessageStr = constr(min_length=1, max_length=200)
 
 
 router = APIRouter()
@@ -28,9 +18,9 @@ class ApiInfoSchema(BaseModel):
 
 class MailSchema(BaseModel):
     email: EmailStr
-    name: NameStr
-    subject: SubjectStr
-    message: MessageStr
+    name: str = Field(..., min_length=1, max_length=50)
+    subject: str = Field(..., min_length=1, max_length=100)
+    message: str = Field(..., min_length=1, max_length=200)
     honeypot: str
     recaptcha: Optional[str]
 
