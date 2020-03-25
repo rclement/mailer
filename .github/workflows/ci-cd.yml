@@ -1,0 +1,105 @@
+name: Mailer CI/CD
+
+on: [push]
+
+env:
+  IS_PRODUCTION: ${{ contains(github.ref, 'tags') }}
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.8.2'
+      - name: Cache Python modules
+        uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/Pipfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade pipenv
+          pipenv install --dev
+      - name: Check environment
+        run: pipenv check
+      - name: Run QA
+        run: pipenv run inv qa
+      # - name: Publish code coverage to Coveralls
+      #   env:
+      #     COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+      #   run: pipenv run coveralls
+
+  deploy-docker:
+    name: Docker deployment
+    runs-on: ubuntu-latest
+    needs: test
+
+    env:
+      IMAGE_NAME: rmnclmnt/mailer
+      IMAGE_TAG: latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Select Docker image tag (staging)
+        if: ! $IS_PRODUCTION
+        run: echo "::set-env IMAGE_TAG=${GITHUB_SHA}"
+      - name: Select Docker image tag (production)
+        if: $IS_PRODUCTION
+        run: echo "::set-env IMAGE_TAG=${GITHUB_REF##*/}"
+      - name: Build Docker image
+        run: |
+          docker pull $IMAGE_NAME:latest
+          docker build -t latest -t $IMAGE_TAG .
+      - name: Log into Docker Registry
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+      - name: Push Docker image
+        run: |
+          docker push $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:$IMAGE_TAG
+
+  deploy-now:
+    name: Zeit Now deployment
+    runs-on: ubuntu-latest
+    needs: test
+
+    env:
+      NOW_ENV: staging
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: 'https://registry.npmjs.org'
+      - name: Install Zeit Now CLI
+        run: npm install -g now
+      - name: Select production environment
+        if: $IS_PRODUCTION
+        run: echo "::set-env NOW_ENV=production"
+      - name: Deploy to Zeit Now (staging)
+        run: |
+          now secrets \
+            --token "${{ secrets.NOW_TOKEN }}" \
+            add mailer-sendgrid-api-key "${{ secrets.MAILER_SENDGRID_API_KEY }}"
+          now secrets \
+            --token "${{ secrets.NOW_TOKEN }}" \
+            add mailer-recaptcha-secret-key "${{ secrets.MAILER_RECAPTCHA_SECRET_KEY }}"
+          now deploy \
+            --token "${{ secrets.NOW_TOKEN }}" \
+            --name $NOW_PROJECT \
+            $NOW_ENV \
+            -e SENDER_EMAIL="${{ secrets.MAILER_SENDER_EMAIL }}" \
+            -e TO_EMAIL="${{ secrets.MAILER_TO_EMAIL }}" \
+            -e TO_NAME="${{ secrets.MAILER_TO_NAME }}" \
+            -e MAILER_PROVIDER="${{ secrets.MAILER_MAILER_PROVIDER }}" \
+            -e SENDGRID_API_KEY="@mailer-sendgrid-api-key" \
+            -e CORS_ORIGINS="${{ secrets.MAILER_CORS_ORIGINS }}" \
+            -e RECAPTCHA_SECRET_KEY="@mailer-recaptcha-secret-key" \
+            -e SENTRY_DSN="${{ secrets.MAILER_SENTRY_DSN }}"
