@@ -3,7 +3,8 @@ from http import HTTPStatus
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from pydantic import BaseModel, EmailStr, Field, validator
 
-from . import __about__, providers, recaptcha
+from . import __about__, recaptcha
+from .mailer import Mailer
 from .settings import Settings
 
 
@@ -60,15 +61,16 @@ def get_api_info() -> Dict[str, str]:
 def post_mail(req: Request, mail: MailSchema) -> MailSchema:
     settings: Settings = req.app.settings
 
-    mailer = providers.Mailer(
+    mailer = Mailer(
         settings.sender_email,
         settings.to_email,
         settings.to_name,
-        settings.mailer_provider,
-        {
-            "sendgrid_api_key": settings.sendgrid_api_key,
-            "sendgrid_sandbox": settings.sendgrid_sandbox,
-        },
+        settings.smtp_host,
+        settings.smtp_port,
+        settings.smtp_tls,
+        settings.smtp_ssl,
+        settings.smtp_user,
+        settings.smtp_password,
     )
 
     try:
@@ -76,7 +78,7 @@ def post_mail(req: Request, mail: MailSchema) -> MailSchema:
             secret_key=settings.recaptcha_secret_key, response=mail.recaptcha
         )
 
-        mailer.send_mail(
+        mailer.send_email(
             from_email=mail.email,
             from_name=mail.name,
             subject=mail.subject,

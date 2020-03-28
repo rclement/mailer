@@ -12,10 +12,12 @@ class Settings(BaseSettings):
     to_email: EmailStr
     to_name: str
 
-    mailer_provider: str = "sendgrid"
-
-    sendgrid_api_key: Optional[str] = None
-    sendgrid_sandbox: bool = False
+    smtp_host: str
+    smtp_port: int
+    smtp_tls: bool
+    smtp_ssl: bool
+    smtp_user: str
+    smtp_password: str
 
     cors_origins: Set[AnyHttpUrl] = set()
 

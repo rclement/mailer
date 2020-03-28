@@ -82,7 +82,7 @@ jobs:
         run: |
           now secrets \
             --token "${{ secrets.NOW_TOKEN }}" \
-            add mailer-sendgrid-api-key "${{ secrets.MAILER_SENDGRID_API_KEY }}" || true
+            add mailer-smtp-password "${{ secrets.MAILER_SMTP_PASSWORD }}" || true
           now secrets \
             --token "${{ secrets.NOW_TOKEN }}" \
             add mailer-recaptcha-secret-key "${{ secrets.MAILER_RECAPTCHA_SECRET_KEY }}" || true
@@ -95,8 +95,12 @@ jobs:
             -e SENDER_EMAIL="${{ secrets.MAILER_SENDER_EMAIL }}" \
             -e TO_EMAIL="${{ secrets.MAILER_TO_EMAIL }}" \
             -e TO_NAME="${{ secrets.MAILER_TO_NAME }}" \
-            -e MAILER_PROVIDER="${{ secrets.MAILER_MAILER_PROVIDER }}" \
-            -e SENDGRID_API_KEY=@mailer-sendgrid-api-key \
+            -e SMTP_HOST="${{ secrets.MAILER_SMTP_HOST }}" \
+            -e SMTP_PORT="${{ secrets.MAILER_SMTP_PORT }}" \
+            -e SMTP_TLS="${{ secrets.MAILER_SMTP_TLS }}" \
+            -e SMTP_SSL="${{ secrets.MAILER_SMTP_SSL }}" \
+            -e SMTP_USER="${{ secrets.MAILER_SMTP_USER }}" \
+            -e SMTP_PASSWORD=@mailer-smtp-password \
             -e CORS_ORIGINS=${{ secrets.MAILER_CORS_ORIGINS }} \
             -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
             -e SENTRY_DSN="${{ secrets.MAILER_SENTRY_DSN }}"

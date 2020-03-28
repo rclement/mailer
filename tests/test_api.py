@@ -24,8 +24,25 @@ def enable_recaptcha_invalid_secret(monkeypatch, faker):
 
 
 @pytest.fixture(scope="function")
-def mock_requests_post(mocker):
-    return mocker.patch("requests.post", autospec=True)
+def mock_smtp(mocker):
+    mock_client = mocker.patch("emails.backend.SMTPBackend.sendmail", autospec=True)
+    mock_client.return_value.status_code = None
+
+    return mock_client
+
+
+@pytest.fixture(scope="function")
+def mock_smtp_success(mock_smtp):
+    mock_smtp.return_value.status_code = 250
+
+    return mock_smtp
+
+
+@pytest.fixture(scope="function")
+def mock_smtp_unavailable(mock_smtp):
+    mock_smtp.return_value.status_code = 421
+
+    return mock_smtp
 
 
 @pytest.fixture(scope="function")
@@ -75,41 +92,6 @@ def mock_recaptcha_verify_api(responses, faker):
 
 
 @pytest.fixture(scope="function")
-def mock_sendgrid_request(mocker):
-    return mocker.patch("python_http_client.Client._make_request")
-
-
-@pytest.fixture(scope="function")
-def mock_sendgrid_success(mocker, mock_sendgrid_request):
-    from http import HTTPStatus
-
-    ret_val = mocker.Mock()
-    ret_val.getcode.return_value = HTTPStatus.ACCEPTED
-    ret_val.read.return_value = ""
-    ret_val.info.return_value = ""
-
-    mock_sendgrid_request.return_value = ret_val
-
-    return mock_sendgrid_request
-
-
-@pytest.fixture(scope="function")
-def mock_sendgrid_unauthorized(mocker, mock_sendgrid_request):
-    from http import HTTPStatus
-    from python_http_client import exceptions as phce
-
-    ret_val = mocker.Mock()
-    ret_val.code = HTTPStatus.UNAUTHORIZED
-    ret_val.reason = ""
-    ret_val.hdrs = ""
-    ret_val.read.return_value = ""
-
-    mock_sendgrid_request.side_effect = phce.UnauthorizedError(ret_val)
-
-    return mock_sendgrid_request
-
-
-@pytest.fixture(scope="function")
 def params_success(faker):
     return {
         "email": faker.email(),
@@ -138,7 +120,7 @@ def test_get_api_info_success(app_client):
 # ------------------------------------------------------------------------------
 
 
-def test_send_mail_success(app_client, mock_sendgrid_success, params_success):
+def test_send_mail_success(app_client, mock_smtp_success, params_success):
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -152,28 +134,28 @@ def test_send_mail_success(app_client, mock_sendgrid_success, params_success):
     assert data["honeypot"] == params["honeypot"]
 
 
-def test_send_mail_unauthorized(app_client, mock_sendgrid_unauthorized, params_success):
+def test_send_mail_smtp_unavailable(app_client, mock_smtp_unavailable, params_success):
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
-def test_send_mail_none(app_client, mock_sendgrid_success):
+def test_send_mail_none(app_client, mock_smtp_success):
     params = {}
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_fields(app_client, mock_sendgrid_success):
+def test_send_mail_empty_fields(app_client, mock_smtp_success):
     params = {"email": "", "name": "", "subject": "", "message": "", "honeypot": ""}
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_email(app_client, mock_sendgrid_success, params_success):
+def test_send_mail_empty_email(app_client, mock_smtp_success, params_success):
     params = params_success
     params["email"] = ""
 
@@ -181,7 +163,7 @@ def test_send_mail_empty_email(app_client, mock_sendgrid_success, params_success
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_name(app_client, mock_sendgrid_success, params_success):
+def test_send_mail_empty_name(app_client, mock_smtp_success, params_success):
     params = params_success
     params["name"] = ""
 
@@ -189,7 +171,7 @@ def test_send_mail_empty_name(app_client, mock_sendgrid_success, params_success)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_subject(app_client, mock_sendgrid_success, params_success):
+def test_send_mail_empty_subject(app_client, mock_smtp_success, params_success):
     params = params_success
     params["subject"] = ""
 
@@ -197,7 +179,7 @@ def test_send_mail_empty_subject(app_client, mock_sendgrid_success, params_succe
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_message(app_client, mock_sendgrid_success, params_success):
+def test_send_mail_empty_message(app_client, mock_smtp_success, params_success):
     params = params_success
     params["message"] = ""
 
@@ -205,7 +187,7 @@ def test_send_mail_empty_message(app_client, mock_sendgrid_success, params_succe
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_bad_email(app_client, mock_sendgrid_success, params_success):
+def test_send_mail_bad_email(app_client, mock_smtp_success, params_success):
     params = params_success
     params["email"] = "joe@doe"
 
@@ -213,9 +195,7 @@ def test_send_mail_bad_email(app_client, mock_sendgrid_success, params_success):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_too_long_name(
-    app_client, mock_sendgrid_success, params_success, faker
-):
+def test_send_mail_too_long_name(app_client, mock_smtp_success, params_success, faker):
     params = params_success
     params["name"] = faker.text(max_nb_chars=100)
 
@@ -224,7 +204,7 @@ def test_send_mail_too_long_name(
 
 
 def test_send_mail_too_long_subject(
-    app_client, mock_sendgrid_success, params_success, faker
+    app_client, mock_smtp_success, params_success, faker
 ):
     params = params_success
     params["subject"] = faker.text(max_nb_chars=400)
@@ -234,7 +214,7 @@ def test_send_mail_too_long_subject(
 
 
 def test_send_mail_too_long_message(
-    app_client, mock_sendgrid_success, params_success, faker
+    app_client, mock_smtp_success, params_success, faker
 ):
     params = params_success
     params["message"] = faker.text(max_nb_chars=400)
@@ -244,7 +224,7 @@ def test_send_mail_too_long_message(
 
 
 def test_send_mail_non_empty_honeypot(
-    app_client, mock_sendgrid_success, params_success, faker
+    app_client, mock_smtp_success, params_success, faker
 ):
     params = params_success
     params["honeypot"] = faker.text()
@@ -254,7 +234,7 @@ def test_send_mail_non_empty_honeypot(
 
 
 def test_send_mail_matching_cors_origin(
-    enable_cors_origins, app_client, mock_sendgrid_success, params_success
+    enable_cors_origins, app_client, mock_smtp_success, params_success
 ):
     params = params_success
 
@@ -265,7 +245,7 @@ def test_send_mail_matching_cors_origin(
 
 
 def test_send_mail_unmatched_cors_origin(
-    enable_cors_origins, app_client, mock_sendgrid_success, params_success, faker
+    enable_cors_origins, app_client, mock_smtp_success, params_success, faker
 ):
     params = params_success
 
@@ -278,7 +258,7 @@ def test_send_mail_unmatched_cors_origin(
 def test_send_mail_recaptcha_success(
     enable_recaptcha,
     app_client,
-    mock_sendgrid_success,
+    mock_smtp_success,
     mock_recaptcha_verify_api,
     params_success,
 ):
@@ -292,7 +272,7 @@ def test_send_mail_recaptcha_success(
 def test_send_mail_recaptcha_invalid_secret(
     enable_recaptcha_invalid_secret,
     app_client,
-    mock_sendgrid_success,
+    mock_smtp_success,
     mock_recaptcha_verify_api,
     params_success,
 ):
@@ -306,7 +286,7 @@ def test_send_mail_recaptcha_invalid_secret(
 def test_send_mail_recaptcha_no_response(
     enable_recaptcha,
     app_client,
-    mock_sendgrid_success,
+    mock_smtp_success,
     mock_recaptcha_verify_api,
     params_success,
 ):
@@ -320,7 +300,7 @@ def test_send_mail_recaptcha_no_response(
 def test_send_mail_recaptcha_invalid_response(
     enable_recaptcha,
     app_client,
-    mock_sendgrid_success,
+    mock_smtp_success,
     mock_recaptcha_verify_api,
     params_success,
     faker,

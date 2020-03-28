@@ -38,7 +38,7 @@ Proudly made using the [FastAPI](https://fastapi.tiangolo.com) ASGI framework.
 - Spam-bot filtering with honeypot field
 - Google ReCaptcha v2 validation
 - Sentry crash reporting
-- Only Sendgrid back-end supported (for now)
+- Any SMTP-compatible back-end is supported!
 
 
 ## Building
@@ -70,8 +70,8 @@ pipenv run inv qa
         Origin:http://localhost:8000 \
         email="john@doe.com" \
         name="John Doe" \
-        subject="Test" \
-        message="Hello" \
+        subject="Test 💫" \
+        message="Hello 👋" \
         honeypot=""
     ```
 
@@ -89,9 +89,12 @@ The following environment variables are available:
 | `SENDER_EMAIL` | `""` | `no-reply@domain.me` | E-mail address to send e-mail from
 | `TO_EMAIL` | `""` | `contact@domain.me` | E-mail address of the recipient
 | `TO_NAME` | `""` | `My Name` | Name of the recipient
-| `MAILER_PROVIDER` | `""` | {`sendgrid`} | Mailer back-end provider
-| `SENDGRID_API_KEY` | `""` | `string` | Sendgrid secret API key
-| `SENDGRID_SANDBOX` | `false` | {`false`, `true`} | Enable Sendgrid sandbox for testing purposes (does not send e-mails)
+| `SMTP_HOST` | `""` | `smtp.host.com` | SMTP host URL
+| `SMTP_PORT` | `""` | `587` | SMTP host port
+| `SMTP_TLS` | `""` | `true` | SMTP host use TLS (mutually exclusive with SSL)
+| `SMTP_SSL` | `""` | `false` | SMTP host use SSL (mutually exclusive with TLS)
+| `SMTP_USER` | `""` | `smtp-user` | SMTP host user
+| `SMTP_PASSWORD` | `""` | `smtp-password` | SMTP host password (or API key)
 | `CORS_ORIGINS` | `'[]'` | `'["https://domain.me", "https://mydomain.me"]'` | (optional) List (JSON string) of authorized origins for CORS origins and Origin request header validation
 | `RECAPTCHA_SECRET_KEY` | `""` | `string` | (optional) Google ReCaptcha v2 secret key
 | `SENTRY_DSN` | `""` | `string` | (optional) Sentry crash reporting DSN
@@ -107,14 +110,18 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
 1. Deploy `mailer` as a Lambda:
 
     ```
-    now secrets add mailer-sendgrid-api-key xxxx
+    now secrets add mailer-smtp-password xxxx
     now secrets add mailer-recaptcha-secret-key zzzz
     now \
         -e SENDER_EMAIL="no-reply@domain.me" \
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \
-        -e MAILER_PROVIDER="sendgrid" \
-        -e SENDGRID_API_KEY=@mailer-sendgrid-api-key \
+        -e SMTP_HOST="smtp.host.com" \
+        -e SMTP_PORT="587" \
+        -e SMTP_TLS="true" \
+        -e SMTP_SSL="false" \
+        -e SMTP_USER="smtp-user" \
+        -e SMTP_PASSWORD=@mailer-smtp-password \
         -e CORS_ORIGINS='["https://domain.com"]' \
         -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
         -e SENTRY_DSN="azerty"

@@ -10,14 +10,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
 
 ### Added
+- SMTP mailing backend support (all `SMTP_*` configurations)
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
 - More tests
 - GitHub Action workflows support
 
 ### Removed
-- BREAKING: removed rate-limiting feature (and all `RATELIMIT_*` configurations)
+- BREAKING: removed rate-limiting feature (all `RATELIMIT_*` configurations)
+- BREAKING: removed mailer provider feature (`MAILER_PROVIDER` configuration)
+- BREAKING: removed sendgrid provider feature (all `SENDGRID_*` configurations)
 - Removed `RECAPTCHA_SITE_KEY` from configuration
-- Removed `SENTRY_ENABLED` from configuration
+- Remove `RECAPTCHA_ENABLED` from configuration (automatically enabled when `RECAPTCHA_SECRET_KEY` is set)
+- Removed `SENTRY_ENABLED` from configuration (automatically enabled when `SENTRY_DSN` is set)
 - Travis-CI support
 
 ## [0.7.1] - 2019-07-22
