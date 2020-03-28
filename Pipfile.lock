@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "46a3f3ec6e9fc2c1800cac625f9e607b37203cbb6c46dcd380a76f9368ab8559"
+            "sha256": "e630c03f355249d047a99f928a268bebfb7b205cab7d905d556cc902ce7244bf"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -78,9 +78,12 @@
             "version": "==1.0.5"
         },
         "emails": {
-            "editable": true,
-            "git": "https://github.com/lavr/python-emails.git",
-            "ref": "f776bafa4f70f45f0033357764450849f563bca0"
+            "hashes": [
+                "sha256:2d93bb09539d65a16cf1f68db4ffd0f7f45067633e950866e8a4ef89a7c290ec",
+                "sha256:fcc02567a528eae6b66d2a5c20ce7a0326e4f6b201bc8ae302f89413164db06a"
+            ],
+            "index": "pypi",
+            "version": "==0.5.15"
         },
         "fastapi": {
             "hashes": [

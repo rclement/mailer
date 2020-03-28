@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-emails = {git = "https://github.com/lavr/python-emails.git", editable = true, ref = "v0.6"}
+emails = "*"
 fastapi = "*"
 gunicorn = "*"
 honcho = "*"
