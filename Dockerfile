@@ -8,7 +8,7 @@ COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
 
 RUN set -ex \
-    && apk add --virtual .build-deps build-base gcc python-dev libffi-dev \
+    && apk add --virtual .build-deps build-base git libxml2-dev libxslt-dev \
     && pipenv install --deploy --system \
     && apk del .build-deps
 
