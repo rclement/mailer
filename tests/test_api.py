@@ -3,13 +3,14 @@ import pytest
 from http import HTTPStatus
 
 
+valid_origin = "https://domain.me"
 valid_recaptcha_secret = "valid-recaptcha-secret"
 valid_recaptcha_response = "valid-recaptcha-response"
 
 
 @pytest.fixture(scope="function")
 def enable_cors_origins(monkeypatch):
-    monkeypatch.setenv("CORS_ORIGINS", '["https://domain.me"]')
+    monkeypatch.setenv("CORS_ORIGINS", f'["{valid_origin}"]')
 
 
 @pytest.fixture(scope="function")
@@ -257,18 +258,18 @@ def test_send_mail_matching_cors_origin(
 ):
     params = params_success
 
-    headers = {"Origin": "https://domain.me"}
+    headers = {"Origin": valid_origin}
 
     response = app_client.post("/api/mail", json=params, headers=headers)
     assert response.status_code == HTTPStatus.OK
 
 
 def test_send_mail_unmatched_cors_origin(
-    enable_cors_origins, app_client, mock_sendgrid_success, params_success
+    enable_cors_origins, app_client, mock_sendgrid_success, params_success, faker
 ):
     params = params_success
 
-    headers = {"Origin": "https://unknown-domain.me"}
+    headers = {"Origin": faker.url()}
 
     response = app_client.post("/api/mail", json=params, headers=headers)
     assert response.status_code == HTTPStatus.UNAUTHORIZED
