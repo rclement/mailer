@@ -18,13 +18,44 @@ class ApiInfoSchema(BaseModel):
 
 
 class MailSchema(BaseModel):
-    email: EmailStr
-    name: str = Field(..., min_length=1, max_length=50)
-    subject: str = Field(..., min_length=1, max_length=100)
-    message: str = Field(..., min_length=1, max_length=200)
-    honeypot: str
+    email: EmailStr = Field(
+        ...,
+        title="E-mail",
+        description="E-mail address of the contact sending the message",
+    )
+    name: str = Field(
+        ...,
+        title="Name",
+        description="Name of the contact sending the message",
+        min_length=1,
+        max_length=50,
+    )
+    subject: str = Field(
+        ...,
+        title="Subject",
+        description="Subject of the message to be sent",
+        min_length=1,
+        max_length=100,
+    )
+    message: str = Field(
+        ...,
+        title="Message",
+        description="Content of the message to be sent",
+        min_length=1,
+        max_length=200,
+    )
+    honeypot: str = Field(
+        ...,
+        title="Honeypot",
+        description="Spam-bot filtering honeypot: if your are not a bot, just send an empty string!",
+        min_length=0,
+        max_length=0,
+    )
     g_recaptcha_response: Optional[str] = Field(
-        None, alias="g-recaptcha-response", title="Google ReCaptcha v2 Response"
+        None,
+        alias="g-recaptcha-response",
+        title="Google ReCaptcha Response",
+        description="Obtained response from Google ReCaptcha v2 widget (or invisible)",
     )
 
     @validator("honeypot")
