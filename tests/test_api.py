@@ -263,7 +263,7 @@ def test_send_mail_recaptcha_success(
     params_success,
 ):
     params = params_success
-    params["recaptcha"] = valid_recaptcha_response
+    params["g-recaptcha-response"] = valid_recaptcha_response
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.OK
@@ -277,7 +277,7 @@ def test_send_mail_recaptcha_invalid_secret(
     params_success,
 ):
     params = params_success
-    params["recaptcha"] = valid_recaptcha_response
+    params["g-recaptcha-response"] = valid_recaptcha_response
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNAUTHORIZED
@@ -291,7 +291,7 @@ def test_send_mail_recaptcha_no_response(
     params_success,
 ):
     params = params_success
-    params["recaptcha"] = ""
+    params["g-recaptcha-response"] = ""
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNAUTHORIZED
@@ -306,7 +306,7 @@ def test_send_mail_recaptcha_invalid_response(
     faker,
 ):
     params = params_success
-    params["recaptcha"] = faker.pystr()
+    params["g-recaptcha-response"] = faker.pystr()
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNAUTHORIZED

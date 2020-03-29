@@ -18,7 +18,7 @@ axios.post('https://mailer.domain.me/api/mail', {
   subject: 'Contact',
   message: 'Hey there! Up for a coffee?',
   honeypot: '',
-  recaptcha: 'azertyuiopqsdfghjklmwxcvbn'
+  'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn'
 })
 ```
 

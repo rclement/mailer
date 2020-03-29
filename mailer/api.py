@@ -23,7 +23,9 @@ class MailSchema(BaseModel):
     subject: str = Field(..., min_length=1, max_length=100)
     message: str = Field(..., min_length=1, max_length=200)
     honeypot: str
-    recaptcha: Optional[str]
+    g_recaptcha_response: Optional[str] = Field(
+        None, alias="g-recaptcha-response", title="Google ReCaptcha v2 Response"
+    )
 
     @validator("honeypot")
     def honeypot_empty(cls, v: str) -> str:
@@ -76,7 +78,7 @@ def post_mail(req: Request, mail: MailSchema) -> MailSchema:
 
     try:
         recaptcha.verify(
-            secret_key=settings.recaptcha_secret_key, response=mail.recaptcha
+            secret_key=settings.recaptcha_secret_key, response=mail.g_recaptcha_response
         )
 
         mailer.send_email(

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use Python 3.8.2
 - Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
+- Renamed API parameter `recaptcha` to `g-recaptcha-response` (default name from Google ReCaptcha)
 - Licensed under AGPLv3
 
 ### Added
