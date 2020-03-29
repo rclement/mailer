@@ -27,7 +27,7 @@
 
             <pre style="margin-top: 2rem;">
               <code>
-axios.post('{{ request.base_url }}{{ url_for('post_mail') }}', {
+axios.post('{{ url_for('post_mail') }}', {
   email: 'john@doe.com',
   name: 'John Doe',
   subject: 'Contact',
