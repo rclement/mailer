@@ -22,7 +22,7 @@ def static_check(ctx):
 
 @task
 def test(ctx):
-    ctx.run(f"py.test -v --cov={app_path} --cov-branch --cov-report=term-missing {tests_path}", pty=True)
+    ctx.run(f"py.test -v --cov={app_path} --cov={tests_path} --cov-branch --cov-report=term-missing {tests_path}", pty=True)
 
 
 @task(audit, lint, static_check, test)
