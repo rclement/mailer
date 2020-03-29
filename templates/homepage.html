@@ -24,6 +24,19 @@
 
             <a class="button is-link is-outlined" href="{{ url_for('swagger_ui_html') }}">Swagger</a>
             <a class="button is-link is-outlined" href="{{ url_for('redoc_html') }}">API Documentation</a>
+
+            <pre style="margin-top: 2rem;">
+              <code>
+axios.post('{{ request.base_url }}api/mail', {
+  email: 'john@doe.com',
+  name: 'John Doe',
+  subject: 'Contact',
+  message: 'Hey there! Up for a coffee?',
+  honeypot: '',
+  recaptcha: 'azertyuiopqsdfghjklmwxcvbn'
+})
+              </code>
+            </pre>
           </div>
         </div>
       </div>
