@@ -72,7 +72,12 @@ def check_origin(req: Request, origin: str = Header(None)) -> None:
             raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
 
 
-@router.get("/", response_model=ApiInfoSchema)
+@router.get(
+    "/",
+    summary="Information",
+    description="Obtain API information",
+    response_model=ApiInfoSchema,
+)
 def get_api_info(req: Request) -> Dict[str, str]:
     settings: Settings = req.app.settings
     data = {
@@ -86,6 +91,8 @@ def get_api_info(req: Request) -> Dict[str, str]:
 
 @router.post(
     "/mail",
+    summary="Send e-mail",
+    description="Send an e-mail from a contact",
     dependencies=[Depends(check_origin)],
     response_model=MailSchema,
     responses={

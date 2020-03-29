@@ -8,6 +8,8 @@ def test_get_api_info_success(app_client):
     assert response.status_code == HTTPStatus.OK
 
     data = response.text
+    assert __about__.__title__ in data
     assert __about__.__version__ in data
+    assert __about__.__description__ in data
     assert app_client.app.url_path_for("swagger_ui_html") in data
     assert app_client.app.url_path_for("redoc_html") in data

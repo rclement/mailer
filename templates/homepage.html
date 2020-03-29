@@ -15,11 +15,11 @@
         <div class="columns">
           <div class="column is-half is-offset-one-quarter">
             <p class="title">
-              Mailer <span class="has-text-weight-light is-size-6">({{ settings.app_version }})</span>
+              {{ settings.app_title }} <span class="has-text-weight-light is-size-6">({{ settings.app_version }})</span>
             </p>
 
             <p class="subtitle">
-              Dead-simple mailer micro-service for static websites
+              {{ settings.app_description }}
             </p>
 
             <a class="button is-link is-outlined" href="{{ url_for('swagger_ui_html') }}">Swagger</a>
@@ -27,7 +27,7 @@
 
             <pre style="margin-top: 2rem;">
               <code>
-axios.post('{{ request.base_url }}api/mail', {
+axios.post('{{ request.base_url }}{{ url_for('post_mail') }}', {
   email: 'john@doe.com',
   name: 'John Doe',
   subject: 'Contact',
