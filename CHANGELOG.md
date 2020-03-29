@@ -8,8 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use Python 3.8.2
 - Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
+- Licensed under AGPLv3
 
 ### Added
+- Simple homepage with documentation links
 - SMTP mailing backend support (all `SMTP_*` configurations)
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
 - More tests

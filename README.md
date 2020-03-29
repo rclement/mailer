@@ -153,6 +153,6 @@ Note: if using CloudFlare, refer to the [documentation](https://zeit.co/docs/v1/
 
 ## License
 
-The MIT License (MIT)
+Licensed under GNU Affero General Public License v3.0 (AGPLv3)
 
-Copyright (c) 2018 Romain Clement
+Copyright (c) 2018 - present  Romain Clement
