@@ -3,15 +3,15 @@ from fastapi import FastAPI
 
 def create_app() -> FastAPI:
     from fastapi.middleware.cors import CORSMiddleware
-    from . import __about__, api, sentry
+    from . import api, home, sentry
     from .settings import Settings
 
     settings = Settings()
 
     app = FastAPI(
-        title=__about__.__title__,
-        description=__about__.__description__,
-        version=__about__.__version__,
+        title=settings.app_title,
+        description=settings.app_description,
+        version=settings.app_version,
     )
     app.settings = settings
 
@@ -23,6 +23,7 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
+    app.include_router(home.router, prefix="", tags=["home"])
     app.include_router(api.router, prefix="/api", tags=["api"])
 
     sentry.init(app)

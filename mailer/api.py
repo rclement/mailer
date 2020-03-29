@@ -3,7 +3,7 @@ from http import HTTPStatus
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from pydantic import BaseModel, EmailStr, Field, validator
 
-from . import __about__, recaptcha
+from . import recaptcha
 from .mailer import Mailer
 from .settings import Settings
 
@@ -33,17 +33,18 @@ class MailSchema(BaseModel):
 
 
 def check_origin(req: Request, origin: str = Header(None)) -> None:
-    settings = req.app.settings
+    settings: Settings = req.app.settings
     if len(settings.cors_origins) > 0:
         if origin not in settings.cors_origins:
             raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
 
 
 @router.get("/", response_model=ApiInfoSchema)
-def get_api_info() -> Dict[str, str]:
+def get_api_info(req: Request) -> Dict[str, str]:
+    settings: Settings = req.app.settings
     data = {
-        "name": __about__.__title__,
-        "version": __about__.__version__,
+        "name": settings.app_title,
+        "version": settings.app_version,
         "api_version": "v1",
     }
 

@@ -8,6 +8,7 @@ emails = "*"
 fastapi = "*"
 gunicorn = "*"
 honcho = "*"
+jinja2 = "*"
 pydantic = {extras = ["email"],version = "*"}
 requests = "*"
 sentry-sdk = {extras = ["flask"],version = "*"}

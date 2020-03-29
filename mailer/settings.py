@@ -5,6 +5,8 @@ from . import __about__
 
 
 class Settings(BaseSettings):
+    app_title: str = __about__.__title__
+    app_description: str = __about__.__description__
     app_version: str = __about__.__version__
     app_environment: str = "production"
 
