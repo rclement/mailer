@@ -4,6 +4,7 @@
 .mypy_cache/
 .pytest_cache/
 .vscode/
+examples/
 tests/
 .coverage
 .dockerignore
@@ -14,7 +15,6 @@ tests/
 .pre-commit-config.yml
 CHANGELOG.md
 Dockerfile
-LICENSE
 mypy.ini
 Procfile
 README.md
