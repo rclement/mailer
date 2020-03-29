@@ -60,9 +60,7 @@ def mock_recaptcha_verify_api(responses, faker):
         response = params.get("response")
 
         errors = []
-        if not secret:
-            errors.append("missing-input-secret")
-        elif secret != [valid_recaptcha_secret]:
+        if secret and secret != [valid_recaptcha_secret]:
             errors.append("invalid-input-secret")
 
         if not response:
