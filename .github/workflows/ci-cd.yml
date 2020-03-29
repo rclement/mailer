@@ -33,7 +33,7 @@ jobs:
       - name: Run QA
         run: |
           pipenv run inv qa
-          coverage xml
+          pipenv run coverage xml
       - name: Publish code coverage to Codecov
         uses: codecov/codecov-action@v1
         with:
