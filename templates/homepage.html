@@ -22,7 +22,9 @@
               {{ settings.app_description }}
             </p>
 
+            {%- if request.app.docs_url %}
             <a class="button is-link is-outlined" href="{{ url_for('swagger_ui_html') }}">Swagger</a>
+            {%- endif %}
             <a class="button is-link is-outlined" href="{{ url_for('redoc_html') }}">API Documentation</a>
 
             <pre style="margin-top: 2rem;">
@@ -32,8 +34,10 @@ axios.post('{{ url_for('post_mail') }}', {
   name: 'John Doe',
   subject: 'Contact',
   message: 'Hey there! Up for a coffee?',
-  honeypot: '',
+  {%- if settings.recaptcha_secret_key %}
   'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn'
+  {%- endif %}
+  honeypot: '',
 })
               </code>
             </pre>

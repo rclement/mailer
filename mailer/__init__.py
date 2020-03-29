@@ -12,6 +12,7 @@ def create_app() -> FastAPI:
         title=settings.app_title,
         description=settings.app_description,
         version=settings.app_version,
+        docs_url=None if settings.app_environment == "production" else "/docs",
     )
     app.settings = settings
 
