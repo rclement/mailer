@@ -54,7 +54,7 @@ pipenv run inv qa
 
 1. Set environment variables:
     ```
-    cp .env.example .env
+    cp .example.env .env
     edit .env
     ```
 

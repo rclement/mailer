@@ -107,7 +107,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Update Python dependencies
-- Update .env.example
+- Update .example.env
 - Update default route rate-limiting rule to 10 per hour
 
 ## [0.1.0] - 2018-12-21

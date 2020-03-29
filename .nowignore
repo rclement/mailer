@@ -9,7 +9,7 @@ tests/
 .coverage
 .dockerignore
 .env
-.env.example
+.example.env
 .flake8
 .gitignore
 .pre-commit-config.yml
