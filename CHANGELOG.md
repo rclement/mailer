@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - SMTP mailing backend support (all `SMTP_*` configurations)
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
 - More tests
+- Simple examples (ajax, ajax with recaptcha)
 - GitHub Action workflows support
 
 ### Removed

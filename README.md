@@ -60,7 +60,7 @@ pipenv run inv qa
 
 2. Run dev server:
     ```
-    uvicorn mailer.app:app --host 0.0.0.0 --port 8000
+    pipenv run uvicorn mailer.app:app --host 0.0.0.0 --port 8000
     ```
 
 3. Try it:
@@ -76,6 +76,11 @@ pipenv run inv qa
     ```
 
 4. Open the Swagger OpenAPI documentation at `http://localhost:8000/docs`
+
+5. Run the examples:
+    ```
+    pipenv run python -m http.server 5000
+    ```
 
 
 ## Deploying
