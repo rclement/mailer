@@ -16,7 +16,6 @@ uvicorn = "*"
 
 [dev-packages]
 black = "==19.3b0"
-coveralls = "*"
 faker = "*"
 "flake8" = "*"
 invoke = "*"
