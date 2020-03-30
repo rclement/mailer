@@ -15,6 +15,7 @@ sentry-sdk = {extras = ["flask"],version = "*"}
 uvicorn = "*"
 
 [dev-packages]
+bandit = "*"
 black = "==19.3b0"
 faker = "*"
 "flake8" = "*"

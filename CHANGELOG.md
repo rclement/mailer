@@ -13,10 +13,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Licensed under AGPLv3
 
 ### Added
-- Simple homepage with documentation links
+- Simple homepage with documentation link
 - SMTP mailing backend support (all `SMTP_*` configurations)
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
-- More tests
+- Security checks using [bandit](https://bandit.readthedocs.io)
+- Exhaustive testing
 - Simple examples (ajax, ajax with recaptcha)
 - GitHub Action workflows support
 

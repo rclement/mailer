@@ -21,11 +21,16 @@ def static_check(ctx):
 
 
 @task
+def security_check(ctx):
+    ctx.run(f"bandit -v -r {app_path}", pty=True)
+
+
+@task
 def test(ctx):
     ctx.run(f"py.test -v --cov={app_path} --cov={tests_path} --cov-branch --cov-report=term-missing {tests_path}", pty=True)
 
 
-@task(audit, lint, static_check, test)
+@task(audit, lint, static_check, security_check, test)
 def qa(ctx):
     pass
 

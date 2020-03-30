@@ -27,3 +27,12 @@ repos:
         types: [python]
         require_serial: true
         pass_filenames: false
+
+      - id: security-check
+        name: security-check
+        description: "Security checker"
+        entry: pipenv run inv security-check
+        language: python
+        types: [python]
+        require_serial: true
+        pass_filenames: false
