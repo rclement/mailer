@@ -11,7 +11,7 @@ honcho = "*"
 jinja2 = "*"
 pydantic = {extras = ["email"],version = "*"}
 requests = "*"
-sentry-sdk = {extras = ["flask"],version = "*"}
+sentry-sdk = "*"
 uvicorn = "*"
 
 [dev-packages]
