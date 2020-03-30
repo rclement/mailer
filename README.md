@@ -18,21 +18,24 @@ fetch('https://mailer.domain.me/api/mail', {
       'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-  email: 'john@doe.com',
-  name: 'John Doe',
-  subject: 'Contact',
-  message: 'Hey there! Up for a coffee?',
-  honeypot: '',
-  'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn'
-})
+    email: 'john@doe.com',
+    name: 'John Doe',
+    subject: 'Contact',
+    message: 'Hey there! Up for a coffee?',
+    honeypot: '',
+    'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn'
+  })
 })
 ```
 
-Create a free [Sendgrid](https://sendgrid.com) account (allows up to 100 mails per day forever)
-and deploy with the [Zeit Now 2.0](https://zeit.co) serverless platform within minutes!
+All you need is to choose a mailing provider and a cloud provider!
+
+Most mailing providers offer a generous free-tier to get started ([Sendgrid](https://sendgrid.com), [Mailjet](https://mailjet.com), etc.) and allow usage via SMTP.
+
+Regarding cloud providers, you can start deploying with [Zeit Now 2.0](https://zeit.co) serverless platform within minutes!
+But any PaaS and/or Docker-compatible provider will do!
 
 Proudly made using the [FastAPI](https://fastapi.tiangolo.com) ASGI framework.
-
 
 ## Features
 
@@ -46,7 +49,6 @@ Proudly made using the [FastAPI](https://fastapi.tiangolo.com) ASGI framework.
 - Sentry crash reporting
 - Any SMTP-compatible back-end is supported!
 
-
 ## Building
 
 ```
@@ -54,7 +56,6 @@ pipenv install -d
 pipenv run pre-commit install --config .pre-commit-config.yml
 pipenv run inv qa
 ```
-
 
 ## Running locally
 
@@ -161,6 +162,15 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
 
 Note: if using CloudFlare, refer to the [documentation](https://zeit.co/docs/v1/guides/how-to-use-cloudflare).
 
+### Heroku
+
+1. Login to Heroku: `heroku login`
+
+2. Add the Git remote: `heroku git:remote -a <my-mailer-app>`
+
+3. Deploy: `git push heroku master:master`
+
+Or you can also use the containerized version!
 
 ## License
 
