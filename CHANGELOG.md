@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use Python 3.8.2
 - Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
 - Renamed API parameter `recaptcha` to `g-recaptcha-response` (default name from Google ReCaptcha)
+- Set maximum message length to 1000 characters
 - Disable Swagger UI in production
 - Licensed under AGPLv3
 

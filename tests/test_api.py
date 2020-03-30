@@ -95,7 +95,7 @@ def params_success(faker):
         "email": faker.email(),
         "name": faker.name(),
         "subject": faker.text(max_nb_chars=100),
-        "message": faker.text(max_nb_chars=200),
+        "message": faker.text(max_nb_chars=1000),
         "honeypot": "",
     }
 
@@ -205,7 +205,7 @@ def test_send_mail_too_long_subject(
     app_client, mock_smtp_success, params_success, faker
 ):
     params = params_success
-    params["subject"] = faker.text(max_nb_chars=400)
+    params["subject"] = faker.text(max_nb_chars=2000)
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
@@ -215,7 +215,7 @@ def test_send_mail_too_long_message(
     app_client, mock_smtp_success, params_success, faker
 ):
     params = params_success
-    params["message"] = faker.text(max_nb_chars=400)
+    params["message"] = faker.text(max_nb_chars=2000)
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY

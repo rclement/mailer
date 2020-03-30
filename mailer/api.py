@@ -42,7 +42,7 @@ class MailSchema(BaseModel):
         title="Message",
         description="Content of the message to be sent",
         min_length=1,
-        max_length=200,
+        max_length=1000,
     )
     honeypot: str = Field(
         ...,
