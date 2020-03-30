@@ -98,6 +98,16 @@
                   <button class="button is-link">Submit</button>
                 </div>
               </div>
+
+              <div class="notification is-success" :class="{'is-hidden': !success}">
+                <button class="delete" @click.prevent="clearSuccess"></button>
+                Message sent successfully!
+              </div>
+
+              <div class="notification is-danger" :class="{'is-hidden': !failure}">
+                <button class="delete" @click.prevent="clearFailure"></button>
+                Failed to send message!
+              </div>
             </form>
           </div>
         </div>
@@ -129,10 +139,20 @@
           name: 'John Doe',
           subject: 'New opportunity 🚀',
           message: 'Hi there 👋! How are you doing?',
-          honeypot: ''
+          honeypot: '',
+          success: false,
+          failure: false
         }
       },
       methods: {
+        clearSuccess: function() {
+          this.success = false
+        },
+
+        clearFailure: function() {
+          this.failure = false
+        },
+
         sendForm: async function() {
           const url = `${this.mailerUrl}/api/mail`
           const data = {
@@ -143,15 +163,20 @@
             honeypot: this.honeypot
           }
 
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-          })
+          try {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
 
-          return await response.json()
+            this.success = response.ok
+            this.failure = !response.ok
+          } catch(e) {
+            this.failure = true
+          }
         }
       }
     })
