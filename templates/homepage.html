@@ -29,15 +29,21 @@
 
             <pre style="margin-top: 2rem;">
               <code>
-axios.post('{{ url_for('post_mail') }}', {
-  email: 'john@doe.com',
-  name: 'John Doe',
-  subject: 'Contact',
-  message: 'Hey there! Up for a coffee?',
-  {%- if settings.recaptcha_secret_key %}
-  'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn'
-  {%- endif %}
-  honeypot: '',
+fetch('{{ url_for('post_mail') }}', {
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    email: 'john@doe.com',
+    name: 'John Doe',
+    subject: 'Contact',
+    message: 'Hey there! Up for a coffee?',
+    {%- if settings.recaptcha_secret_key %}
+    'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn',
+    {%- endif %}
+    honeypot: ''
+  })
 })
               </code>
             </pre>

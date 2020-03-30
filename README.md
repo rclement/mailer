@@ -12,13 +12,19 @@ When building static websites, everyone needs a contact form, but that requires 
 enabling one to send mails from a simple form using a single AJAX request:
 
 ```js
-axios.post('https://mailer.domain.me/api/mail', {
+fetch('https://mailer.domain.me/api/mail', {
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
   email: 'john@doe.com',
   name: 'John Doe',
   subject: 'Contact',
   message: 'Hey there! Up for a coffee?',
   honeypot: '',
   'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn'
+})
 })
 ```
 
