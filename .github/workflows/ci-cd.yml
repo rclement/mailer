@@ -83,27 +83,27 @@ jobs:
       - name: Register Zeit Now secrets
         run: |
           now secrets \
-            --token "${{ secrets.NOW_TOKEN }}" \
-            add mailer-smtp-password "${{ secrets.MAILER_SMTP_PASSWORD }}" || true
+            --token '${{ secrets.NOW_TOKEN }}' \
+            add mailer-smtp-password '${{ secrets.MAILER_SMTP_PASSWORD }}' || true
           now secrets \
-            --token "${{ secrets.NOW_TOKEN }}" \
-            add mailer-recaptcha-secret-key "${{ secrets.MAILER_RECAPTCHA_SECRET_KEY }}" || true
+            --token '${{ secrets.NOW_TOKEN }}' \
+            add mailer-recaptcha-secret-key '${{ secrets.MAILER_RECAPTCHA_SECRET_KEY }}' || true
       - name: Deploy to Zeit Now
         run: |
           now deploy \
             --confirm \
-            --token "${{ secrets.NOW_TOKEN }}" \
+            --token '${{ secrets.NOW_TOKEN }}' \
             $NOW_ENV_ARG \
-            -e SENDER_EMAIL="${{ secrets.MAILER_SENDER_EMAIL }}" \
-            -e TO_EMAIL="${{ secrets.MAILER_TO_EMAIL }}" \
-            -e TO_NAME="${{ secrets.MAILER_TO_NAME }}" \
-            -e SMTP_HOST="${{ secrets.MAILER_SMTP_HOST }}" \
-            -e SMTP_PORT="${{ secrets.MAILER_SMTP_PORT }}" \
-            -e SMTP_TLS="${{ secrets.MAILER_SMTP_TLS }}" \
-            -e SMTP_SSL="${{ secrets.MAILER_SMTP_SSL }}" \
-            -e SMTP_USER="${{ secrets.MAILER_SMTP_USER }}" \
+            -e SENDER_EMAIL='${{ secrets.MAILER_SENDER_EMAIL }}' \
+            -e TO_EMAIL='${{ secrets.MAILER_TO_EMAIL }}' \
+            -e TO_NAME='${{ secrets.MAILER_TO_NAME }}' \
+            -e SMTP_HOST='${{ secrets.MAILER_SMTP_HOST }}' \
+            -e SMTP_PORT='${{ secrets.MAILER_SMTP_PORT }}' \
+            -e SMTP_TLS='${{ secrets.MAILER_SMTP_TLS }}' \
+            -e SMTP_SSL='${{ secrets.MAILER_SMTP_SSL }}' \
+            -e SMTP_USER='${{ secrets.MAILER_SMTP_USER }}' \
             -e SMTP_PASSWORD=@mailer-smtp-password \
-            -e CORS_ORIGINS=${{ secrets.MAILER_CORS_ORIGINS }} \
+            -e CORS_ORIGINS='${{ secrets.MAILER_CORS_ORIGINS }}' \
             -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
-            -e PGP_PUBLIC_KEY="${{ secrets.MAILER_PGP_PUBLIC_KEY }}" \
-            -e SENTRY_DSN="${{ secrets.MAILER_SENTRY_DSN }}"
+            -e PGP_PUBLIC_KEY='${{ secrets.MAILER_PGP_PUBLIC_KEY }}' \
+            -e SENTRY_DSN='${{ secrets.MAILER_SENTRY_DSN }}'

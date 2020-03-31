@@ -1,5 +1,6 @@
 import pytest
 
+from base64 import urlsafe_b64encode
 from http import HTTPStatus
 
 from . import utils
@@ -123,7 +124,9 @@ def mock_recaptcha_verify_api(responses, faker):
 @pytest.fixture(scope="function")
 def enable_pgp_public_key(monkeypatch, faker):
     pgp_key = utils.generate_pgp_key_pair(faker.name(), faker.email())
-    monkeypatch.setenv("PGP_PUBLIC_KEY", str(pgp_key.pubkey))
+    pub_key = urlsafe_b64encode(str(pgp_key.pubkey).encode("utf-8")).decode("utf-8")
+    monkeypatch.setenv("PGP_PUBLIC_KEY", pub_key)
+
     return pgp_key
 
 
@@ -469,8 +472,6 @@ def test_send_pgp_mail_with_attached_public_key_private(
 def test_send_pgp_mail_with_attached_public_key_invalid(
     enable_pgp_public_key, app_client, mock_smtp, params_success, faker
 ):
-    from base64 import urlsafe_b64encode
-
     pgp_key = urlsafe_b64encode(faker.binary()).decode("utf-8")
 
     params = params_success

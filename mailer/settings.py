@@ -32,11 +32,13 @@ class Settings(BaseSettings):
 
     @validator("pgp_public_key", pre=True)
     def validate_pgp_public_key(cls, v: Optional[str]) -> Optional[PGPKey]:
+        from base64 import urlsafe_b64decode
         from pgpy.errors import PGPError
 
         if v:
             try:
-                key, _ = PGPKey.from_blob(v.encode("utf-8"))
+                public_key_str = urlsafe_b64decode(v)
+                key, _ = PGPKey.from_blob(public_key_str)
             except (ValueError, PGPError):
                 raise ValueError("Invalid PGP public key: cannot load the key")
 

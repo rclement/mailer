@@ -111,7 +111,7 @@ The following environment variables are available:
 | `SMTP_PASSWORD` | `""` | `smtp-password` | SMTP host password (or API key)
 | `CORS_ORIGINS` | `'[]'` | `'["https://domain.me", "https://mydomain.me"]'` | (optional) List (JSON string) of authorized origins for CORS origins and Origin request header validation
 | `RECAPTCHA_SECRET_KEY` | `""` | `string` | (optional) Google ReCaptcha v2 secret key
-| `PGP_PUBLIC_KEY` | `""` | `string` | (optional) PGP public key to encrypt e-mails with before sending to SMTP backend
+| `PGP_PUBLIC_KEY` | `""` | `cat <pub.asc> | base64` | (optional) Base64-encoded PGP public key to encrypt e-mails with before sending to SMTP backend
 | `SENTRY_DSN` | `""` | `string` | (optional) Sentry crash reporting DSN
 
 ### Docker Hub deployment
@@ -139,7 +139,7 @@ pipenv run inv docker-deploy -u <username> -p <password> -r <repository> -t <tag
         -e SMTP_PASSWORD=@mailer-smtp-password \
         -e CORS_ORIGINS='["https://domain.com"]' \
         -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
-        -e PGP_PUBLIC_KEY="-----BEGIN PGP PUBLIC KEY BLOCK-----\n...\n-----END PGP PUBLIC KEY BLOCK-----\n" \
+        -e PGP_PUBLIC_KEY='LS0...==' \
         -e SENTRY_DSN="azerty"
     ```
 
