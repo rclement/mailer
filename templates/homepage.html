@@ -41,6 +41,9 @@ fetch('{{ url_for('post_mail') }}', {
     message: 'Hey there! Up for a coffee?',
     {%- if settings.recaptcha_secret_key %}
     'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn',
+    {%- endif %},
+    {%- if settings.pgp_public_key %}
+    public_key: '-----BEGIN PGP PUBLIC KEY BLOCK-----\n...\n-----END PGP PUBLIC KEY BLOCK-----\n',
     {%- endif %}
     honeypot: ''
   })
