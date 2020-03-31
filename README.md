@@ -47,7 +47,8 @@ Proudly made using the [FastAPI](https://fastapi.tiangolo.com) ASGI framework.
 - Spam-bot filtering with honeypot field
 - Google ReCaptcha v2 validation
 - Sentry crash reporting
-- Any SMTP-compatible back-end is supported!
+- Any SMTP-compatible back-end is supported
+- PGP encryption support using PGP/MIME
 
 ## Building
 

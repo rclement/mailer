@@ -17,6 +17,7 @@ os.environ["SMTP_USER"] = "user"
 os.environ["SMTP_PASSWORD"] = "password"
 os.environ["CORS_ORIGINS"] = "[]"
 os.environ["RECAPTCHA_SECRET_KEY"] = ""
+os.environ["PGP_PUBLIC_KEY"] = ""
 os.environ["SENTRY_DSN"] = ""
 
 

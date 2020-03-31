@@ -19,3 +19,4 @@ Be sure to configure and run an instance of `mailer` before using them!
 
 - [Simple AJAX form](simple-ajax.html)
 - [Simple AJAX form with Google ReCaptcha](simple-ajax-recaptcha.html)
+- [Simple AJAX form with PGP encryption](simple-ajax-pgp.html)

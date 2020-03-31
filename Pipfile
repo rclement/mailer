@@ -4,11 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-emails = "*"
 fastapi = "*"
 gunicorn = "*"
 honcho = "*"
 jinja2 = "*"
+pgpy = "*"
 pydantic = {extras = ["email"],version = "*"}
 requests = "*"
 sentry-sdk = "*"

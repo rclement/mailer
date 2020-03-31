@@ -57,11 +57,32 @@ class MailSchema(BaseModel):
         title="Google ReCaptcha Response",
         description="Obtained response from Google ReCaptcha v2 widget (or invisible)",
     )
+    public_key: Optional[str] = Field(
+        None,
+        title="PGP public key",
+        description="ASCII-armored PGP public of the contact sending the message, to be attached within the e-mail",
+    )
 
     @validator("honeypot")
     def honeypot_empty(cls, v: str) -> str:
         if v != "":
             raise ValueError("Honeypot is not empty")
+        return v
+
+    @validator("public_key")
+    def validate_public_key(cls, v: Optional[str]) -> Optional[str]:
+        from pgpy import PGPKey
+        from pgpy.errors import PGPError
+
+        if v:
+            try:
+                key, _ = PGPKey.from_blob(v.encode("utf-8"))
+            except (ValueError, PGPError):
+                raise ValueError("Invalid PGP public key: cannot load the key")
+
+            if not key.is_public:
+                raise ValueError("Invalid PGP public key: key is private")
+
         return v
 
 
@@ -112,6 +133,7 @@ def post_mail(req: Request, mail: MailSchema) -> MailSchema:
         settings.smtp_ssl,
         settings.smtp_user,
         settings.smtp_password,
+        settings.pgp_public_key,
     )
 
     try:
@@ -124,6 +146,7 @@ def post_mail(req: Request, mail: MailSchema) -> MailSchema:
             from_name=mail.name,
             subject=mail.subject,
             message=mail.message,
+            public_key=mail.public_key,
         )
     except RuntimeError:
         raise HTTPException(HTTPStatus.UNAUTHORIZED)

@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Simple homepage with documentation link
 - SMTP mailing backend support (all `SMTP_*` configurations)
+- PGP encryption support using PGP/MIME (with optional contact PGP public key attachment)
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
 - Security checks using [bandit](https://bandit.readthedocs.io)
 - Exhaustive testing
