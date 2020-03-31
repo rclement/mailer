@@ -17,7 +17,7 @@ templates = Jinja2Templates(directory="templates")
     include_in_schema=False,
 )
 def get_homepage(req: Request) -> HTMLResponse:
-    settings: Settings = req.app.settings
+    settings: Settings = req.app.state.settings
     return templates.TemplateResponse(
         "homepage.html", dict(request=req, settings=settings)
     )

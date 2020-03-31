@@ -87,7 +87,7 @@ class MailSchema(BaseModel):
 
 
 def check_origin(req: Request, origin: str = Header(None)) -> None:
-    settings: Settings = req.app.settings
+    settings: Settings = req.app.state.settings
     if len(settings.cors_origins) > 0:
         if origin not in settings.cors_origins:
             raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
@@ -100,7 +100,7 @@ def check_origin(req: Request, origin: str = Header(None)) -> None:
     response_model=ApiInfoSchema,
 )
 def get_api_info(req: Request) -> Dict[str, str]:
-    settings: Settings = req.app.settings
+    settings: Settings = req.app.state.settings
     data = {
         "name": settings.app_title,
         "version": settings.app_version,
@@ -121,7 +121,7 @@ def get_api_info(req: Request) -> Dict[str, str]:
     },
 )
 def post_mail(req: Request, mail: MailSchema) -> MailSchema:
-    settings: Settings = req.app.settings
+    settings: Settings = req.app.state.settings
 
     mailer = Mailer(
         settings.sender_email,

@@ -14,7 +14,7 @@ def create_app() -> FastAPI:
         version=settings.app_version,
         docs_url=None if settings.app_environment == "production" else "/docs",
     )
-    app.settings = settings
+    app.state.settings = settings
 
     app.add_middleware(
         CORSMiddleware,

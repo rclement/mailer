@@ -7,7 +7,7 @@ from .settings import Settings
 
 
 def init(app: FastAPI) -> None:
-    settings: Settings = app.settings
+    settings: Settings = app.state.settings
     sentry_sdk.init(
         dsn=settings.sentry_dsn,
         environment=settings.app_environment,
