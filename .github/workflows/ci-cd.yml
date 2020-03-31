@@ -105,5 +105,5 @@ jobs:
             -e SMTP_PASSWORD=@mailer-smtp-password \
             -e CORS_ORIGINS=${{ secrets.MAILER_CORS_ORIGINS }} \
             -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
-            -e PGP_PUBLIC_KEY=${{ secrets.MAILER_PGP_PUBLIC_KEY }} \
+            -e PGP_PUBLIC_KEY="${{ secrets.MAILER_PGP_PUBLIC_KEY }}" \
             -e SENTRY_DSN="${{ secrets.MAILER_SENTRY_DSN }}"
