@@ -25,8 +25,12 @@
             </p>
 
             <form @submit.prevent="sendForm">
-              <div class="field">
-                <label class="label">Mailer URL</label>
+              <div class="field has-addons">
+                <p class="control">
+                  <a class="button is-static">
+                    Mailer URL
+                  </a>
+                </p>
                 <div class="control">
                   <input
                     v-model="mailerUrl"
@@ -95,7 +99,7 @@
 
               <div class="field is-grouped is-grouped-right">
                 <div class="control">
-                  <button class="button is-link">Submit</button>
+                  <button class="button is-link">Send</button>
                 </div>
               </div>
 

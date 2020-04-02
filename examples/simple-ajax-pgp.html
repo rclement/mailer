@@ -22,13 +22,20 @@
             <p class="subtitle">
               Demonstrate how to use <code>mailer</code> using a simple form and an AJAX request,
               using <a href="vuejs.org">Vue.js</a>.
+              <br/>
+              If enabled, PGP encryption of the e-mail will be performed server-side automatically.
+              <br/>
               An optional PGP public key can be attached with the PGP-encrypted e-mail: this way
               the receiver can also respond with an end-to-end encrypted message!
             </p>
 
             <form @submit.prevent="sendForm">
-              <div class="field">
-                <label class="label">Mailer URL</label>
+              <div class="field has-addons">
+                <p class="control">
+                  <a class="button is-static">
+                    Mailer URL
+                  </a>
+                </p>
                 <div class="control">
                   <input
                     v-model="mailerUrl"
@@ -40,9 +47,6 @@
               </div>
 
               <div class="field">
-                <label class="label">
-                  Sender PGP Public Key (optional)
-                </label>
                 <div class="file">
                   <label class="file-label">
                     <input
@@ -52,7 +56,7 @@
                     >
                     <span class="file-cta">
                       <span class="file-label">
-                        Choose a PGP public key file
+                        Sender PGP Public Key (optional)
                       </span>
                     </span>
                   </label>
@@ -126,7 +130,7 @@
 
               <div class="field is-grouped is-grouped-right">
                 <div class="control">
-                  <button class="button is-link">Submit</button>
+                  <button class="button is-link">Send</button>
                 </div>
               </div>
 
