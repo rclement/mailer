@@ -22,6 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exhaustive testing
 - Simple examples (ajax, ajax with recaptcha)
 - GitHub Action workflows support
+- Security notice in `SECURITY.md`
 
 ### Removed
 - BREAKING: removed rate-limiting feature (all `RATELIMIT_*` configurations)
