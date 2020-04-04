@@ -32,6 +32,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed `SENTRY_ENABLED` from configuration (automatically enabled when `SENTRY_DSN` is set)
 - Travis-CI support
 
+### Fixed
+- Use non-root user in `Dockerfile`
+
 ## [0.7.1] - 2019-07-22
 ### Changed
 - Update Python dependencies
