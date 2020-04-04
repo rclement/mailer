@@ -4,6 +4,7 @@
 .mypy_cache/
 .pytest_cache/
 .vscode/
+docs/
 examples/
 tests/
 .coverage
