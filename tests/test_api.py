@@ -181,8 +181,16 @@ def test_send_mail_success(app_client, mock_smtp, params_success):
     assert mock_smtp.return_value.quit.call_count == 1
 
     sent_msg = mock_smtp.return_value.send_message.call_args.args[0].as_string()
+    app_settings = app_client.app.state.settings
     utils.assert_plain_email(
-        sent_msg, params["email"], params["name"], params["subject"], params["message"]
+        sent_msg,
+        params["email"],
+        params["name"],
+        params["subject"],
+        params["message"],
+        app_settings.sender_email,
+        app_settings.to_email,
+        app_settings.to_name,
     )
 
 
@@ -403,12 +411,16 @@ def test_send_pgp_mail_success(
 
     message = mock_smtp.return_value.send_message.call_args.args[0]
     sent_msg = message.as_string()
+    app_settings = app_client.app.state.settings
     embedded_pub_key = utils.assert_pgp_email(
         sent_msg,
         params["email"],
         params["name"],
         params["subject"],
         params["message"],
+        app_settings.sender_email,
+        app_settings.to_email,
+        app_settings.to_name,
         enable_pgp_public_key,
         None,
     )
@@ -440,12 +452,16 @@ def test_send_pgp_mail_with_attached_public_key_success(
 
     message = mock_smtp.return_value.send_message.call_args.args[0]
     sent_msg = message.as_string()
+    app_settings = app_client.app.state.settings
     embedded_pub_key = utils.assert_pgp_email(
         sent_msg,
         params["email"],
         params["name"],
         params["subject"],
         params["message"],
+        app_settings.sender_email,
+        app_settings.to_email,
+        app_settings.to_name,
         enable_pgp_public_key,
         sender_key.pubkey,
     )

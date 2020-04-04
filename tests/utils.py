@@ -59,12 +59,19 @@ def decrypt_pgp_message(private_key: str, encrypted_message: str) -> str:
     return str(plain_message.message)
 
 
+def formatted_subject(subject):
+    return subject.replace(" ", "_").replace(".", "=2E")
+
+
 def assert_pgp_email(
     email_str: str,
     email: str,
     name: str,
     subject: str,
     message: str,
+    sender_email: str,
+    to_email: str,
+    to_name: str,
     private_key: pgpy.PGPKey,
     sender_public_key: Optional[pgpy.PGPKey],
 ) -> Optional[str]:
@@ -79,10 +86,12 @@ def assert_pgp_email(
     assert mail_headers["MIME-Version"] == "1.0"
     assert mail_headers["Date"]
     assert name in mail_headers["From"]
-    assert mail_headers["To"]
+    assert sender_email in mail_headers["From"]
+    assert to_email in mail_headers["To"]
+    assert to_name in mail_headers["To"]
     assert name in mail_headers["Reply-To"]
     assert email in mail_headers["Reply-To"]
-    assert mail_headers["Subject"]
+    assert formatted_subject(subject) in mail_headers["Subject"]
 
     pgp_mime = mail._payload[0]
     pgp_mime_headers = {h[0]: h[1] for h in pgp_mime._headers}
@@ -140,7 +149,14 @@ def assert_pgp_email(
 
 
 def assert_plain_email(
-    email_str: str, email: str, name: str, subject: str, message: str
+    email_str: str,
+    email: str,
+    name: str,
+    subject: str,
+    message: str,
+    sender_email: str,
+    to_email: str,
+    to_name: str,
 ) -> None:
     p = parser.Parser()
     mail = p.parsestr(email_str)
@@ -150,10 +166,12 @@ def assert_plain_email(
     assert mail_headers["MIME-Version"] == "1.0"
     assert mail_headers["Date"]
     assert name in mail_headers["From"]
-    assert mail_headers["To"]
+    assert sender_email in mail_headers["From"]
+    assert to_email in mail_headers["To"]
+    assert to_name in mail_headers["To"]
     assert name in mail_headers["Reply-To"]
     assert email in mail_headers["Reply-To"]
-    assert subject.replace(" ", "_").replace(".", "=2E") in mail_headers["Subject"]
+    assert formatted_subject(subject) in mail_headers["Subject"]
     assert mail.preamble == "This is a multi-part message in MIME format.\n"
 
     body = mail._payload[0]
