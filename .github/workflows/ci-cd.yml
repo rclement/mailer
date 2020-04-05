@@ -47,7 +47,7 @@ jobs:
 
     env:
       IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/mailer
-      IMAGE_TAG: ${{ github.sha }}
+      IMAGE_TAG: latest
 
     steps:
       - uses: actions/checkout@v2
@@ -57,12 +57,11 @@ jobs:
       - name: Build Docker image (${{ env.IMAGE_TAG }})
         run: |
           docker pull $IMAGE_NAME:latest
-          docker build -t $IMAGE_NAME:latest -t $IMAGE_NAME:$IMAGE_TAG .
+          docker build -t $IMAGE_NAME:$IMAGE_TAG .
       - name: Log into Docker Registry
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
       - name: Push Docker image
         run: |
-          docker push $IMAGE_NAME:latest
           docker push $IMAGE_NAME:$IMAGE_TAG
 
   deploy-now:
