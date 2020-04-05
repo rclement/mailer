@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Select Docker image tag (production)
-        if: ${{ env.IS_PRODUCTION }}
+        if: env.IS_PRODUCTION
         run: echo "::set-env IMAGE_TAG=${GITHUB_REF##*/}"
       - name: Build Docker image (${{ env.IMAGE_TAG }})
         run: |
@@ -77,7 +77,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Select production environment
-        if: ${{ env.IS_PRODUCTION }}
+        if: env.IS_PRODUCTION
         run: echo "::set-env NOW_ENV_ARG=--prod"
       - name: Register Zeit Now secrets
         run: |
