@@ -64,7 +64,7 @@ class Mailer:
         self, from_email: str, from_name: str, subject: str, message: str
     ) -> None:
         msg = MIMEMultipart("mixed")
-        msg["Date"] = formatdate(localtime=True)
+        msg["Date"] = formatdate()
         msg["From"] = formataddr((from_name, self.sender_email))
         msg["To"] = formataddr((self.to_name, self.to_email))
         msg["Reply-To"] = formataddr((from_name, from_email))
@@ -123,7 +123,7 @@ class Mailer:
             charset="UTF-8",
         )
 
-        pgp_msg["Date"] = formatdate(localtime=True)
+        pgp_msg["Date"] = formatdate()
         pgp_msg["From"] = formataddr((from_name, self.sender_email))
         pgp_msg["To"] = formataddr((self.to_name, self.to_email))
         pgp_msg["Reply-To"] = formataddr((from_name, from_email))
