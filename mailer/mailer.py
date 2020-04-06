@@ -156,15 +156,28 @@ class Mailer:
 
         return self._send_smtp(pgp_msg)
 
+    def _get_smtp_handler(self) -> smtplib.SMTP:
+        host = self.smtp_config["host"]
+        port = self.smtp_config["port"]
+        ssl = self.smtp_config["ssl"]
+
+        if ssl:
+            return smtplib.SMTP_SSL(host=host, port=port)
+
+        return smtplib.SMTP(host=host, port=port)
+
     def _send_smtp(self, message: Message) -> None:
         try:
-            s = smtplib.SMTP(
-                host=self.smtp_config["host"], port=self.smtp_config["port"]
-            )
+            s = self._get_smtp_handler()
+
+            if self.smtp_config["tls"]:
+                s.starttls()
+                s.ehlo()
+
             s.login(
                 user=self.smtp_config["user"], password=self.smtp_config["password"]
             )
             s.send_message(message)
             s.quit()
-        except smtplib.SMTPResponseException:
+        except smtplib.SMTPException:
             raise RuntimeError

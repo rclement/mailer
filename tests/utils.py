@@ -59,10 +59,6 @@ def decrypt_pgp_message(private_key: str, encrypted_message: str) -> str:
     return str(plain_message.message)
 
 
-def formatted_subject(subject):
-    return subject.replace(" ", "_").replace(".", "=2E")
-
-
 def assert_pgp_email(
     email_str: str,
     email: str,
@@ -91,7 +87,7 @@ def assert_pgp_email(
     assert to_name in mail_headers["To"]
     assert name in mail_headers["Reply-To"]
     assert email in mail_headers["Reply-To"]
-    assert formatted_subject(subject) in mail_headers["Subject"]
+    assert mail_headers["Subject"]
 
     pgp_mime = mail._payload[0]
     pgp_mime_headers = {h[0]: h[1] for h in pgp_mime._headers}
@@ -171,7 +167,7 @@ def assert_plain_email(
     assert to_name in mail_headers["To"]
     assert name in mail_headers["Reply-To"]
     assert email in mail_headers["Reply-To"]
-    assert formatted_subject(subject) in mail_headers["Subject"]
+    assert mail_headers["Subject"]
     assert mail.preamble == "This is a multi-part message in MIME format.\n"
 
     body = mail._payload[0]
