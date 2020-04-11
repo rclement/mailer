@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.8.0] - 2020-04-11
 ### Changed
 - Use Python 3.8.2
 - Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
@@ -21,21 +23,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
 - Security checks using [bandit](https://bandit.readthedocs.io)
 - Exhaustive testing
-- Simple examples (ajax, ajax with recaptcha)
+- Simple examples (ajax, ajax with recaptcha, ajax with pgp)
 - GitHub Action workflows support
 - Security notice in `SECURITY.md`
 
 ### Removed
-- BREAKING: removed rate-limiting feature (all `RATELIMIT_*` configurations)
-- BREAKING: removed mailer provider feature (`MAILER_PROVIDER` configuration)
-- BREAKING: removed sendgrid provider feature (all `SENDGRID_*` configurations)
+- **BREAKING**: removed rate-limiting feature (all `RATELIMIT_*` configurations)
+- **BREAKING**: removed mailer provider feature (`MAILER_PROVIDER` configuration)
+- **BREAKING**: removed sendgrid provider feature (all `SENDGRID_*` configurations)
 - Removed `RECAPTCHA_SITE_KEY` from configuration
-- Remove `RECAPTCHA_ENABLED` from configuration (automatically enabled when `RECAPTCHA_SECRET_KEY` is set)
+- Removed `RECAPTCHA_ENABLED` from configuration (automatically enabled when `RECAPTCHA_SECRET_KEY` is set)
 - Removed `SENTRY_ENABLED` from configuration (automatically enabled when `SENTRY_DSN` is set)
 - Travis-CI support
 
 ### Fixed
 - Use non-root user in `Dockerfile`
+- Use allowlist mode for `.nowignore`
 
 ## [0.7.1] - 2019-07-22
 ### Changed
@@ -123,7 +126,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.7.1...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.8.0...HEAD
+[0.8.0]: https://github.com/rclement/mailer/compare/0.7.1...0.8.0
 [0.7.1]: https://github.com/rclement/mailer/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/rclement/mailer/compare/0.6.2...0.7.0
 [0.6.2]: https://github.com/rclement/mailer/compare/0.6.1...0.6.2
@@ -133,3 +137,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.4.0]: https://github.com/rclement/mailer/compare/0.3.0...0.4.0
 [0.3.0]: https://github.com/rclement/mailer/compare/0.2.0...0.3.0
 [0.2.0]: https://github.com/rclement/mailer/compare/0.1.0...0.2.0
+[0.1.0]: https://github.com/rclement/mailer/releases/tag/0.1.0
