@@ -1,5 +1,3 @@
-import os
-
 from invoke import task
 
 
@@ -8,128 +6,78 @@ tests_path = "tests"
 
 
 @task
-def test(ctx):
-    cmd = f"py.test -v --cov={app_path} --cov-report term-missing tests"
-    ctx.run(cmd, pty=True)
-
-
-@task
-def safety(ctx):
-    cmd = "safety check"
-    ctx.run(cmd)
+def audit(ctx):
+    ctx.run("safety check", pty=True)
 
 
 @task
 def lint(ctx):
-    cmd = f"flake8 {app_path} {tests_path}"
-    ctx.run(cmd)
+    ctx.run(f"flake8 {app_path} {tests_path}", pty=True)
 
 
 @task
-def reformat(ctx):
-    cmd = f"black {app_path} {tests_path}"
-    ctx.run(cmd)
+def static_check(ctx):
+    ctx.run(f"mypy --strict {app_path}", pty=True)
 
 
-@task(test, safety, lint)
+@task
+def security_check(ctx):
+    ctx.run(f"bandit -v -r {app_path}", pty=True)
+
+
+@task
+def test(ctx):
+    ctx.run(
+        f"py.test -v --cov={app_path} --cov={tests_path} --cov-branch --cov-report=term-missing {tests_path}",
+        pty=True,
+    )
+
+
+@task(audit, lint, static_check, security_check, test)
 def qa(ctx):
     pass
 
 
 @task
-def docker_deploy(ctx, username=None, password=None, repository=None, tag="latest"):
-    if username and password and repository and tag:
-        cmd = f"echo {password} | docker login -u {username} --password-stdin"
-        ctx.run(cmd)
-
-        cmd = f"docker pull {username}/{repository}:latest"
-        ctx.run(cmd)
-
-        cmd = f"docker build -t {username}/{repository}:{tag} ."
-        ctx.run(cmd)
-
-        cmd = f"docker push {username}/{repository}:{tag}"
-        ctx.run(cmd)
+def reformat(ctx):
+    ctx.run(f"black {app_path} {tests_path}", pty=True)
 
 
 @task
-def now_deploy(ctx, now_token=None, now_project=None, now_target=None, now_alias=None):
-    now_token = now_token or os.environ.get("NOW_TOKEN", None)
-    now_project = now_project or os.environ.get("NOW_PROJECT", None)
-    now_target = now_target or os.environ.get("NOW_TARGET", "staging")
-    now_alias = now_alias or os.environ.get("NOW_ALIAS", None)
+def generate_pgp_key_pair(ctx, name, email, filename):
+    from tests import utils
 
-    sender_email = os.environ.get("MAILER_SENDER_EMAIL", None)
-    to_email = os.environ.get("MAILER_TO_EMAIL", None)
-    to_name = os.environ.get("MAILER_TO_NAME", None)
-    mailer_provider = os.environ.get("MAILER_MAILER_PROVIDER", None)
-    sendgrid_api_key = os.environ.get("MAILER_SENDGRID_API_KEY", None)
-    cors_origins = os.environ.get("MAILER_CORS_ORIGINS", "")
-    recaptcha_enabled = os.environ.get("MAILER_RECAPTCHA_ENABLED", "false")
-    recaptcha_site_key = os.environ.get("MAILER_RECAPTCHA_SITE_KEY", None)
-    recaptcha_secret_key = os.environ.get("MAILER_RECAPTCHA_SECRET_KEY", None)
-    sentry_enabled = os.environ.get("MAILER_SENTRY_ENABLED", "false")
-    sentry_dsn = os.environ.get("MAILER_SENTRY_DSN", None)
+    key = utils.generate_pgp_key_pair(name, email)
 
-    use_now_alias = now_alias and now_target == "production"
-    now_token_arg = f"--token '{now_token}'" if now_token else ""
-    now_target_arg = f"--target '{now_target}'" if now_target else ""
+    with open(f"{filename}.pub.asc", mode="w") as f:
+        f.write(str(key.pubkey))
 
-    use_sendgrid = mailer_provider == "sendgrid" and sendgrid_api_key
-    sendgrid_api_key_name = "mailer-sendgrid-api-key"
-    sendgrid_api_key_arg = (
-        f"-e SENDGRID_API_KEY='@{sendgrid_api_key_name}'" if use_sendgrid else ""
-    )
+    with open(f"{filename}.asc", mode="w") as f:
+        f.write(str(key))
 
-    use_recaptcha = recaptcha_enabled and recaptcha_site_key and recaptcha_secret_key
-    recaptcha_site_key_arg = (
-        f"-e RECAPTCHA_SITE_KEY='{recaptcha_site_key}'" if use_recaptcha else ""
-    )
-    recaptcha_secret_key_name = "mailer-recaptcha-secret-key"
-    recaptcha_secret_key_arg = (
-        f"-e RECAPTCHA_SECRET_KEY='@{recaptcha_secret_key_name}'"
-        if use_recaptcha
-        else ""
-    )
 
-    use_sentry = sentry_enabled and sentry_dsn
-    sentry_dsn_arg = f"-e SENTRY_DSN='{sentry_dsn}'" if use_sentry else ""
+@task
+def encrypt_pgp_message(ctx, public_key_file_path, message):
+    from tests import utils
 
-    if now_project and to_email and to_name and mailer_provider:
-        if use_sendgrid:
-            sendgrid_secret = (
-                f"now secrets"
-                f" {now_token_arg}"
-                f" add '{sendgrid_api_key_name}' '{sendgrid_api_key}'"
-            )
-            ctx.run(sendgrid_secret, echo=True, warn=True)
+    with open(public_key_file_path, mode="r") as f:
+        public_key = f.read()
 
-        if use_recaptcha:
-            recaptcha_secret = (
-                f"now secrets"
-                f" {now_token_arg}"
-                f" add '{recaptcha_secret_key_name}' '{recaptcha_secret_key}'"
-            )
-            ctx.run(recaptcha_secret, echo=True, warn=True)
+    encrypted_message = utils.encrypt_pgp_message(public_key, message)
 
-        deploy = (
-            "now deploy"
-            f" {now_token_arg}"
-            f" --name '{now_project}'"
-            f" {now_target_arg}"
-            f" -e SENDER_EMAIL='{sender_email}'"
-            f" -e TO_EMAIL='{to_email}'"
-            f" -e TO_NAME='{to_name}'"
-            f" -e MAILER_PROVIDER='{mailer_provider}'"
-            f" {sendgrid_api_key_arg}"
-            f" -e CORS_ORIGINS='{cors_origins}'"
-            f" -e RECAPTCHA_ENABLED='{recaptcha_enabled}'"
-            f" {recaptcha_site_key_arg}"
-            f" {recaptcha_secret_key_arg}"
-            f" -e SENTRY_ENABLED='{sentry_enabled}'"
-            f" {sentry_dsn_arg}"
-        )
+    print(encrypted_message)
 
-        if ctx.run(deploy, echo=True) and use_now_alias:
-            alias = "now alias" f" {now_token_arg}" f" set '{now_alias}'"
-            ctx.run(alias, echo=True)
+
+@task
+def decrypt_pgp_message(ctx, private_key_file_path, encrypted_file_path):
+    from tests import utils
+
+    with open(private_key_file_path, mode="r") as f:
+        private_key = f.read()
+
+    with open(encrypted_file_path, mode="r") as f:
+        encrypted_message = f.read()
+
+    message = utils.decrypt_pgp_message(private_key, encrypted_message)
+
+    print(message)

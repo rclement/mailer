@@ -1,69 +1,35 @@
-def _get_app_config(config_name):
-    from .config import get_app_config
-
-    return get_app_config(config_name)
+from fastapi import FastAPI
 
 
-def _init_extensions(app):
-    from .extensions import docs, cors, limiter, mailer, recaptcha, security, sentry
+def create_app() -> FastAPI:
+    from fastapi.middleware.cors import CORSMiddleware
+    from . import api, home, sentry
+    from .settings import Settings
 
-    docs.init_app(app)
-    cors.init_app(app)
-    limiter.init_app(app)
-    mailer.init_app(app)
-    recaptcha.init_app(app)
-    security.init_app(app)
-    sentry.init_app(app)
+    settings = Settings()
 
+    app = FastAPI(
+        title=settings.app_title,
+        description=settings.app_description,
+        version=settings.app_version,
+        docs_url=None if settings.app_environment == "production" else "/docs",
+    )
+    app.state.settings = settings
 
-def _register_blueprints(app):
-    from .api import bp as api_bp
-    from .extensions import docs
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.cors_origins,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
-    blueprints = [api_bp]
+    app.include_router(home.router, prefix="", tags=["home"])
+    app.include_router(api.router, prefix="/api", tags=["api"])
 
-    for b in blueprints:
-        app.register_blueprint(b)
-
-    docs.register_existing_resources()
-
-
-def _register_error_handlers(app):
-    from flask import jsonify
-    from http import HTTPStatus
-
-    def error_json(error):
-        data = jsonify(
-            {"error": error.code, "name": error.name, "description": error.description}
-        )
-        data.status_code = error.code
-        return data
-
-    @app.errorhandler(HTTPStatus.BAD_REQUEST)
-    @app.errorhandler(HTTPStatus.UNAUTHORIZED)
-    @app.errorhandler(HTTPStatus.FORBIDDEN)
-    @app.errorhandler(HTTPStatus.NOT_FOUND)
-    @app.errorhandler(HTTPStatus.METHOD_NOT_ALLOWED)
-    @app.errorhandler(HTTPStatus.UNPROCESSABLE_ENTITY)
-    @app.errorhandler(HTTPStatus.TOO_MANY_REQUESTS)
-    @app.errorhandler(HTTPStatus.INTERNAL_SERVER_ERROR)
-    def error_handler(error):
-        return error_json(error)
-
-
-def create_app(config_name="default"):
-    from flask import Flask
-    from werkzeug.middleware.proxy_fix import ProxyFix
-    from . import __about__
-
-    app_config = _get_app_config(config_name)
-
-    app = Flask(__about__.__title__)
-    app.wsgi_app = ProxyFix(app.wsgi_app)
-    app.config.from_object(app_config)
-
-    _init_extensions(app)
-    _register_blueprints(app)
-    _register_error_handlers(app)
+    sentry.init(app)
 
     return app
+
+
+app = create_app()

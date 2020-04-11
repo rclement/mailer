@@ -1,6 +1,7 @@
 *
 !mailer
-!now.json
+!templates
+!LICENSE
 !Pipfile
 !Pipfile.lock
 !Procfile

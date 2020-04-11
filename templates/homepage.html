@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mailer</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+</head>
+
+<body>
+  <section class="hero is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-half is-offset-one-quarter">
+            <p class="title">
+              {{ settings.app_title }} <span class="has-text-weight-light is-size-6">({{ settings.app_version }})</span>
+            </p>
+
+            <p class="subtitle">
+              {{ settings.app_description }}
+            </p>
+
+            {%- if request.app.docs_url %}
+            <a class="button is-link is-outlined" href="{{ url_for('swagger_ui_html') }}">Swagger</a>
+            {%- endif %}
+            <a class="button is-link is-outlined" href="{{ url_for('redoc_html') }}">API Documentation</a>
+
+            <pre style="margin-top: 2rem;">
+              <code>
+fetch('{{ url_for('post_mail') }}', {
+  method: 'POST',
+  headers: {
+      'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    email: 'john@doe.com',
+    name: 'John Doe',
+    subject: 'Contact',
+    message: 'Hey there! Up for a coffee?',
+    {%- if settings.recaptcha_secret_key %}
+    'g-recaptcha-response': 'azertyuiopqsdfghjklmwxcvbn',
+    {%- endif %},
+    {%- if settings.pgp_public_key %}
+    public_key: '-----BEGIN PGP PUBLIC KEY BLOCK-----\n...\n-----END PGP PUBLIC KEY BLOCK-----\n',
+    {%- endif %}
+    honeypot: ''
+  })
+})
+              </code>
+            </pre>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-foot">
+      <footer class="footer">
+        <div class="content has-text-centered">
+          <p class="heading">
+            Source-code available on <a href="https://github.com/rclement/mailer">GitHub</a>
+            <br />
+            Free open-source software under AGPLv3 License
+            <br />
+            Built using the <a href="https://fastapi.tiangolo.com">FastAPI</a> framework.
+            <br />
+            Copyright (c) 2018-present <a href="https://romain-clement.net">Romain Clement</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+  </section>
+</body>
+
+</html>

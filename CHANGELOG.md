@@ -5,6 +5,37 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- Use Python 3.8.2
+- Use [FastAPI](https://fastapi.tiangolo.com) instead of [Flask](https://flask.palletsprojects.com)
+- Renamed API parameter `recaptcha` to `g-recaptcha-response` (default name from Google ReCaptcha)
+- Set maximum message length to 1000 characters
+- Disable Swagger UI in production
+- Licensed under AGPLv3
+
+### Added
+- [Docsify](https://docsify.js.org) documentation
+- Simple homepage with API documentation link
+- SMTP mailing backend support (all `SMTP_*` configurations)
+- PGP encryption support using PGP/MIME (with optional contact PGP public key attachment)
+- Static typing analysis using [mypy](https://mypy.readthedocs.io)
+- Security checks using [bandit](https://bandit.readthedocs.io)
+- Exhaustive testing
+- Simple examples (ajax, ajax with recaptcha)
+- GitHub Action workflows support
+- Security notice in `SECURITY.md`
+
+### Removed
+- BREAKING: removed rate-limiting feature (all `RATELIMIT_*` configurations)
+- BREAKING: removed mailer provider feature (`MAILER_PROVIDER` configuration)
+- BREAKING: removed sendgrid provider feature (all `SENDGRID_*` configurations)
+- Removed `RECAPTCHA_SITE_KEY` from configuration
+- Remove `RECAPTCHA_ENABLED` from configuration (automatically enabled when `RECAPTCHA_SECRET_KEY` is set)
+- Removed `SENTRY_ENABLED` from configuration (automatically enabled when `SENTRY_DSN` is set)
+- Travis-CI support
+
+### Fixed
+- Use non-root user in `Dockerfile`
 
 ## [0.7.1] - 2019-07-22
 ### Changed
@@ -84,7 +115,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Update Python dependencies
-- Update .env.example
+- Update .example.env
 - Update default route rate-limiting rule to 10 per hour
 
 ## [0.1.0] - 2018-12-21

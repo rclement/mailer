@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mailer: simple AJAX example with PGP encryption</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+
+<body>
+  <section id="app" class="hero is-fullheight">
+    <div class="hero-body">
+      <div class="container">
+        <div class="columns">
+          <div class="column is-half is-offset-one-quarter">
+            <p class="title">
+              Mailer: simple AJAX example with PGP encryption
+            </p>
+
+            <p class="subtitle">
+              Demonstrate how to use <code>mailer</code> using a simple form and an AJAX request,
+              using <a href="vuejs.org">Vue.js</a>.
+              <br/>
+              If enabled, PGP encryption of the e-mail will be performed server-side automatically.
+              <br/>
+              An optional PGP public key can be attached with the PGP-encrypted e-mail: this way
+              the receiver can also respond with an end-to-end encrypted message!
+            </p>
+
+            <form @submit.prevent="sendForm">
+              <div class="field has-addons">
+                <p class="control">
+                  <a class="button is-static">
+                    Mailer URL
+                  </a>
+                </p>
+                <div class="control">
+                  <input
+                    v-model="mailerUrl"
+                    class="input"
+                    type="text"
+                    required
+                  >
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="file">
+                  <label class="file-label">
+                    <input
+                      class="file-input"
+                      type="file"
+                      @change="publicKeyFileChanged"
+                    >
+                    <span class="file-cta">
+                      <span class="file-label">
+                        Sender PGP Public Key (optional)
+                      </span>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="control">
+                  <textarea
+                    v-model="publicKey"
+                    class="textarea"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">E-mail</label>
+                <div class="control">
+                  <input
+                    v-model="email"
+                    class="input"
+                    type="email"
+                    required
+                  >
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Name</label>
+                <div class="control">
+                  <input
+                    v-model="name"
+                    class="input"
+                    type="text"
+                    maxlength="50"
+                    required
+                  >
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Subject</label>
+                <div class="control">
+                  <input
+                    v-model="subject"
+                    class="input"
+                    type="text"
+                    maxlength="100"
+                    required
+                  >
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="label">Message</label>
+                <div class="control">
+                  <textarea
+                    v-model="message"
+                    class="textarea"
+                    maxlength="1000"
+                    required
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="field">
+                <div class="control">
+                  <input v-model="honeypot" class="input" type="hidden">
+                </div>
+              </div>
+
+              <div class="field is-grouped is-grouped-right">
+                <div class="control">
+                  <button class="button is-link">Send</button>
+                </div>
+              </div>
+
+              <div class="notification is-success" :class="{'is-hidden': !success}">
+                <button class="delete" @click.prevent="clearSuccess"></button>
+                Message sent successfully!
+              </div>
+
+              <div class="notification is-danger" :class="{'is-hidden': !failure}">
+                <button class="delete" @click.prevent="clearFailure"></button>
+                Failed to send message!
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-foot">
+      <footer class="footer">
+        <div class="content has-text-centered">
+          <p class="heading">
+            Source-code available on <a href="https://github.com/rclement/mailer">GitHub</a>
+            <br />
+            Free open-source software under AGPLv3 License
+            <br />
+            Copyright (c) 2018-present <a href="https://romain-clement.net">Romain Clement</a>
+          </p>
+        </div>
+      </footer>
+    </div>
+  </section>
+
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data() {
+        return {
+          mailerUrl: 'http://localhost:8000',
+          email: 'john@doe.com',
+          name: 'John Doe',
+          subject: 'New opportunity 🚀',
+          message: 'Hi there 👋! How are you doing?',
+          honeypot: '',
+          publicKey: '',
+          success: false,
+          failure: false
+        }
+      },
+      methods: {
+        publicKeyFileChanged: function(evt) {
+          if (event.target.files.length > 0) {
+            const publicKeyFile = event.target.files[0]
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+              this.publicKey = evt.target.result
+            }
+            reader.readAsText(publicKeyFile)
+          }
+        },
+
+        clearSuccess: function() {
+          this.success = false
+        },
+
+        clearFailure: function() {
+          this.failure = false
+        },
+
+        sendForm: async function() {
+          const url = `${this.mailerUrl}/api/mail`
+          const data = {
+            email: this.email,
+            name: this.name,
+            subject: this.subject,
+            message: this.message,
+            honeypot: this.honeypot,
+            public_key: this.publicKey,
+          }
+
+          try {
+            const response = await fetch(url, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+            })
+
+            this.success = response.ok
+            this.failure = !response.ok
+          } catch(e) {
+            this.failure = true
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
