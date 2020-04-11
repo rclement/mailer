@@ -107,7 +107,7 @@ jobs:
     name: Deploy Documentation
     runs-on: ubuntu-latest
     needs: test
-    if: github.ref == 'ref/head/master'
+    if: contains(github.ref, 'master')
 
     steps:
       - uses: actions/checkout@v2
