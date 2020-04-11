@@ -50,7 +50,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Select Docker image tag (production only)
         if: contains(github.ref, 'tags')
-        run: echo "::set-env IMAGE_TAG=${GITHUB_REF##*/}"
+        run: echo "::set-env name=IMAGE_TAG::${GITHUB_REF##*/}"
       - name: Build Docker image (${{ env.IMAGE_TAG }})
         run: |
           docker pull $IMAGE_NAME:latest
@@ -75,7 +75,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Select Zeit Now environment (production only)
         if: contains(github.ref, 'tags')
-        run: echo "::set-env NOW_ENV_ARG=--prod"
+        run: echo "::set-env name=NOW_ENV_ARG::--prod"
       - name: Register Zeit Now secrets
         run: |
           now secrets \
