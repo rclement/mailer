@@ -105,3 +105,17 @@ jobs:
             -e CORS_ORIGINS='${{ secrets.MAILER_CORS_ORIGINS }}' \
             -e PGP_PUBLIC_KEY='${{ secrets.MAILER_PGP_PUBLIC_KEY }}' \
             -e SENTRY_DSN='${{ secrets.MAILER_SENTRY_DSN }}'
+
+  deploy-docs:
+    name: Deploy Documentation
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.GH_PERSONAL_TOKEN }}
+          publish_dir: ./docs
+          publish_branch: gh-pages
