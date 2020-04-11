@@ -14,7 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Licensed under AGPLv3
 
 ### Added
-- Simple homepage with documentation link
+- [Docsify](https://docsify.js.org) documentation
+- Simple homepage with API documentation link
 - SMTP mailing backend support (all `SMTP_*` configurations)
 - PGP encryption support using PGP/MIME (with optional contact PGP public key attachment)
 - Static typing analysis using [mypy](https://mypy.readthedocs.io)
