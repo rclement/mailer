@@ -30,4 +30,4 @@ responses = "*"
 safety = "*"
 
 [requires]
-python_full_version = "3.8.2"
+python_full_version = "3.8.3"
