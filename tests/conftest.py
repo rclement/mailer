@@ -24,16 +24,6 @@ os.environ["SENTRY_DSN"] = ""
 # ------------------------------------------------------------------------------
 
 
-@pytest.fixture(scope="session")
-def faker():
-    from faker import Faker
-
-    Faker.seed(1234)
-    faker_instance = Faker()
-
-    return faker_instance
-
-
 @pytest.fixture(scope="function")
 def responses():
     import responses
