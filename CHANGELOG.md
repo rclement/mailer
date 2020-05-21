@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.8.1] - 2020-05-21
+### Added
+- OpenAPI documentation for return model in `/api/` route
+
+### Changed
+- Use Python 3.8.3
+- Update dependencies
+- More robust CORS origins testing
+- Stricter `mypy` rules
+
+### Fixed
+- Better handling of `.env` file loading for development and testing
+
 ## [0.8.0] - 2020-04-11
 ### Changed
 - Use Python 3.8.2
@@ -126,7 +139,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.8.0...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.8.1...HEAD
+[0.8.1]: https://github.com/rclement/mailer/compare/0.8.0...0.8.1
 [0.8.0]: https://github.com/rclement/mailer/compare/0.7.1...0.8.0
 [0.7.1]: https://github.com/rclement/mailer/compare/0.7.0...0.7.1
 [0.7.0]: https://github.com/rclement/mailer/compare/0.6.2...0.7.0
