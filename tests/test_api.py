@@ -10,10 +10,20 @@ from . import utils
 
 
 @pytest.fixture(scope="function")
-def enable_cors_origins(monkeypatch, faker):
+def enable_cors_origins_single(monkeypatch, faker):
     origin = faker.url()
     monkeypatch.setenv("CORS_ORIGINS", f'["{origin}"]')
     return origin
+
+
+@pytest.fixture(scope="function")
+def enable_cors_origins_multiple(monkeypatch, faker):
+    import json
+
+    origins = [faker.url(), faker.url()]
+    monkeypatch.setenv("CORS_ORIGINS", f"{json.dumps(origins)}")
+
+    return origins
 
 
 # ------------------------------------------------------------------------------
@@ -391,25 +401,53 @@ def test_send_mail_non_empty_honeypot(app_client, mock_smtp, params_success, fak
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_matching_cors_origin(
-    enable_cors_origins, app_client, mock_smtp, params_success
+def test_send_mail_cors_origin_single(
+    enable_cors_origins_single, app_client, mock_smtp, params_success, faker
 ):
     params = params_success
 
-    headers = {"Origin": enable_cors_origins}
-
-    response = app_client.post("/api/mail", json=params, headers=headers)
+    response = app_client.options(
+        "/api/mail",
+        headers={
+            "Origin": enable_cors_origins_single,
+            "Access-Control-Request-Method": "GET",
+        },
+    )
     assert response.status_code == HTTPStatus.OK
+    assert response.headers["access-control-allow-origin"] == enable_cors_origins_single
+
+    response = app_client.post(
+        "/api/mail", json=params, headers={"Origin": enable_cors_origins_single}
+    )
+    assert response.status_code == HTTPStatus.OK
+    assert response.headers["access-control-allow-origin"] == enable_cors_origins_single
+
+    response = app_client.post(
+        "/api/mail", json=params, headers={"Origin": faker.url()}
+    )
+    assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
-def test_send_mail_unmatched_cors_origin(
-    enable_cors_origins, app_client, mock_smtp, params_success, faker
+def test_send_mail_cors_origin_multiple(
+    enable_cors_origins_multiple, app_client, mock_smtp, params_success, faker
 ):
     params = params_success
 
-    headers = {"Origin": faker.url()}
+    for origin in enable_cors_origins_multiple:
+        response = app_client.options(
+            "/api/mail",
+            headers={"Origin": origin, "Access-Control-Request-Method": "GET"},
+        )
+        assert response.status_code == HTTPStatus.OK
+        assert response.headers["access-control-allow-origin"] == origin
 
-    response = app_client.post("/api/mail", json=params, headers=headers)
+        response = app_client.post("/api/mail", json=params, headers={"Origin": origin})
+        assert response.status_code == HTTPStatus.OK
+        assert response.headers["access-control-allow-origin"] == origin
+
+    response = app_client.post(
+        "/api/mail", json=params, headers={"Origin": faker.url()}
+    )
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
 
