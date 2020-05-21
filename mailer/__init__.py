@@ -1,12 +1,13 @@
+from typing import Optional
 from fastapi import FastAPI
 
 
-def create_app() -> FastAPI:
+def create_app(env_file: Optional[str] = ".env") -> FastAPI:
     from fastapi.middleware.cors import CORSMiddleware
     from . import api, home, sentry
     from .settings import Settings
 
-    settings = Settings()
+    settings = Settings(_env_file=env_file)  # type: ignore
 
     app = FastAPI(
         title=settings.app_title,

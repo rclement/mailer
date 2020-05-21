@@ -47,6 +47,6 @@ def app_client():
     from starlette.testclient import TestClient
     from mailer import create_app
 
-    app = create_app()
+    app = create_app(None)
     with TestClient(app) as test_client:
         yield test_client

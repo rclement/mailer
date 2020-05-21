@@ -31,15 +31,16 @@ or if using VSCode, use the following configuration in `.vscode/launch.json`:
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "mailer",
+      "name": "mailer:app",
       "type": "python",
       "request": "launch",
-      "module": "uvicorn.main",
+      "module": "uvicorn",
       "args": ["--host=0.0.0.0", "--port=8000", "mailer:app"],
+      "envFile": "",
       "justMyCode": false
     },
     {
-      "name": "tests",
+      "name": "mailer:tests",
       "type": "python",
       "request": "test",
       "justMyCode": false
