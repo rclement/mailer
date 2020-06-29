@@ -16,21 +16,22 @@ But any PaaS and/or Docker-compatible provider will do!
 
 The following environment variables are available:
 
-| Variable               | Default |                      Format                      | Description                                                                                                                                   |
-| ---------------------- | :-----: | :----------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| `SENDER_EMAIL`         |  `""`   |               `no-reply@domain.me`               | (**required**) E-mail address to send e-mail from                                                                                             |
-| `TO_EMAIL`             |  `""`   |               `contact@domain.me`                | (**required**) E-mail address of the recipient                                                                                                |
-| `TO_NAME`              |  `""`   |                    `My Name`                     | (**required**) Name of the recipient                                                                                                          |
-| `SMTP_HOST`            |  `""`   |                 `smtp.host.com`                  | (**required**) SMTP host URL                                                                                                                  |
-| `SMTP_PORT`            |  `""`   |                      `587`                       | (**required**) SMTP host port                                                                                                                 |
-| `SMTP_TLS`             |  `""`   |                      `true`                      | (**required**) SMTP host use TLS (mutually exclusive with SSL)                                                                                |
-| `SMTP_SSL`             |  `""`   |                     `false`                      | (**required**) SMTP host use SSL (mutually exclusive with TLS)                                                                                |
-| `SMTP_USER`            |  `""`   |                   `smtp-user`                    | (**required**) SMTP host user                                                                                                                 |
-| `SMTP_PASSWORD`        |  `""`   |                 `smtp-password`                  | (**required**) SMTP host password (or API key)                                                                                                |
-| `CORS_ORIGINS`         | `'[]'`  | `'["https://domain.me", "https://mydomain.me"]'` | (**optional**) List (JSON string) of authorized origins for CORS origins and Origin request header validation                                 |
-| `RECAPTCHA_SECRET_KEY` |  `""`   |                     `string`                     | (**optional**) Google ReCaptcha v2 secret key                                                                                                 |
-| `PGP_PUBLIC_KEY`       |  `""`   |                     `base64`                     | (**optional**) Base64-encoded PGP public key to encrypt e-mails with before sending to SMTP backend (generate with `cat <pub.asc> \| base64`) |
-| `SENTRY_DSN`           |  `""`   |                     `string`                     | (**optional**) Sentry crash reporting DSN                                                                                                     |
+| Variable               | Default  |                      Format                      | Description                                                                                                                                   |
+| ---------------------- | :------: | :----------------------------------------------: | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| `SENDER_EMAIL`         |   `""`   |               `no-reply@domain.me`               | (**required**) E-mail address to send e-mail from                                                                                             |
+| `TO_EMAIL`             |   `""`   |               `contact@domain.me`                | (**required**) E-mail address of the recipient                                                                                                |
+| `TO_NAME`              |   `""`   |                    `My Name`                     | (**required**) Name of the recipient                                                                                                          |
+| `SMTP_HOST`            |   `""`   |                 `smtp.host.com`                  | (**required**) SMTP host URL                                                                                                                  |
+| `SMTP_PORT`            |   `""`   |                      `587`                       | (**required**) SMTP host port                                                                                                                 |
+| `SMTP_TLS`             |   `""`   |                      `true`                      | (**required**) SMTP host use TLS (mutually exclusive with SSL)                                                                                |
+| `SMTP_SSL`             |   `""`   |                     `false`                      | (**required**) SMTP host use SSL (mutually exclusive with TLS)                                                                                |
+| `SMTP_USER`            |   `""`   |                   `smtp-user`                    | (**required**) SMTP host user                                                                                                                 |
+| `SMTP_PASSWORD`        |   `""`   |                 `smtp-password`                  | (**required**) SMTP host password (or API key)                                                                                                |
+| `FORCE_HTTPS`          | `'true'` |                     `'true'`                     | (**optional**) Force HTTPS redirect                                                                                                           |
+| `CORS_ORIGINS`         |  `'[]'`  | `'["https://domain.me", "https://mydomain.me"]'` | (**optional**) List (JSON string) of authorized origins for CORS origins and Origin request header validation                                 |
+| `RECAPTCHA_SECRET_KEY` |   `""`   |                     `string`                     | (**optional**) Google ReCaptcha v2 secret key                                                                                                 |
+| `PGP_PUBLIC_KEY`       |   `""`   |                     `base64`                     | (**optional**) Base64-encoded PGP public key to encrypt e-mails with before sending to SMTP backend (generate with `cat <pub.asc> \| base64`) |
+| `SENTRY_DSN`           |   `""`   |                     `string`                     | (**optional**) Sentry crash reporting DSN                                                                                                     |
 
 ## Verification
 
