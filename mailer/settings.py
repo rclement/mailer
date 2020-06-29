@@ -24,6 +24,7 @@ class Settings(BaseSettings):
 
     pgp_public_key: Optional[PGPKey] = None
 
+    force_https: bool = True
     cors_origins: Set[AnyHttpUrl] = set()
 
     recaptcha_secret_key: Optional[str]

@@ -3,6 +3,7 @@ from fastapi import FastAPI
 
 
 def create_app(env_file: Optional[str] = ".env") -> FastAPI:
+    from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
     from fastapi.middleware.cors import CORSMiddleware
     from . import api, home, sentry
     from .settings import Settings
@@ -16,6 +17,9 @@ def create_app(env_file: Optional[str] = ".env") -> FastAPI:
         docs_url=None if settings.app_environment == "production" else "/docs",
     )
     app.state.settings = settings
+
+    if settings.force_https:
+        app.add_middleware(HTTPSRedirectMiddleware)
 
     app.add_middleware(
         CORSMiddleware,
