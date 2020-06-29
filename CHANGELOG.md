@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Allow to force HTTPS redirect using `FORCE_HTTPS` (enabled by default)
 
+### Changed
+- Use `python-slim-buster` instead of `python-alpine` base for Docker image
+
 ## [0.8.1] - 2020-05-21
 ### Added
 - OpenAPI documentation for return model in `/api/` route

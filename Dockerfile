@@ -1,4 +1,4 @@
-FROM python:3.8.3-alpine
+FROM python:3.8.3-slim-buster
 
 ENV APP_USER=app
 ENV APP_GROUP=app
@@ -7,17 +7,14 @@ ENV APP_ROOT=/home/${APP_USER}
 RUN mkdir -p ${APP_ROOT}
 WORKDIR ${APP_ROOT}
 
-RUN set -ex && pip install --upgrade pip && pip install pipenv
+RUN set -ex && pip install --upgrade pip && pip install 'pipenv==2018.11.26'
 
 COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
 
-RUN set -ex \
-    && apk add --virtual .build-deps build-base gcc musl-dev python3-dev libffi-dev openssl-dev \
-    && pipenv install --deploy --system \
-    && apk del .build-deps
+RUN set -ex && pipenv install --deploy --system
 
-RUN addgroup -S ${APP_GROUP} && adduser ${APP_USER} -S -G ${APP_GROUP}
+RUN groupadd -r ${APP_GROUP} && useradd --no-log-init -r -g ${APP_GROUP} ${APP_USER}
 RUN chown -R ${APP_USER}:${APP_GROUP} ${APP_ROOT}
 USER ${APP_USER}
 
