@@ -4,7 +4,7 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [packages]
-fastapi = "~=0.60.2"
+fastapi = "~=0.61.1"
 gunicorn = "~=20.0.4"
 honcho = "~=1.0.1"
 jinja2 = "~=2.11.2"
