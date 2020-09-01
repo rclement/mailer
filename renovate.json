@@ -1,6 +1,6 @@
 {
   "extends": ["config:base", ":preserveSemverRanges"],
-  "rangeStrategy": "replace",
+  "rangeStrategy": "bump",
   "labels": ["dependencies"],
   "assignees": ["rclement"],
   "reviewers": ["rclement"]
