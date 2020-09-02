@@ -26,7 +26,7 @@ pytest = "~=6.0.1"
 pytest-cov = "~=2.10.1"
 pytest-mock = "~=3.3.1"
 python-dotenv = "~=0.14.0"
-responses = "~=0.10.15"
+responses = "~=0.10.16"
 safety = "~=1.9.0"
 
 [requires]
