@@ -7,7 +7,7 @@ tests_path = "tests"
 
 @task
 def audit(ctx):
-    ctx.run("safety check --ignore=38624 --ignore=38625", pty=True)
+    ctx.run("safety check", pty=True)
 
 
 @task
