@@ -53,7 +53,7 @@ jobs:
         if: contains(github.ref, 'tags')
         run: echo "::set-env name=IMAGE_TAG::${GITHUB_REF##*/}"
       - name: Pull latest Docker image
-        run: docker pull $IMAGE_NAME:latest
+        run: docker pull $IMAGE_NAME:latest || true
       - name: Build Docker image (${{ env.IMAGE_TAG }})
         run: docker build -t $IMAGE_NAME:$IMAGE_TAG --cache-from $IMAGE_NAME:latest .
       - name: Log into Docker Registry
