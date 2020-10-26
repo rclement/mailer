@@ -10,7 +10,7 @@ gunicorn = "~=20.0.4"
 honcho = "~=1.0.1"
 jinja2 = "~=2.11.2"
 pgpy = "~=0.5.2"
-pydantic = {extras = ["email"],version = "~=1.6.1"}
+pydantic = {extras = ["email"],version = "~=1.7"}
 requests = "~=2.24.0"
 sentry-sdk = "~=0.19.1"
 uvicorn = "~=0.12.2"
