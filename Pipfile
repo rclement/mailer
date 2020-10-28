@@ -26,7 +26,7 @@ pre-commit = "~=2.7.1"
 pytest = "~=6.1.2"
 pytest-cov = "~=2.10.1"
 pytest-mock = "~=3.3.1"
-python-dotenv = "~=0.14.0"
+python-dotenv = "~=0.15.0"
 responses = "~=0.12.0"
 safety = "~=1.9.0"
 
