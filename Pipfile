@@ -11,7 +11,7 @@ honcho = "~=1.0.1"
 jinja2 = "~=2.11.2"
 pgpy = "~=0.5.2"
 pydantic = {extras = ["email"],version = "~=1.7.2"}
-requests = "~=2.24.0"
+requests = "~=2.25.0"
 sentry-sdk = "~=0.19.2"
 uvicorn = "~=0.12.2"
 
