@@ -12,7 +12,7 @@ jinja2 = "~=2.11.2"
 pgpy = "~=0.5.2"
 pydantic = {extras = ["email"],version = "~=1.7.2"}
 requests = "~=2.25.0"
-sentry-sdk = "~=0.19.3"
+sentry-sdk = "~=0.19.4"
 uvicorn = "~=0.12.2"
 
 [dev-packages]
