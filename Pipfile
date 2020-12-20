@@ -13,7 +13,7 @@ pgpy = "~=0.5.2"
 pydantic = {extras = ["email"],version = "~=1.7.3"}
 requests = "~=2.25.1"
 sentry-sdk = "~=0.19.5"
-uvicorn = "~=0.13.1"
+uvicorn = "~=0.13.2"
 
 [dev-packages]
 bandit = "~=1.7.0"
