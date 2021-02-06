@@ -7,7 +7,7 @@ ENV APP_ROOT=/home/${APP_USER}
 RUN mkdir -p ${APP_ROOT}
 WORKDIR ${APP_ROOT}
 
-RUN set -ex && pip install --upgrade pip && pip install 'pipenv==2018.11.26'
+RUN set -ex && pip install --upgrade pip && pip install pipenv
 
 COPY Pipfile Pipfile
 COPY Pipfile.lock Pipfile.lock
