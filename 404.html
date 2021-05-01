@@ -13,8 +13,6 @@
         <meta name="author" content="Romain Clement">
       
       
-        <link rel="canonical" href="https://mailer.romain-clement.net/">
-      
       <link rel="icon" href="assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
     
@@ -59,7 +57,7 @@
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
   
     
-    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
       <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
     
@@ -67,11 +65,6 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
-      
-        
-        <a href="#mailer" class="md-skip">
-          Skip to content
-        </a>
       
     </div>
     <div data-md-component="announce">
@@ -99,7 +92,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              
             
           </span>
         </div>
@@ -225,58 +218,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Home
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="." class="md-nav__link">
         Home
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    License
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -333,91 +279,11 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#features" class="md-nav__link">
-    Features
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    License
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
               
-                
-                  <a href="https://github.com/rclement/mailer/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
-                  </a>
-                
-                
-                <h1 id="mailer">Mailer</h1>
-<blockquote>
-<p>Dead-simple mailer micro-service for static websites</p>
-</blockquote>
-<p><a href="https://github.com/rclement/mailer/releases/latest"><img alt="Github Tag" src="https://img.shields.io/github/tag/rclement/mailer.svg" /></a>
-<a href="https://github.com/rclement/mailer/actions?query=workflow%3A%22Mailer+CI%2FCD%22"><img alt="GitHub Action CI/CD" src="https://github.com/rclement/mailer/workflows/Mailer%20CI/CD/badge.svg" /></a>
-<a href="https://codecov.io/gh/rclement/mailer"><img alt="Coverage Status" src="https://img.shields.io/codecov/c/github/rclement/mailer" /></a>
-<a href="https://hub.docker.com/r/rmnclmnt/mailer"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/rmnclmnt/mailer.svg" /></a></p>
-<p>A free and open-source software alternative to contact form services such as FormSpree,
-to integrate a contact form seamlessly within your next static website!</p>
-<p>When building static websites and <a href="https://jamstack.org/">JAMStack</a> web applications,
-the need for a contact form arises pretty often but requires some server-side processing.
-<code>mailer</code> provides a dead-simple micro-service (usable as a serverless function) for this purpose,
-enabling one to receive e-mails from a simple form using a single AJAX request.</p>
-<p>Proudly developed in Python using the <a href="https://fastapi.tiangolo.com">FastAPI</a> ASGI framework.</p>
-<h2 id="features">Features</h2>
-<ul>
-<li>Self-hostable micro-service</li>
-<li>Docker and serverless support</li>
-<li>Unicode message support</li>
-<li>OpenAPI documentation (Swagger and ReDoc)</li>
-<li>CORS domain validation</li>
-<li>Spam-bot filtering with honeypot field</li>
-<li>Google ReCaptcha v2 validation</li>
-<li>Sentry crash reporting</li>
-<li>Any SMTP-compatible back-end is supported</li>
-<li>PGP encryption support using PGP/MIME</li>
-</ul>
-<h2 id="license">License</h2>
-<p>Licensed under GNU Affero General Public License v3.0 (AGPLv3)</p>
-<p>Copyright (c) 2018 - present  Romain Clement</p>
-                
-              
-              
-                
-
+  <h1>404 - Not found</h1>
 
               
             </article>
@@ -428,25 +294,6 @@ enabling one to receive e-mails from a simple form using a single AJAX request.<
       
         
 <footer class="md-footer">
-  
-    <nav class="md-footer__inner md-grid" aria-label="Footer">
-      
-      
-        <a href="usage/" class="md-footer__link md-footer__link--next" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Usage
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -467,7 +314,7 @@ enabling one to receive e-mails from a simple form using a single AJAX request.<
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fe42c31b.min.js", "version": "0.8.1"}</script>
+    <script id="__config" type="application/json">{"base": "", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fe42c31b.min.js", "version": "0.8.1"}</script>
     
     
       <script src="assets/javascripts/bundle.4ea5477f.min.js"></script>

@@ -1,0 +1,708 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Dead-simple mailer micro-service for static websites">
+      
+      
+      
+        <meta name="author" content="Romain Clement">
+      
+      
+        <link rel="canonical" href="https://mailer.romain-clement.net/deployment/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.3">
+    
+    
+      
+        <title>Deployment - Mailer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.e35208c4.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+      <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deployment" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Mailer Documentation" class="md-header__button md-logo" aria-label="Mailer Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mailer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deployment
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue" type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue" type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/rclement/mailer/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Mailer Documentation" class="md-nav__button md-logo" aria-label="Mailer Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mailer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/rclement/mailer/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        Usage
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Deployment
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    Verification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serverless-eg-vercel" class="md-nav__link">
+    Serverless (e.g. Vercel)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paas-eg-heroku-clevercloud" class="md-nav__link">
+    PaaS (e.g. Heroku, CleverCloud)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vps" class="md-nav__link">
+    VPS
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verification" class="md-nav__link">
+    Verification
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#serverless-eg-vercel" class="md-nav__link">
+    Serverless (e.g. Vercel)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paas-eg-heroku-clevercloud" class="md-nav__link">
+    PaaS (e.g. Heroku, CleverCloud)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker" class="md-nav__link">
+    Docker
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vps" class="md-nav__link">
+    VPS
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/rclement/mailer/edit/master/docs/deployment.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="deployment">Deployment</h1>
+<p>You will need to choose:</p>
+<ul>
+<li>A mailing provider</li>
+<li>A cloud provider</li>
+</ul>
+<p>Most mailing providers offer a generous free-tier to get started
+(<a href="https://sendgrid.com">Sendgrid</a>, <a href="https://mailjet.com">Mailjet</a>, etc.)
+and allow usage via SMTP.</p>
+<p>Regarding cloud providers, you can start deploying with <a href="https://vercel.com">Vercel</a>
+serverless platform within minutes! But any PaaS and/or Docker-compatible provider will do!</p>
+<h2 id="configuration">Configuration</h2>
+<p>The following environment variables are available:</p>
+<table>
+<thead>
+<tr>
+<th>Variable</th>
+<th align="center">Default</th>
+<th align="center">Format</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SENDER_EMAIL</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>no-reply@domain.me</code></td>
+<td>(<strong>required</strong>) E-mail address to send e-mail from</td>
+</tr>
+<tr>
+<td><code>TO_EMAIL</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>contact@domain.me</code></td>
+<td>(<strong>required</strong>) E-mail address of the recipient</td>
+</tr>
+<tr>
+<td><code>TO_NAME</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>My Name</code></td>
+<td>(<strong>required</strong>) Name of the recipient</td>
+</tr>
+<tr>
+<td><code>SMTP_HOST</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>smtp.host.com</code></td>
+<td>(<strong>required</strong>) SMTP host URL</td>
+</tr>
+<tr>
+<td><code>SMTP_PORT</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>587</code></td>
+<td>(<strong>required</strong>) SMTP host port</td>
+</tr>
+<tr>
+<td><code>SMTP_TLS</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>true</code></td>
+<td>(<strong>required</strong>) SMTP host use TLS (mutually exclusive with SSL)</td>
+</tr>
+<tr>
+<td><code>SMTP_SSL</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>false</code></td>
+<td>(<strong>required</strong>) SMTP host use SSL (mutually exclusive with TLS)</td>
+</tr>
+<tr>
+<td><code>SMTP_USER</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>smtp-user</code></td>
+<td>(<strong>required</strong>) SMTP host user</td>
+</tr>
+<tr>
+<td><code>SMTP_PASSWORD</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>smtp-password</code></td>
+<td>(<strong>required</strong>) SMTP host password (or API key)</td>
+</tr>
+<tr>
+<td><code>FORCE_HTTPS</code></td>
+<td align="center"><code>'true'</code></td>
+<td align="center"><code>'true'</code></td>
+<td>(<strong>optional</strong>) Force HTTPS redirect</td>
+</tr>
+<tr>
+<td><code>CORS_ORIGINS</code></td>
+<td align="center"><code>'[]'</code></td>
+<td align="center"><code>'["https://domain.me", "https://mydomain.me"]'</code></td>
+<td>(<strong>optional</strong>) List (JSON string) of authorized origins for CORS origins and Origin request header validation</td>
+</tr>
+<tr>
+<td><code>RECAPTCHA_SECRET_KEY</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>string</code></td>
+<td>(<strong>optional</strong>) Google ReCaptcha v2 secret key</td>
+</tr>
+<tr>
+<td><code>PGP_PUBLIC_KEY</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>base64</code></td>
+<td>(<strong>optional</strong>) Base64-encoded PGP public key to encrypt e-mails with before sending to SMTP backend (generate with <code>cat &lt;pub.asc&gt; \| base64</code>)</td>
+</tr>
+<tr>
+<td><code>SENTRY_DSN</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>string</code></td>
+<td>(<strong>optional</strong>) Sentry crash reporting DSN</td>
+</tr>
+</tbody>
+</table>
+<h2 id="verification">Verification</h2>
+<p>In order to verify that <code>mailer</code> is properly deployed, go to the domain or
+sub-domain pointing to your deployment (e.g. <code>https://mailer.domain.me</code>).</p>
+<p>You should be able to display the homepage and the API documentation
+(e.g. <code>https://mailer.domain.me/redoc</code>).
+If either the homepage or the API documentation do not display properly,
+check the logs according to your deployment method.</p>
+<p>If something feels fishy, you can always post an issue on
+<a href="https://github.com/rclement/mailer/issues">GitHub</a>.</p>
+<h2 id="serverless-eg-vercel">Serverless (e.g. Vercel)</h2>
+<p>The easiest way to get started with serverless deployment is to use <a href="https://vercel.com">Vercel</a>.
+You will need to create a Vercel account and to install the <a href="https://vercel.com/cli">Vercel CLI</a>.</p>
+<ol>
+<li>
+<p>From the <code>mailer</code> codebase, create a new project on Vercel: <code>vercel</code></p>
+</li>
+<li>
+<p>Create the secrets containing sensitive information for your configuration:
+<div class="highlight"><pre><span></span><code>vercel secrets add mailer-smtp-password xxxx
+vercel secrets add mailer-recaptcha-secret-key zzzz
+</code></pre></div></p>
+</li>
+<li>
+<p>Deploy as a function (with your appropriate configuration):
+<div class="highlight"><pre><span></span><code>vercel <span class="se">\</span>
+    -e <span class="nv">SENDER_EMAIL</span><span class="o">=</span><span class="s2">&quot;no-reply@domain.me&quot;</span> <span class="se">\</span>
+    -e <span class="nv">TO_EMAIL</span><span class="o">=</span><span class="s2">&quot;name@domain.com&quot;</span> <span class="se">\</span>
+    -e <span class="nv">TO_NAME</span><span class="o">=</span><span class="s2">&quot;My Name&quot;</span> <span class="se">\</span>
+    -e <span class="nv">SMTP_HOST</span><span class="o">=</span><span class="s2">&quot;smtp.host.com&quot;</span> <span class="se">\</span>
+    -e <span class="nv">SMTP_PORT</span><span class="o">=</span><span class="s2">&quot;587&quot;</span> <span class="se">\</span>
+    -e <span class="nv">SMTP_TLS</span><span class="o">=</span><span class="s2">&quot;true&quot;</span> <span class="se">\</span>
+    -e <span class="nv">SMTP_SSL</span><span class="o">=</span><span class="s2">&quot;false&quot;</span> <span class="se">\</span>
+    -e <span class="nv">SMTP_USER</span><span class="o">=</span><span class="s2">&quot;smtp-user&quot;</span> <span class="se">\</span>
+    -e <span class="nv">SMTP_PASSWORD</span><span class="o">=</span>@mailer-smtp-password <span class="se">\</span>
+    -e <span class="nv">CORS_ORIGINS</span><span class="o">=</span><span class="s1">&#39;[&quot;https://domain.com&quot;]&#39;</span> <span class="se">\</span>
+    -e <span class="nv">RECAPTCHA_SECRET_KEY</span><span class="o">=</span>@mailer-recaptcha-secret-key <span class="se">\</span>
+    -e <span class="nv">PGP_PUBLIC_KEY</span><span class="o">=</span><span class="s1">&#39;LS0...==&#39;</span> <span class="se">\</span>
+    -e <span class="nv">SENTRY_DSN</span><span class="o">=</span><span class="s2">&quot;azerty&quot;</span>
+</code></pre></div></p>
+</li>
+</ol>
+<h2 id="paas-eg-heroku-clevercloud">PaaS (e.g. Heroku, CleverCloud)</h2>
+<p>The easiest way to get started with PaaS deployment is to use <a href="https://heroku.com">Heroku</a>.
+You will need to create a Heroku account and to install the
+<a href="https://devcenter.heroku.com/articles/heroku-cli">Heroku CLI</a>.</p>
+<ol>
+<li>
+<p>Create a project on the Heroku dashboard and add your configuration in environment variables</p>
+</li>
+<li>
+<p>Login to Heroku: <code>heroku login</code></p>
+</li>
+<li>
+<p>From the <code>mailer</code> codebase, add the Git remote: <code>heroku git:remote -a &lt;my-mailer-app&gt;</code></p>
+</li>
+<li>
+<p>Deploy: <code>git push heroku master:master</code></p>
+</li>
+</ol>
+<p>Or you can also use the containerized version!</p>
+<h2 id="docker">Docker</h2>
+<p>The Docker image is publicly available on <a href="https://hub.docker.com/r/rmnclmnt/mailer">Docker Hub</a>.</p>
+<p>All stable versions are automatically deployed and available after each release.
+The <code>latest</code> tag will allow to retrieve non-stable changes</p>
+<p>If you want to quickly try the Docker image:</p>
+<div class="highlight"><pre><span></span><code>docker run --env-file .env -p <span class="m">5000</span>:5000 rmnclmnt/mailer:latest
+</code></pre></div>
+<h2 id="vps">VPS</h2>
+<p>If you're feeling nerdy or a bit old-school, you are more than welcome to
+deploy <code>mailer</code> using a standard VPS from any cloud provider (AWS, OVH, etc.).</p>
+<p>We still recommend you deploy <code>mailer</code> using the provided Docker image for
+reproducibility reasons.</p>
+<p>This kind of deployment will also require some extra steps, such as setting up:</p>
+<ul>
+<li>A reverse-proxy link <a href="https://www.nginx.com">Nginx</a></li>
+<li>Automatic SSL/TLS certificate generation using <a href="https://letsencrypt.org">Let's Encrypt</a></li>
+<li>A firewall with sensitive rules (only allow ports 80 and 443)</li>
+<li>Security policies (only allow SSH access using public key, disable root user over SSH, etc.)</li>
+<li>External intrusion protection using <a href="https://www.fail2ban.org">fail2ban</a></li>
+<li>etc.</li>
+</ul>
+<p>If you do not know (nor want to know) how to perform this kind of setup, use more
+developer-friendly deployment options!</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        <a href="../usage/" class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Usage
+            </div>
+          </div>
+        </a>
+      
+      
+        <a href="../contributing/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Contributing
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": "0.8.1"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.4ea5477f.min.js"></script>
+      
+    
+  </body>
+</html>
