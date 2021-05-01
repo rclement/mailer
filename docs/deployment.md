@@ -1,6 +1,6 @@
 # Deployment
 
-You will need is to choose:
+You will need to choose:
 
 - A mailing provider
 - A cloud provider
@@ -54,29 +54,27 @@ You will need to create a Vercel account and to install the [Vercel CLI](https:/
 1. From the `mailer` codebase, create a new project on Vercel: `vercel`
 
 2. Create the secrets containing sensitive information for your configuration:
-
-```
-    vercel secrets add mailer-smtp-password xxxx
-    vercel secrets add mailer-recaptcha-secret-key zzzz
+```bash
+vercel secrets add mailer-smtp-password xxxx
+vercel secrets add mailer-recaptcha-secret-key zzzz
 ```
 
 3. Deploy as a function (with your appropriate configuration):
-
-```
-    vercel \
-        -e SENDER_EMAIL="no-reply@domain.me" \
-        -e TO_EMAIL="name@domain.com" \
-        -e TO_NAME="My Name" \
-        -e SMTP_HOST="smtp.host.com" \
-        -e SMTP_PORT="587" \
-        -e SMTP_TLS="true" \
-        -e SMTP_SSL="false" \
-        -e SMTP_USER="smtp-user" \
-        -e SMTP_PASSWORD=@mailer-smtp-password \
-        -e CORS_ORIGINS='["https://domain.com"]' \
-        -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
-        -e PGP_PUBLIC_KEY='LS0...==' \
-        -e SENTRY_DSN="azerty"
+```bash
+vercel \
+    -e SENDER_EMAIL="no-reply@domain.me" \
+    -e TO_EMAIL="name@domain.com" \
+    -e TO_NAME="My Name" \
+    -e SMTP_HOST="smtp.host.com" \
+    -e SMTP_PORT="587" \
+    -e SMTP_TLS="true" \
+    -e SMTP_SSL="false" \
+    -e SMTP_USER="smtp-user" \
+    -e SMTP_PASSWORD=@mailer-smtp-password \
+    -e CORS_ORIGINS='["https://domain.com"]' \
+    -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
+    -e PGP_PUBLIC_KEY='LS0...==' \
+    -e SENTRY_DSN="azerty"
 ```
 
 ## PaaS (e.g. Heroku, CleverCloud)
@@ -104,8 +102,8 @@ The `latest` tag will allow to retrieve non-stable changes
 
 If you want to quickly try the Docker image:
 
-```
-    docker run --env-file .env -p 5000:5000 rmnclmnt/mailer:latest
+```bash
+docker run --env-file .env -p 5000:5000 rmnclmnt/mailer:latest
 ```
 
 ## VPS

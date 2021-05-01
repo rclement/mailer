@@ -2,7 +2,7 @@
 
 ## Setup
 
-```
+```bash
 pipenv install -d
 pipenv run pre-commit install --config .pre-commit-config.yml
 pipenv run inv qa
@@ -11,21 +11,17 @@ pipenv run inv qa
 ## Running locally
 
 1. Set and load environment variables:
-
-```
+```bash
 cp .example.env .env
 edit .env
 pipenv shell
 ```
 
 2. Run dev server:
-
-```
+```bash
 uvicorn mailer.app:app --host 0.0.0.0 --port 8000
 ```
-
 or if using VSCode, use the following configuration in `.vscode/launch.json`:
-
 ```json
 {
   "version": "0.2.0",
@@ -50,8 +46,7 @@ or if using VSCode, use the following configuration in `.vscode/launch.json`:
 ```
 
 3. Try it:
-
-```
+```bash
 http GET http://localhost:8000/
 http POST http://localhost:8000/api/mail \
     Origin:http://localhost:8000 \

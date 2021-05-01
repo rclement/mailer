@@ -100,7 +100,7 @@ Explore ready-to-use examples to demonstrate how to use `mailer` in the `docs/ex
 To run the examples properly, do not just open the `.html` files, but be sure
 to server them with a basic HTTP server, for instance:
 
-```
+```bash
 python -m http.server <port>
 ```
 
@@ -110,17 +110,6 @@ thus all requests will fail.
 
 Be sure to configure and run an instance of `mailer` before using them!
 
-### Simple AJAX form
-
-[Code](examples/simple-ajax/code.md)
-[View](examples/simple-ajax/view.md)
-
-### Simple AJAX form with Google ReCaptcha
-
-[Code](examples/simple-ajax-recaptcha/code.md)
-[View](examples/simple-ajax-recaptcha/view.md)
-
-### Simple AJAX form with PGP encryption
-
-[Code](examples/simple-ajax-pgp/code.md)
-[View](examples/simple-ajax-pgp/view.md)
+- [Simple AJAX form](examples/simple-ajax/index.html)
+- [Simple AJAX form with Google ReCaptcha](examples/simple-ajax-recaptcha/index.html)
+- [Simple AJAX form with PGP encryption](examples/simple-ajax-pgp/index.html)

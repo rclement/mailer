@@ -1,3 +1,0 @@
-- [Deployment](deployment.md)
-- [Usage](usage.md)
-- [Contributing](contributing.md)
