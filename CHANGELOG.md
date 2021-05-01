@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.9.0] - 2021-05-01
 ### Added
 - Allow to force HTTPS redirect using `FORCE_HTTPS` (enabled by default)
 
@@ -148,7 +150,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.8.1...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.9.0...HEAD
+[0.9.0]: https://github.com/rclement/mailer/compare/0.8.1...0.9.0
 [0.8.1]: https://github.com/rclement/mailer/compare/0.8.0...0.8.1
 [0.8.0]: https://github.com/rclement/mailer/compare/0.7.1...0.8.0
 [0.7.1]: https://github.com/rclement/mailer/compare/0.7.0...0.7.1
