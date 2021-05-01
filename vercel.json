@@ -1,7 +1,7 @@
 {
   "version": 2,
   "builds": [
-    { "src": "mailer/__init__.py", "use": "@now/python" }
+    { "src": "mailer/__init__.py", "use": "@vercel/python" }
   ],
   "routes": [
     { "src": "/(.*)", "dest": "mailer/__init__.py"}

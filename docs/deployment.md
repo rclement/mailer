@@ -9,8 +9,8 @@ Most mailing providers offer a generous free-tier to get started
 ([Sendgrid](https://sendgrid.com), [Mailjet](https://mailjet.com), etc.)
 and allow usage via SMTP.
 
-Regarding cloud providers, you can start deploying with [Zeit Now 2.0](https://zeit.co) serverless platform within minutes!
-But any PaaS and/or Docker-compatible provider will do!
+Regarding cloud providers, you can start deploying with [Vercel](https://vercel.com)
+serverless platform within minutes! But any PaaS and/or Docker-compatible provider will do!
 
 ## Configuration
 
@@ -46,24 +46,24 @@ check the logs according to your deployment method.
 If something feels fishy, you can always post an issue on
 [GitHub](https://github.com/rclement/mailer/issues).
 
-## Serverless (e.g. Zeit Now)
+## Serverless (e.g. Vercel)
 
-The easiest way to get started with serverless deployment is to use [Zeit Now](https://zeit.co).
-You will need to create a Now account and to install the [Now CLI](https://zeit.co/download).
+The easiest way to get started with serverless deployment is to use [Vercel](https://vercel.com).
+You will need to create a Vercel account and to install the [Vercel CLI](https://vercel.com/cli).
 
-1. From the `mailer` codebase, create a new project on Now: `now`
+1. From the `mailer` codebase, create a new project on Vercel: `vercel`
 
 2. Create the secrets containing sensitive information for your configuration:
 
 ```
-    now secrets add mailer-smtp-password xxxx
-    now secrets add mailer-recaptcha-secret-key zzzz
+    vercel secrets add mailer-smtp-password xxxx
+    vercel secrets add mailer-recaptcha-secret-key zzzz
 ```
 
 3. Deploy as a function (with your appropriate configuration):
 
 ```
-    now \
+    vercel \
         -e SENDER_EMAIL="no-reply@domain.me" \
         -e TO_EMAIL="name@domain.com" \
         -e TO_NAME="My Name" \

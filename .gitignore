@@ -121,6 +121,7 @@ Thumbs.db
 .vscode/
 *.swp
 .now
+.vercel
 
 # PGP
 *.asc
