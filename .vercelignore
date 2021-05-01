@@ -2,6 +2,6 @@
 !mailer
 !templates
 !LICENSE
-!now.json
+!vercel.json
 !Pipfile
 !Pipfile.lock
