@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use Python 3.8.9
 - Use `python-slim` instead of `python-alpine` base for Docker image
+- Use `mkdocs` for documentation
 - Rename all Zeit Now references to Vercel
 - Update dependencies
 
