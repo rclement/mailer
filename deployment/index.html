@@ -564,30 +564,33 @@ You will need to create a Vercel account and to install the <a href="https://ver
 <p>From the <code>mailer</code> codebase, create a new project on Vercel: <code>vercel</code></p>
 </li>
 <li>
-<p>Create the secrets containing sensitive information for your configuration:
-<div class="highlight"><pre><span></span><code>vercel secrets add mailer-smtp-password xxxx
-vercel secrets add mailer-recaptcha-secret-key zzzz
-</code></pre></div></p>
+<p>Open the project in the webapp and configure required and optional environment variables
+   per environment (Production, Preview, Development):</p>
 </li>
 <li>
-<p>Deploy as a function (with your appropriate configuration):
-<div class="highlight"><pre><span></span><code>vercel <span class="se">\</span>
-    -e <span class="nv">SENDER_EMAIL</span><span class="o">=</span><span class="s2">&quot;no-reply@domain.me&quot;</span> <span class="se">\</span>
-    -e <span class="nv">TO_EMAIL</span><span class="o">=</span><span class="s2">&quot;name@domain.com&quot;</span> <span class="se">\</span>
-    -e <span class="nv">TO_NAME</span><span class="o">=</span><span class="s2">&quot;My Name&quot;</span> <span class="se">\</span>
-    -e <span class="nv">SMTP_HOST</span><span class="o">=</span><span class="s2">&quot;smtp.host.com&quot;</span> <span class="se">\</span>
-    -e <span class="nv">SMTP_PORT</span><span class="o">=</span><span class="s2">&quot;587&quot;</span> <span class="se">\</span>
-    -e <span class="nv">SMTP_TLS</span><span class="o">=</span><span class="s2">&quot;true&quot;</span> <span class="se">\</span>
-    -e <span class="nv">SMTP_SSL</span><span class="o">=</span><span class="s2">&quot;false&quot;</span> <span class="se">\</span>
-    -e <span class="nv">SMTP_USER</span><span class="o">=</span><span class="s2">&quot;smtp-user&quot;</span> <span class="se">\</span>
-    -e <span class="nv">SMTP_PASSWORD</span><span class="o">=</span>@mailer-smtp-password <span class="se">\</span>
-    -e <span class="nv">CORS_ORIGINS</span><span class="o">=</span><span class="s1">&#39;[&quot;https://domain.com&quot;]&#39;</span> <span class="se">\</span>
-    -e <span class="nv">RECAPTCHA_SECRET_KEY</span><span class="o">=</span>@mailer-recaptcha-secret-key <span class="se">\</span>
-    -e <span class="nv">PGP_PUBLIC_KEY</span><span class="o">=</span><span class="s1">&#39;LS0...==&#39;</span> <span class="se">\</span>
-    -e <span class="nv">SENTRY_DSN</span><span class="o">=</span><span class="s2">&quot;azerty&quot;</span>
-</code></pre></div></p>
+<p><code>SENDER_EMAIL</code></p>
+</li>
+<li><code>TO_EMAIL</code></li>
+<li><code>TO_NAME</code></li>
+<li><code>SMTP_HOST</code></li>
+<li><code>SMTP_PORT</code></li>
+<li><code>SMTP_TLS</code></li>
+<li><code>SMTP_SSL</code></li>
+<li><code>SMTP_USER</code></li>
+<li>
+<p><code>SMTP_PASSWORD</code></p>
+</li>
+<li>
+<p>Deploy to preview environment:</p>
 </li>
 </ol>
+<div class="highlight"><pre><span></span><code>vercel
+</code></pre></div>
+<ol>
+<li>Deploy to production environment:</li>
+</ol>
+<div class="highlight"><pre><span></span><code>vercel --prod
+</code></pre></div>
 <h2 id="paas-eg-heroku-clevercloud">PaaS (e.g. Heroku, CleverCloud)</h2>
 <p>The easiest way to get started with PaaS deployment is to use <a href="https://heroku.com">Heroku</a>.
 You will need to create a Heroku account and to install the
