@@ -53,28 +53,29 @@ You will need to create a Vercel account and to install the [Vercel CLI](https:/
 
 1. From the `mailer` codebase, create a new project on Vercel: `vercel`
 
-2. Create the secrets containing sensitive information for your configuration:
+2. Open the project in the webapp and configure required and optional environment variables
+   per environment (Production, Preview, Development):
+
+- `SENDER_EMAIL`
+- `TO_EMAIL`
+- `TO_NAME`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_TLS`
+- `SMTP_SSL`
+- `SMTP_USER`
+- `SMTP_PASSWORD`
+
+3. Deploy to preview environment:
+
 ```bash
-vercel secrets add mailer-smtp-password xxxx
-vercel secrets add mailer-recaptcha-secret-key zzzz
+vercel
 ```
 
-3. Deploy as a function (with your appropriate configuration):
+4. Deploy to production environment:
+
 ```bash
-vercel \
-    -e SENDER_EMAIL="no-reply@domain.me" \
-    -e TO_EMAIL="name@domain.com" \
-    -e TO_NAME="My Name" \
-    -e SMTP_HOST="smtp.host.com" \
-    -e SMTP_PORT="587" \
-    -e SMTP_TLS="true" \
-    -e SMTP_SSL="false" \
-    -e SMTP_USER="smtp-user" \
-    -e SMTP_PASSWORD=@mailer-smtp-password \
-    -e CORS_ORIGINS='["https://domain.com"]' \
-    -e RECAPTCHA_SECRET_KEY=@mailer-recaptcha-secret-key \
-    -e PGP_PUBLIC_KEY='LS0...==' \
-    -e SENTRY_DSN="azerty"
+vercel --prod
 ```
 
 ## PaaS (e.g. Heroku, CleverCloud)

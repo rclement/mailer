@@ -32,7 +32,7 @@
 fetch('{{ url_for('post_mail') }}', {
   method: 'POST',
   headers: {
-      'Content-Type': 'application/json'
+    'Content-Type': 'application/json'
   },
   body: JSON.stringify({
     email: 'john@doe.com',

@@ -76,32 +76,9 @@ jobs:
       - name: Select Vercel environment (production only)
         if: contains(github.ref, 'tags')
         run: echo "VERCEL_ENV_ARG=--prod" >> $GITHUB_ENV
-      - name: Register Vercel secrets
-        run: |
-          vercel secrets \
-            --token '${{ secrets.VERCEL_TOKEN }}' \
-            add mailer-smtp-password '${{ secrets.MAILER_SMTP_PASSWORD }}' || true
-          vercel secrets \
-            --token '${{ secrets.VERCEL_TOKEN }}' \
-            add mailer-recaptcha-secret-key '${{ secrets.MAILER_RECAPTCHA_SECRET_KEY }}' || true
       - name: Deploy to Vercel
         run: |
-          vercel deploy \
-            --confirm \
-            --token '${{ secrets.VERCEL_TOKEN }}' \
-            $VERCEL_ENV_ARG \
-            -e SENDER_EMAIL='${{ secrets.MAILER_SENDER_EMAIL }}' \
-            -e TO_EMAIL='${{ secrets.MAILER_TO_EMAIL }}' \
-            -e TO_NAME='${{ secrets.MAILER_TO_NAME }}' \
-            -e SMTP_HOST='${{ secrets.MAILER_SMTP_HOST }}' \
-            -e SMTP_PORT='${{ secrets.MAILER_SMTP_PORT }}' \
-            -e SMTP_TLS='${{ secrets.MAILER_SMTP_TLS }}' \
-            -e SMTP_SSL='${{ secrets.MAILER_SMTP_SSL }}' \
-            -e SMTP_USER='${{ secrets.MAILER_SMTP_USER }}' \
-            -e SMTP_PASSWORD=@mailer-smtp-password \
-            -e CORS_ORIGINS='${{ secrets.MAILER_CORS_ORIGINS }}' \
-            -e PGP_PUBLIC_KEY='${{ secrets.MAILER_PGP_PUBLIC_KEY }}' \
-            -e SENTRY_DSN='${{ secrets.MAILER_SENTRY_DSN }}'
+          vercel deploy --confirm --token '${{ secrets.VERCEL_TOKEN }}' $VERCEL_ENV_ARG
 
   deploy-docs:
     name: Deploy Documentation
