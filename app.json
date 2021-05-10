@@ -31,6 +31,26 @@
     },
     "SMTP_PASSWORD": {
       "description": "SMTP host password (or API key)"
+    },
+    "FORCE_HTTPS": {
+      "description": "Force HTTPS redirect",
+      "required": false
+    },
+    "CORS_ORIGINS": {
+      "description": "List (JSON string) of authorized origins for CORS origins and Origin request header validation",
+      "required": false
+    },
+    "RECAPTCHA_SECRET_KEY": {
+      "description": "Google ReCaptcha v2 secret key",
+      "required": false
+    },
+    "PGP_PUBLIC_KEY": {
+      "description": "Base64-encoded PGP public key to encrypt e-mails with before sending to SMTP backend (generate with cat <pub.asc> | base64)",
+      "required": false
+    },
+    "SENTRY_DSN": {
+      "description": "Sentry crash reporting DSN",
+      "required": false
     }
   }
 }
