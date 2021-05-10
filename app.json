@@ -1,0 +1,36 @@
+{
+  "name": "Mailer",
+  "description": "Dead-simple mailer micro-service for static websites",
+  "website": "https://mailer.romain-clement.net",
+  "repository": "https://github.com/rclement/mailer",
+  "keywords": ["python", "fastapi", "mailer", "smtp", "pgp"],
+  "env": {
+    "SENDER_EMAIL": {
+      "description": "E-mail address to send e-mail from"
+    },
+    "TO_EMAIL": {
+      "description": "E-mail address of the recipient"
+    },
+    "TO_NAME": {
+      "description": "Name of the recipient"
+    },
+    "SMTP_HOST": {
+      "description": "SMTP host URL"
+    },
+    "SMTP_PORT": {
+      "description": "SMTP host port"
+    },
+    "SMTP_TLS": {
+      "description": "SMTP host use TLS (mutually exclusive with SSL)"
+    },
+    "SMTP_SSL": {
+      "description": "SMTP host use SSL (mutually exclusive with TLS)"
+    },
+    "SMTP_USER": {
+      "description": "SMTP host user"
+    },
+    "SMTP_PASSWORD": {
+      "description": "SMTP host password (or API key)"
+    }
+  }
+}

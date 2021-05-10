@@ -7,6 +7,8 @@
 [![Coverage Status](https://img.shields.io/codecov/c/github/rclement/mailer)](https://codecov.io/gh/rclement/mailer)
 [![License](https://img.shields.io/github/license/rclement/mailer)](https://github.com/rmnclmnt/mailer/blob/master/LICENSE)
 [![Docker Pulls](https://img.shields.io/docker/pulls/rmnclmnt/mailer.svg)](https://hub.docker.com/r/rmnclmnt/mailer)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/rclement/mailer&env=SENDER_EMAIL,TO_EMAIL,TO_NAME,SMTP_HOST,SMTP_PORT,SMTP_TLS,SMTP_SSL,SMTP_USER,SMTP_PASSWORD&envDescription=Configuration&envLink=https://mailer.romain-clement.net/deployment/#configuration)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/rclement/mailer)
 
 A free and open-source software alternative to contact form services such as FormSpree,
 to integrate a contact form seamlessly within your next static website!
