@@ -32,7 +32,7 @@ python-dotenv = "~=0.17.1"
 responses = "~=0.13.3"
 safety = "~=1.10.3"
 types-certifi = "~=0.1.4"
-types-requests = "~=0.1.11"
+types-requests = "~=0.1.12"
 
 [requires]
 python_full_version = "3.8.10"
