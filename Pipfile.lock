@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7ab4382dfc33c1921f96198dea7cf22b4a1db372d133d75f641b0e547b44c4c0"
+            "sha256": "c4d14c56a4da00bf9d5beb75dc055bc290b7d9526e3b51d1cbc36b1dde1cd510"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -532,11 +532,11 @@
         },
         "importlib-metadata": {
             "hashes": [
-                "sha256:01bd9dacafffebd89b0c00ba24d2704322c3e4c6996a9120d0a1bdbdc08e8bd2",
-                "sha256:75858eea2febdbbaf83e2242270a29aba654e7fbf34de4a559e2f3873878eba4"
+                "sha256:0645585859e9a6689c523927a5032f2ba5919f1f7d0e84bd4533312320de1ff9",
+                "sha256:51c6635429c77cf1ae634c997ff9e53ca3438b495f10a55ba28594dd69764a8b"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==4.6.2"
+            "version": "==4.6.3"
         },
         "iniconfig": {
             "hashes": [
@@ -1024,11 +1024,11 @@
         },
         "types-requests": {
             "hashes": [
-                "sha256:2d514ee172088a8fc0d554537d6424bd261c18e63195cfe47c410df0de0ed96f",
-                "sha256:6e9534281fe5d06ba8116807a8de930b90b6f92dff179f8cbfa2dfdd3bd2c465"
+                "sha256:03122b582f5300ec35ac6692f2634207c467e602dc9ba46b5811a9f6ce0b0bc2",
+                "sha256:a4c03c654527957a70002079ca48669b53d82eac4811abf140ea93847b65529b"
             ],
             "index": "pypi",
-            "version": "==2.25.1"
+            "version": "==2.25.2"
         },
         "typing-extensions": {
             "hashes": [
@@ -1048,11 +1048,11 @@
         },
         "virtualenv": {
             "hashes": [
-                "sha256:51df5d8a2fad5d1b13e088ff38a433475768ff61f202356bb9812c454c20ae45",
-                "sha256:e4fc84337dce37ba34ef520bf2d4392b392999dbe47df992870dc23230f6b758"
+                "sha256:97066a978431ec096d163e72771df5357c5c898ffdd587048f45e0aecc228094",
+                "sha256:fdfdaaf0979ac03ae7f76d5224a05b58165f3c804f8aa633f3dd6f22fbd435d5"
             ],
             "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4'",
-            "version": "==20.6.0"
+            "version": "==20.7.0"
         },
         "watchdog": {
             "hashes": [
