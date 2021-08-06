@@ -2,22 +2,22 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://mailer.romain-clement.net/</loc>
-         <lastmod>2021-08-03</lastmod>
+         <lastmod>2021-08-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://mailer.romain-clement.net/contributing/</loc>
-         <lastmod>2021-08-03</lastmod>
+         <lastmod>2021-08-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://mailer.romain-clement.net/deployment/</loc>
-         <lastmod>2021-08-03</lastmod>
+         <lastmod>2021-08-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://mailer.romain-clement.net/usage/</loc>
-         <lastmod>2021-08-03</lastmod>
+         <lastmod>2021-08-06</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
