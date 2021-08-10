@@ -1,7 +1,15 @@
+from pgpy.pgp import PGPKey
 import pytest
 
 from base64 import urlsafe_b64encode
 from http import HTTPStatus
+from typing import Any, Dict, List, Tuple
+from unittest.mock import MagicMock
+from faker import Faker
+from fastapi import FastAPI
+from pytest_mock import MockerFixture
+from responses import RequestsMock
+from starlette.testclient import TestClient
 
 from . import utils
 
@@ -10,17 +18,19 @@ from . import utils
 
 
 @pytest.fixture(scope="function")
-def enable_cors_origins_single(monkeypatch, faker):
-    origin = faker.url()
+def enable_cors_origins_single(monkeypatch: pytest.MonkeyPatch, faker: Faker) -> str:
+    origin: str = faker.url()
     monkeypatch.setenv("CORS_ORIGINS", f'["{origin}"]')
     return origin
 
 
 @pytest.fixture(scope="function")
-def enable_cors_origins_multiple(monkeypatch, faker):
+def enable_cors_origins_multiple(
+    monkeypatch: pytest.MonkeyPatch, faker: Faker
+) -> List[str]:
     import json
 
-    origins = [faker.url(), faker.url()]
+    origins: List[str] = [faker.url(), faker.url()]
     monkeypatch.setenv("CORS_ORIGINS", f"{json.dumps(origins)}")
 
     return origins
@@ -30,28 +40,28 @@ def enable_cors_origins_multiple(monkeypatch, faker):
 
 
 @pytest.fixture(scope="function")
-def enable_smtp_ssl(monkeypatch, faker):
+def enable_smtp_ssl(monkeypatch: pytest.MonkeyPatch, faker: Faker) -> None:
     monkeypatch.setenv("SMTP_PORT", "465")
     monkeypatch.setenv("SMTP_TLS", "false")
     monkeypatch.setenv("SMTP_SSL", "true")
 
 
 @pytest.fixture(scope="function")
-def mock_smtp_ssl(mocker):
+def mock_smtp_ssl(mocker: MockerFixture) -> MagicMock:
     mock_client = mocker.patch("smtplib.SMTP_SSL", autospec=True)
 
     return mock_client
 
 
 @pytest.fixture(scope="function")
-def mock_smtp(mocker):
+def mock_smtp(mocker: MockerFixture) -> MagicMock:
     mock_client = mocker.patch("smtplib.SMTP", autospec=True)
 
     return mock_client
 
 
 @pytest.fixture(scope="function")
-def mock_smtp_connect_error(mock_smtp):
+def mock_smtp_connect_error(mock_smtp: MagicMock) -> MagicMock:
     from smtplib import SMTPConnectError
 
     mock_smtp.side_effect = SMTPConnectError(400, "error")
@@ -60,7 +70,7 @@ def mock_smtp_connect_error(mock_smtp):
 
 
 @pytest.fixture(scope="function")
-def mock_smtp_tls_error(mock_smtp, mocker):
+def mock_smtp_tls_error(mock_smtp: MagicMock, mocker: MockerFixture) -> MagicMock:
     from smtplib import SMTPNotSupportedError
 
     mock_smtp.return_value.starttls = mocker.Mock(
@@ -71,7 +81,7 @@ def mock_smtp_tls_error(mock_smtp, mocker):
 
 
 @pytest.fixture(scope="function")
-def mock_smtp_auth_error(mock_smtp, mocker):
+def mock_smtp_auth_error(mock_smtp: MagicMock, mocker: MockerFixture) -> MagicMock:
     from smtplib import SMTPAuthenticationError
 
     mock_smtp.return_value.login = mocker.Mock(
@@ -82,7 +92,7 @@ def mock_smtp_auth_error(mock_smtp, mocker):
 
 
 @pytest.fixture(scope="function")
-def mock_smtp_send_error(mock_smtp, mocker):
+def mock_smtp_send_error(mock_smtp: MagicMock, mocker: MockerFixture) -> MagicMock:
     from smtplib import SMTPDataError
 
     mock_smtp.return_value.send_message = mocker.Mock(
@@ -100,26 +110,31 @@ valid_recaptcha_response = "valid-recaptcha-response"
 
 
 @pytest.fixture(scope="function")
-def enable_recaptcha(monkeypatch):
+def enable_recaptcha(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setenv("RECAPTCHA_SECRET_KEY", valid_recaptcha_secret)
 
 
 @pytest.fixture(scope="function")
-def enable_recaptcha_invalid_secret(monkeypatch, faker):
+def enable_recaptcha_invalid_secret(
+    monkeypatch: pytest.MonkeyPatch, faker: Faker
+) -> None:
     monkeypatch.setenv("RECAPTCHA_SECRET_KEY", faker.pystr())
 
 
 @pytest.fixture(scope="function")
-def mock_recaptcha_verify_api(responses, faker):
+def mock_recaptcha_verify_api(responses: RequestsMock, faker: Faker) -> RequestsMock:
+    from requests.models import PreparedRequest
     from mailer import recaptcha
 
-    def request_callback(request):
+    def request_callback(
+        request: PreparedRequest,
+    ) -> Tuple[HTTPStatus, Dict[str, Any], str]:
         import json
         from urllib.parse import parse_qs
 
-        headers = {}
+        headers: Dict[str, Any] = {}
 
-        params = parse_qs(request.body)
+        params = parse_qs(str(request.body))
         secret = params.get("secret")
         response = params.get("response")
 
@@ -132,7 +147,7 @@ def mock_recaptcha_verify_api(responses, faker):
         elif response != [valid_recaptcha_response]:
             errors.append("invalid-input-response")
 
-        body = {}
+        body: Dict[str, Any] = {}
         if len(errors) > 0:
             body["success"] = False
             body["error-codes"] = errors
@@ -157,7 +172,7 @@ def mock_recaptcha_verify_api(responses, faker):
 
 
 @pytest.fixture(scope="function")
-def enable_pgp_public_key(monkeypatch, faker):
+def enable_pgp_public_key(monkeypatch: pytest.MonkeyPatch, faker: Faker) -> PGPKey:
     pgp_key = utils.generate_pgp_key_pair(faker.name(), faker.email())
     pub_key = urlsafe_b64encode(str(pgp_key.pubkey).encode("utf-8")).decode("utf-8")
     monkeypatch.setenv("PGP_PUBLIC_KEY", pub_key)
@@ -169,7 +184,7 @@ def enable_pgp_public_key(monkeypatch, faker):
 
 
 @pytest.fixture(scope="function")
-def params_success(faker):
+def params_success(faker: Faker) -> Dict[str, str]:
     return {
         "email": faker.email(),
         "name": faker.name(),
@@ -182,7 +197,7 @@ def params_success(faker):
 # ------------------------------------------------------------------------------
 
 
-def test_get_api_info_success(app_client):
+def test_get_api_info_success(app_client: TestClient) -> None:
     from mailer import __about__
 
     response = app_client.get("/api/")
@@ -197,7 +212,12 @@ def test_get_api_info_success(app_client):
 # ------------------------------------------------------------------------------
 
 
-def test_send_mail_success(app_client, mock_smtp, params_success):
+def test_send_mail_success(
+    app: FastAPI,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -217,7 +237,7 @@ def test_send_mail_success(app_client, mock_smtp, params_success):
     assert mock_smtp.return_value.quit.call_count == 1
 
     sent_msg = mock_smtp.return_value.send_message.call_args.args[0].as_string()
-    app_settings = app_client.app.state.settings
+    app_settings = app.state.settings
     utils.assert_plain_email(
         sent_msg,
         params["email"],
@@ -231,8 +251,12 @@ def test_send_mail_success(app_client, mock_smtp, params_success):
 
 
 def test_send_mail_ssl_success(
-    enable_smtp_ssl, app_client, mock_smtp_ssl, params_success
-):
+    enable_smtp_ssl: None,
+    app: FastAPI,
+    app_client: TestClient,
+    mock_smtp_ssl: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -248,7 +272,7 @@ def test_send_mail_ssl_success(
     assert mock_smtp_ssl.call_count == 1
 
     sent_msg = mock_smtp_ssl.return_value.send_message.call_args.args[0].as_string()
-    app_settings = app_client.app.state.settings
+    app_settings = app.state.settings
     utils.assert_plain_email(
         sent_msg,
         params["email"],
@@ -262,8 +286,10 @@ def test_send_mail_ssl_success(
 
 
 def test_send_mail_smtp_connect_failed(
-    app_client, mock_smtp_connect_error, params_success
-):
+    app_client: TestClient,
+    mock_smtp_connect_error: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -276,7 +302,11 @@ def test_send_mail_smtp_connect_failed(
     assert mock_smtp_connect_error.return_value.quit.call_count == 0
 
 
-def test_send_mail_smtp_tls_failed(app_client, mock_smtp_tls_error, params_success):
+def test_send_mail_smtp_tls_failed(
+    app_client: TestClient,
+    mock_smtp_tls_error: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -289,7 +319,11 @@ def test_send_mail_smtp_tls_failed(app_client, mock_smtp_tls_error, params_succe
     assert mock_smtp_tls_error.return_value.quit.call_count == 0
 
 
-def test_send_mail_smtp_login_failed(app_client, mock_smtp_auth_error, params_success):
+def test_send_mail_smtp_login_failed(
+    app_client: TestClient,
+    mock_smtp_auth_error: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -302,7 +336,11 @@ def test_send_mail_smtp_login_failed(app_client, mock_smtp_auth_error, params_su
     assert mock_smtp_auth_error.return_value.quit.call_count == 0
 
 
-def test_send_mail_smtp_send_failed(app_client, mock_smtp_send_error, params_success):
+def test_send_mail_smtp_send_failed(
+    app_client: TestClient,
+    mock_smtp_send_error: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -315,21 +353,23 @@ def test_send_mail_smtp_send_failed(app_client, mock_smtp_send_error, params_suc
     assert mock_smtp_send_error.return_value.quit.call_count == 0
 
 
-def test_send_mail_none(app_client, mock_smtp):
-    params = {}
+def test_send_mail_none(app_client: TestClient, mock_smtp: MagicMock) -> None:
+    params: Dict[str, str] = {}
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_fields(app_client, mock_smtp):
+def test_send_mail_empty_fields(app_client: TestClient, mock_smtp: MagicMock) -> None:
     params = {"email": "", "name": "", "subject": "", "message": "", "honeypot": ""}
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_email(app_client, mock_smtp, params_success):
+def test_send_mail_empty_email(
+    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+) -> None:
     params = params_success
     params["email"] = ""
 
@@ -337,7 +377,9 @@ def test_send_mail_empty_email(app_client, mock_smtp, params_success):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_name(app_client, mock_smtp, params_success):
+def test_send_mail_empty_name(
+    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+) -> None:
     params = params_success
     params["name"] = ""
 
@@ -345,7 +387,9 @@ def test_send_mail_empty_name(app_client, mock_smtp, params_success):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_subject(app_client, mock_smtp, params_success):
+def test_send_mail_empty_subject(
+    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+) -> None:
     params = params_success
     params["subject"] = ""
 
@@ -353,7 +397,9 @@ def test_send_mail_empty_subject(app_client, mock_smtp, params_success):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_empty_message(app_client, mock_smtp, params_success):
+def test_send_mail_empty_message(
+    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+) -> None:
     params = params_success
     params["message"] = ""
 
@@ -361,7 +407,9 @@ def test_send_mail_empty_message(app_client, mock_smtp, params_success):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_bad_email(app_client, mock_smtp, params_success):
+def test_send_mail_bad_email(
+    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+) -> None:
     params = params_success
     params["email"] = "joe@doe"
 
@@ -369,7 +417,12 @@ def test_send_mail_bad_email(app_client, mock_smtp, params_success):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_too_long_name(app_client, mock_smtp, params_success, faker):
+def test_send_mail_too_long_name(
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     params = params_success
     params["name"] = faker.text(max_nb_chars=100)
 
@@ -377,7 +430,12 @@ def test_send_mail_too_long_name(app_client, mock_smtp, params_success, faker):
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_too_long_subject(app_client, mock_smtp, params_success, faker):
+def test_send_mail_too_long_subject(
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     params = params_success
     params["subject"] = faker.text(max_nb_chars=2000)
 
@@ -385,7 +443,12 @@ def test_send_mail_too_long_subject(app_client, mock_smtp, params_success, faker
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_too_long_message(app_client, mock_smtp, params_success, faker):
+def test_send_mail_too_long_message(
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     params = params_success
     params["message"] = faker.text(max_nb_chars=2000)
 
@@ -393,7 +456,12 @@ def test_send_mail_too_long_message(app_client, mock_smtp, params_success, faker
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
 
 
-def test_send_mail_non_empty_honeypot(app_client, mock_smtp, params_success, faker):
+def test_send_mail_non_empty_honeypot(
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     params = params_success
     params["honeypot"] = faker.text()
 
@@ -402,8 +470,12 @@ def test_send_mail_non_empty_honeypot(app_client, mock_smtp, params_success, fak
 
 
 def test_send_mail_cors_origin_single(
-    enable_cors_origins_single, app_client, mock_smtp, params_success, faker
-):
+    enable_cors_origins_single: str,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     params = params_success
 
     response = app_client.options(
@@ -429,8 +501,12 @@ def test_send_mail_cors_origin_single(
 
 
 def test_send_mail_cors_origin_multiple(
-    enable_cors_origins_multiple, app_client, mock_smtp, params_success, faker
-):
+    enable_cors_origins_multiple: List[str],
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     params = params_success
 
     for origin in enable_cors_origins_multiple:
@@ -452,8 +528,12 @@ def test_send_mail_cors_origin_multiple(
 
 
 def test_send_mail_recaptcha_success(
-    enable_recaptcha, app_client, mock_smtp, mock_recaptcha_verify_api, params_success
-):
+    enable_recaptcha: None,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    mock_recaptcha_verify_api: RequestsMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
     params["g-recaptcha-response"] = valid_recaptcha_response
 
@@ -462,12 +542,12 @@ def test_send_mail_recaptcha_success(
 
 
 def test_send_mail_recaptcha_invalid_secret(
-    enable_recaptcha_invalid_secret,
-    app_client,
-    mock_smtp,
-    mock_recaptcha_verify_api,
-    params_success,
-):
+    enable_recaptcha_invalid_secret: None,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    mock_recaptcha_verify_api: RequestsMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
     params["g-recaptcha-response"] = valid_recaptcha_response
 
@@ -476,8 +556,12 @@ def test_send_mail_recaptcha_invalid_secret(
 
 
 def test_send_mail_recaptcha_no_response(
-    enable_recaptcha, app_client, mock_smtp, mock_recaptcha_verify_api, params_success
-):
+    enable_recaptcha: None,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    mock_recaptcha_verify_api: RequestsMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
     params["g-recaptcha-response"] = ""
 
@@ -486,13 +570,13 @@ def test_send_mail_recaptcha_no_response(
 
 
 def test_send_mail_recaptcha_invalid_response(
-    enable_recaptcha,
-    app_client,
-    mock_smtp,
-    mock_recaptcha_verify_api,
-    params_success,
-    faker,
-):
+    enable_recaptcha: None,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    mock_recaptcha_verify_api: RequestsMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     params = params_success
     params["g-recaptcha-response"] = faker.pystr()
 
@@ -501,8 +585,12 @@ def test_send_mail_recaptcha_invalid_response(
 
 
 def test_send_pgp_mail_success(
-    enable_pgp_public_key, app_client, mock_smtp, params_success
-):
+    enable_pgp_public_key: PGPKey,
+    app: FastAPI,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
     params = params_success
 
     response = app_client.post("/api/mail", json=params)
@@ -522,7 +610,7 @@ def test_send_pgp_mail_success(
 
     message = mock_smtp.return_value.send_message.call_args.args[0]
     sent_msg = message.as_string()
-    app_settings = app_client.app.state.settings
+    app_settings = app.state.settings
     embedded_pub_key = utils.assert_pgp_email(
         sent_msg,
         params["email"],
@@ -539,8 +627,13 @@ def test_send_pgp_mail_success(
 
 
 def test_send_pgp_mail_with_attached_public_key_success(
-    enable_pgp_public_key, app_client, mock_smtp, params_success, faker
-):
+    enable_pgp_public_key: PGPKey,
+    app: FastAPI,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     sender_key = utils.generate_pgp_key_pair(faker.name(), faker.email())
 
     params = params_success
@@ -563,7 +656,7 @@ def test_send_pgp_mail_with_attached_public_key_success(
 
     message = mock_smtp.return_value.send_message.call_args.args[0]
     sent_msg = message.as_string()
-    app_settings = app_client.app.state.settings
+    app_settings = app.state.settings
     embedded_pub_key = utils.assert_pgp_email(
         sent_msg,
         params["email"],
@@ -585,8 +678,12 @@ def test_send_pgp_mail_with_attached_public_key_success(
 
 
 def test_send_pgp_mail_with_attached_public_key_private(
-    enable_pgp_public_key, app_client, mock_smtp, params_success, faker
-):
+    enable_pgp_public_key: PGPKey,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     sender_key = utils.generate_pgp_key_pair(faker.name(), faker.email())
 
     params = params_success
@@ -597,8 +694,12 @@ def test_send_pgp_mail_with_attached_public_key_private(
 
 
 def test_send_pgp_mail_with_attached_public_key_invalid(
-    enable_pgp_public_key, app_client, mock_smtp, params_success, faker
-):
+    enable_pgp_public_key: PGPKey,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
     pgp_key = urlsafe_b64encode(faker.binary()).decode("utf-8")
 
     params = params_success

@@ -17,7 +17,7 @@ def lint(ctx):
 
 @task
 def static_check(ctx):
-    ctx.run(f"mypy --strict {app_path}", pty=True)
+    ctx.run(f"mypy --strict {app_path} {tests_path}", pty=True)
 
 
 @task

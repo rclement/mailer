@@ -1,9 +1,11 @@
 import pytest
 
+from faker import Faker
+
 from mailer import mailer
 
 
-def test_send_pgp_message_encryption_failed(faker):
+def test_send_pgp_message_encryption_failed(faker: Faker) -> None:
     from . import utils
 
     pgp_key = utils.generate_pgp_key_pair(faker.name(), faker.email())

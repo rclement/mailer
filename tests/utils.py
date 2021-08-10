@@ -42,9 +42,9 @@ def generate_pgp_key_pair(name: str, email: str) -> pgpy.PGPKey:
 def encrypt_pgp_message(public_key: str, message: str) -> str:
     import pgpy
 
-    public_key, _ = pgpy.PGPKey.from_blob(public_key)
+    pgp_key, _ = pgpy.PGPKey.from_blob(public_key)
     plain_message = pgpy.PGPMessage.new(message)
-    pgp_message = public_key.encrypt(plain_message)
+    pgp_message = pgp_key.encrypt(plain_message)
 
     return str(pgp_message)
 
@@ -74,7 +74,7 @@ def assert_pgp_email(
     p = parser.Parser()
     mail = p.parsestr(email_str)
 
-    mail_headers = {h[0]: h[1] for h in mail._headers}
+    mail_headers = {k: v for k, v in mail.items()}
     assert (
         'multipart/encrypted; protocol="application/pgp-encrypted"; charset="UTF-8";'
         in mail_headers["Content-Type"]
@@ -89,14 +89,14 @@ def assert_pgp_email(
     assert email in mail_headers["Reply-To"]
     assert mail_headers["Subject"]
 
-    pgp_mime = mail._payload[0]
-    pgp_mime_headers = {h[0]: h[1] for h in pgp_mime._headers}
+    pgp_mime = mail.get_payload(0)
+    pgp_mime_headers = {k: v for k, v in pgp_mime._headers}
     assert pgp_mime_headers["Content-Type"] == "application/pgp-encrypted"
     assert pgp_mime_headers["Content-Description"] == "PGP/MIME version identification"
     assert pgp_mime._payload == "Version: 1\n"
 
-    pgp_enc_body = mail._payload[1]
-    pgp_enc_body_headers = {h[0]: h[1] for h in pgp_enc_body._headers}
+    pgp_enc_body = mail.get_payload(1)
+    pgp_enc_body_headers = {k: v for k, v in pgp_enc_body._headers}
     assert (
         pgp_enc_body_headers["Content-Type"]
         == 'application/octet-stream; name="encrypted.asc"'
@@ -112,11 +112,11 @@ def assert_pgp_email(
     dec_message_str = decrypt_pgp_message(str(private_key), pgp_enc_body._payload)
 
     dec_email = p.parsestr(dec_message_str)
-    dec_email_headers = {h[0]: h[1] for h in dec_email._headers}
+    dec_email_headers = {k: v for k, v in dec_email.items()}
     assert "multipart/mixed" in dec_email_headers["Content-Type"]
 
-    dec_email_body = dec_email._payload[0]
-    dec_email_body_headers = {h[0]: h[1] for h in dec_email_body._headers}
+    dec_email_body = dec_email.get_payload(0)
+    dec_email_body_headers = {k: v for k, v in dec_email_body._headers}
     assert dec_email_body_headers["Content-Type"] == 'text/plain; charset="utf-8"'
     assert dec_email_body_headers["MIME-Version"] == "1.0"
     assert dec_email_body_headers["Content-Transfer-Encoding"] == "base64"
@@ -125,9 +125,9 @@ def assert_pgp_email(
     assert dec_email_body_payload == message
 
     pub_key = None
-    if len(dec_email._payload) == 2 and sender_public_key:
-        dec_email_attach = dec_email._payload[1]
-        dec_email_attach_headers = {h[0]: h[1] for h in dec_email_attach._headers}
+    if dec_email.is_multipart() and sender_public_key:
+        dec_email_attach = dec_email.get_payload(1)
+        dec_email_attach_headers = {k: v for k, v in dec_email_attach._headers}
         assert (
             dec_email_attach_headers["Content-Type"]
             == 'application/pgp-keys; name="publickey.asc"'
@@ -157,7 +157,7 @@ def assert_plain_email(
     p = parser.Parser()
     mail = p.parsestr(email_str)
 
-    mail_headers = {h[0]: h[1] for h in mail._headers}
+    mail_headers = {k: v for k, v in mail.items()}
     assert "multipart/mixed" in mail_headers["Content-Type"]
     assert mail_headers["MIME-Version"] == "1.0"
     assert mail_headers["Date"]
@@ -170,8 +170,8 @@ def assert_plain_email(
     assert mail_headers["Subject"]
     assert mail.preamble == "This is a multi-part message in MIME format.\n"
 
-    body = mail._payload[0]
-    body_headers = {h[0]: h[1] for h in body._headers}
+    body = mail.get_payload(0)
+    body_headers = {k: v for k, v in body._headers}
     assert body_headers["Content-Type"] == 'text/plain; charset="utf-8"'
     assert body_headers["MIME-Version"] == "1.0"
     assert body_headers["Content-Transfer-Encoding"] == "base64"
