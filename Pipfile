@@ -35,4 +35,4 @@ types-certifi = "~=0.1.4"
 types-requests = "~=2.25.6"
 
 [requires]
-python_full_version = "3.8.10"
+python_full_version = "3.9.6"
