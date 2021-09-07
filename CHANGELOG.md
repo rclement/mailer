@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Type hints for tests
 
 ### Changed
-- Use Python 3.9.6
+- Use Python 3.9.7
 - Update dependencies
 
 ## [0.9.1] - 2021-06-17
