@@ -1,7 +1,7 @@
 # Usage
 
 Once `mailer` is deployed, either on your own custom domain or locally, you can
-start receiving e-mails, using an AJAX request.
+start receiving e-mails, using a URL-encoded or an AJAX request.
 
 Given that these features are enabled with your deployment, the following options are available:
 
@@ -28,10 +28,9 @@ of your deployment (e.g. `https://mailer.domain.me/redoc`).
 When using AJAX requests, make sure the `Origin` header matches one of the domains
 specified in the `CORS_ORIGINS` configuration of your deployment.
 
-<!--
 ## HTML Form
 
-**TODO**
+Using a standard HTML form to perform an URL-encoded request:
 
 ```html
 <form action="https://mailer.domain.me/api/mail/form" method="POST">
@@ -51,7 +50,6 @@ specified in the `CORS_ORIGINS` configuration of your deployment.
   <input type="submit" value="Send" />
 </form>
 ```
--->
 
 ## Fetch API
 
@@ -110,6 +108,6 @@ thus all requests will fail.
 
 Be sure to configure and run an instance of `mailer` before using them!
 
-- [Simple AJAX form](examples/simple-ajax/index.html)
-- [Simple AJAX form with Google ReCaptcha](examples/simple-ajax-recaptcha/index.html)
-- [Simple AJAX form with PGP encryption](examples/simple-ajax-pgp/index.html)
+- [Simple AJAX form](examples/simple-ajax.html)
+- [Simple AJAX form with Google ReCaptcha](examples/simple-ajax-recaptcha.html)
+- [Simple AJAX form with PGP encryption](examples/simple-ajax-pgp.html)
