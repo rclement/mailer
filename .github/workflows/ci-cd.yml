@@ -64,7 +64,7 @@ jobs:
   deploy-vercel:
     name: Vercel deployment
     runs-on: ubuntu-latest
-    needs: test
+    needs: build-docker
     if: contains(github.ref, 'master') || contains(github.ref, 'tags')
 
     env:
@@ -84,7 +84,7 @@ jobs:
   deploy-docs:
     name: Deploy Documentation
     runs-on: ubuntu-latest
-    needs: test
+    needs: build-docker
     if: contains(github.ref, 'master')
 
     steps:
