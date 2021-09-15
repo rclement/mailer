@@ -16,6 +16,7 @@ nav:
   - 'usage.md'
   - 'deployment.md'
   - 'contributing.md'
+  - 'changelog.md'
 
 theme:
   name: material

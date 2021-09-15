@@ -1,7 +1,8 @@
 from typing import Dict, Optional
 from http import HTTPStatus
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
-from pydantic import BaseModel, EmailStr, Field, validator
+from fastapi.responses import RedirectResponse
+from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 
 from . import recaptcha
 from .mailer import Mailer
@@ -152,3 +153,55 @@ def post_mail(req: Request, mail: MailSchema) -> MailSchema:
         raise HTTPException(HTTPStatus.UNAUTHORIZED)
 
     return mail
+
+
+@router.post(
+    "/mail/form",
+    summary="Send e-mail (url-encoded form)",
+    description="Send an e-mail from an URL-encoded contact form",
+    dependencies=[Depends(check_origin)],
+    responses={
+        str(int(HTTPStatus.UNAUTHORIZED)): {"description": "Unauthorized operation"}
+    },
+)
+async def post_mail_form(req: Request) -> RedirectResponse:
+    settings: Settings = req.app.state.settings
+
+    mailer = Mailer(
+        settings.sender_email,
+        settings.to_email,
+        settings.to_name,
+        settings.smtp_host,
+        settings.smtp_port,
+        settings.smtp_tls,
+        settings.smtp_ssl,
+        settings.smtp_user,
+        settings.smtp_password,
+        settings.pgp_public_key,
+    )
+
+    try:
+        form = await req.form()
+        mail = MailSchema(**form)
+
+        recaptcha.verify(
+            secret_key=settings.recaptcha_secret_key, response=mail.g_recaptcha_response
+        )
+
+        mailer.send_email(
+            from_email=mail.email,
+            from_name=mail.name,
+            subject=mail.subject,
+            message=mail.message,
+            public_key=mail.public_key,
+        )
+    except (ValidationError, RuntimeError):
+        return RedirectResponse(
+            settings.error_redirect_url or req.headers["Origin"],
+            status_code=HTTPStatus.FOUND,
+        )
+
+    return RedirectResponse(
+        settings.success_redirect_url or req.headers["Origin"],
+        status_code=HTTPStatus.FOUND,
+    )

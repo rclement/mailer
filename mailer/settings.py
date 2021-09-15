@@ -14,6 +14,8 @@ class Settings(BaseSettings):
     sender_email: EmailStr
     to_email: EmailStr
     to_name: str
+    success_redirect_url: Optional[AnyHttpUrl] = None
+    error_redirect_url: Optional[AnyHttpUrl] = None
 
     smtp_host: str
     smtp_port: int

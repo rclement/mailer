@@ -1,4 +1,4 @@
-from pgpy.pgp import PGPKey
+import os
 import pytest
 
 from base64 import urlsafe_b64encode
@@ -7,6 +7,7 @@ from typing import Any, Dict, List, Tuple
 from unittest.mock import MagicMock
 from faker import Faker
 from fastapi import FastAPI
+from pgpy.pgp import PGPKey
 from pytest_mock import MockerFixture
 from responses import RequestsMock
 from starlette.testclient import TestClient
@@ -178,6 +179,19 @@ def enable_pgp_public_key(monkeypatch: pytest.MonkeyPatch, faker: Faker) -> PGPK
     monkeypatch.setenv("PGP_PUBLIC_KEY", pub_key)
 
     return pgp_key
+
+
+# ------------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="function")
+def no_success_redirect_url(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("SUCCESS_REDIRECT_URL")
+
+
+@pytest.fixture(scope="function")
+def no_error_redirect_url(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.delenv("ERROR_REDIRECT_URL")
 
 
 # ------------------------------------------------------------------------------
@@ -707,3 +721,119 @@ def test_send_pgp_mail_with_attached_public_key_invalid(
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+
+
+# ------------------------------------------------------------------------------
+
+
+def test_send_mail_form_success(
+    app: FastAPI,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
+    params = params_success
+
+    response = app_client.post("/api/mail/form", data=params)
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.headers["Location"] == os.environ["SUCCESS_REDIRECT_URL"]
+
+    assert mock_smtp.call_count == 1
+    assert mock_smtp.return_value.starttls.call_count == 1
+    assert mock_smtp.return_value.login.call_count == 1
+    assert mock_smtp.return_value.send_message.call_count == 1
+    assert mock_smtp.return_value.quit.call_count == 1
+
+    sent_msg = mock_smtp.return_value.send_message.call_args.args[0].as_string()
+    app_settings = app.state.settings
+    utils.assert_plain_email(
+        sent_msg,
+        params["email"],
+        params["name"],
+        params["subject"],
+        params["message"],
+        app_settings.sender_email,
+        app_settings.to_email,
+        app_settings.to_name,
+    )
+
+
+def test_send_mail_form_redirect_origin(
+    no_success_redirect_url: None,
+    app: FastAPI,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    params_success: Dict[str, str],
+    faker: Faker,
+) -> None:
+    origin = faker.url()
+    params = params_success
+
+    response = app_client.post(
+        "/api/mail/form", headers={"Origin": origin}, data=params
+    )
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.headers["Location"] == origin
+
+    assert mock_smtp.call_count == 1
+    assert mock_smtp.return_value.starttls.call_count == 1
+    assert mock_smtp.return_value.login.call_count == 1
+    assert mock_smtp.return_value.send_message.call_count == 1
+    assert mock_smtp.return_value.quit.call_count == 1
+
+
+def test_send_mail_form_none(app_client: TestClient) -> None:
+    params: Dict[str, str] = {}
+
+    response = app_client.post("/api/mail/form", data=params)
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.headers["Location"] == os.environ["ERROR_REDIRECT_URL"]
+
+
+def test_send_mail_form_none_redirect_origin(
+    no_error_redirect_url: None,
+    app_client: TestClient,
+    faker: Faker,
+) -> None:
+    origin = faker.url()
+
+    params: Dict[str, str] = {}
+
+    response = app_client.post(
+        "/api/mail/form", headers={"Origin": origin}, data=params
+    )
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.headers["Location"] == origin
+
+
+def test_send_mail_form_recaptcha_invalid_secret(
+    enable_recaptcha_invalid_secret: None,
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+    mock_recaptcha_verify_api: RequestsMock,
+    params_success: Dict[str, str],
+) -> None:
+    params = params_success
+    params["g-recaptcha-response"] = valid_recaptcha_response
+
+    response = app_client.post("/api/mail/form", data=params)
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.headers["Location"] == os.environ["ERROR_REDIRECT_URL"]
+
+
+def test_send_mail_form_smtp_send_failed(
+    app_client: TestClient,
+    mock_smtp_send_error: MagicMock,
+    params_success: Dict[str, str],
+) -> None:
+    params = params_success
+
+    response = app_client.post("/api/mail/form", data=params)
+    assert response.status_code == HTTPStatus.FOUND
+    assert response.headers["Location"] == os.environ["ERROR_REDIRECT_URL"]
+
+    assert mock_smtp_send_error.call_count == 1
+    assert mock_smtp_send_error.return_value.starttls.call_count == 1
+    assert mock_smtp_send_error.return_value.login.call_count == 1
+    assert mock_smtp_send_error.return_value.send_message.call_count == 1
+    assert mock_smtp_send_error.return_value.quit.call_count == 0
