@@ -14,9 +14,9 @@
       <div class="container">
         <div class="columns">
           <div class="column is-half is-offset-one-quarter">
-            <p class="title">
+            <h1 class="title is-1">
               {{ settings.app_title }} <span class="has-text-weight-light is-size-6">({{ settings.app_version }})</span>
-            </p>
+            </h2>
 
             <p class="subtitle">
               {{ settings.app_description }}
@@ -27,7 +27,13 @@
             {%- endif %}
             <a class="button is-link is-outlined" href="{{ url_for('redoc_html') }}">API Documentation</a>
 
-            <pre style="margin-top: 2rem;">
+            <hr>
+
+            <h2 class="title is-3">
+              Using an AJAX request
+            </h2>
+
+            <pre>
               <code>
 fetch('{{ url_for('post_mail') }}', {
   method: 'POST',
@@ -48,6 +54,31 @@ fetch('{{ url_for('post_mail') }}', {
     honeypot: ''
   })
 })
+              </code>
+            </pre>
+
+            <hr>
+
+            <h2 class="title is-3">
+              Using an HTML form
+            </h2>
+
+            <pre>
+              <code>
+&lt;form action="{{ url_for('post_mail') }}" method="POST"&gt;
+  &lt;input type="text" name="name" required &gt;
+  &lt;input type="email" name="email" required &gt;
+  &lt;input type="text" name="subject" required &gt;
+  &lt;input type="text" name="message" required &gt;
+  {%- if settings.pgp_public_key %}
+  &lt;input type="text" name="public_key" &gt;
+  {%- endif %}
+  {%- if settings.recaptcha_secret_key %}
+  &lt;input type="hidden" name="g-recaptcha-response" &gt;
+  {%- endif %}
+  &lt;input type="hidden" name="honeypot" &gt;
+  &lt;input type="submit" value="Send" &gt;
+&lt;/form&gt;
               </code>
             </pre>
           </div>
