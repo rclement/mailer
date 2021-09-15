@@ -295,6 +295,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#html-form" class="md-nav__link">
+    HTML Form
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#fetch-api" class="md-nav__link">
     Fetch API
   </a>
@@ -353,6 +360,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -388,6 +410,13 @@
         <li class="md-nav__item">
   <a href="#headers" class="md-nav__link">
     Headers
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#html-form" class="md-nav__link">
+    HTML Form
   </a>
   
 </li>
@@ -432,7 +461,7 @@
                 
                 <h1 id="usage">Usage</h1>
 <p>Once <code>mailer</code> is deployed, either on your own custom domain or locally, you can
-start receiving e-mails, using an AJAX request.</p>
+start receiving e-mails, using a URL-encoded or an AJAX request.</p>
 <p>Given that these features are enabled with your deployment, the following options are available:</p>
 <ul>
 <li><a href="https://developers.google.com/recaptcha/docs/display">Google ReCaptcha v2</a>: make sure only your domains can send e-mails through <code>mailer</code></li>
@@ -498,11 +527,8 @@ of your deployment (e.g. <code>https://mailer.domain.me/redoc</code>).</p>
 <h2 id="headers">Headers</h2>
 <p>When using AJAX requests, make sure the <code>Origin</code> header matches one of the domains
 specified in the <code>CORS_ORIGINS</code> configuration of your deployment.</p>
-<!--
-## HTML Form
-
-**TODO**
-
+<h2 id="html-form">HTML Form</h2>
+<p>Using a standard HTML form to perform an URL-encoded request:</p>
 <div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">&quot;https://mailer.domain.me/api/mail/form&quot;</span> <span class="na">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">&quot;name&quot;</span><span class="p">&gt;</span>Name<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text&quot;</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;name&quot;</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;name&quot;</span> <span class="p">/&gt;</span>
@@ -520,8 +546,6 @@ specified in the <code>CORS_ORIGINS</code> configuration of your deployment.</p>
   <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;submit&quot;</span> <span class="na">value</span><span class="o">=</span><span class="s">&quot;Send&quot;</span> <span class="p">/&gt;</span>
 <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
 </code></pre></div>
--->
-
 <h2 id="fetch-api">Fetch API</h2>
 <p>Using the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API">Fetch API</a> to perform an AJAX request:</p>
 <div class="highlight"><pre><span></span><code><span class="nx">fetch</span><span class="p">(</span><span class="s2">&quot;https://mailer.domain.me/api/mail&quot;</span><span class="p">,</span> <span class="p">{</span>
@@ -565,9 +589,9 @@ opening files directly in a web-browser will not set the <code>Origin</code> hea
 thus all requests will fail.</p>
 <p>Be sure to configure and run an instance of <code>mailer</code> before using them!</p>
 <ul>
-<li><a href="../examples/simple-ajax/">Simple AJAX form</a></li>
-<li><a href="../examples/simple-ajax-recaptcha/">Simple AJAX form with Google ReCaptcha</a></li>
-<li><a href="../examples/simple-ajax-pgp/">Simple AJAX form with PGP encryption</a></li>
+<li><a href="../examples/simple-ajax.html">Simple AJAX form</a></li>
+<li><a href="../examples/simple-ajax-recaptcha.html">Simple AJAX form with Google ReCaptcha</a></li>
+<li><a href="../examples/simple-ajax-pgp.html">Simple AJAX form with PGP encryption</a></li>
 </ul>
                 
               

@@ -360,6 +360,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -520,6 +535,18 @@ serverless platform within minutes! But any PaaS and/or Docker-compatible provid
 <td align="center"><code>""</code></td>
 <td align="center"><code>smtp-password</code></td>
 <td>(<strong>required</strong>) SMTP host password (or API key)</td>
+</tr>
+<tr>
+<td><code>SUCCESS_REDIRECT_URL</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>https://domain.me/contact/success</code></td>
+<td>(<strong>optional</strong>) Redirect to this URL after an e-mail has been successfully submitted using the url-encoded form API. If not set, the default behaviour is to redirect to the <code>Origin</code> URL from the request header</td>
+</tr>
+<tr>
+<td><code>ERROR_REDIRECT_URL</code></td>
+<td align="center"><code>""</code></td>
+<td align="center"><code>https://domain.me/contact/error</code></td>
+<td>(<strong>optional</strong>) Redirect to this URL if an error occurred when submitting an e-mail using the url-encoded form API. If not set, the default behaviour is to redirect to the <code>Origin</code> URL from the request header</td>
 </tr>
 <tr>
 <td><code>FORCE_HTTPS</code></td>
