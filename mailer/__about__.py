@@ -1,4 +1,4 @@
-version = (0, 9, 1)
+version = (0, 10, 0)
 __version__ = ".".join(str(v) for v in version)
 __title__ = "Mailer"
 __description__ = "Dead-simple mailer micro-service for static websites"

@@ -9,7 +9,7 @@ docs_dir: docs
 site_dir: site
 
 extra:
-  version: 0.9.1
+  version: 0.10.0
 
 nav:
   - Home: 'index.md'
