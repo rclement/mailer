@@ -3,7 +3,7 @@
 > Dead-simple mailer micro-service for static websites
 
 [![Github Tag](https://img.shields.io/github/tag/rclement/mailer.svg)](https://github.com/rclement/mailer/releases/latest)
-[![GitHub Action CI/CD](https://github.com/rclement/mailer/workflows/Mailer%20CI/CD/badge.svg)](https://github.com/rclement/mailer/actions?query=workflow%3A%22Mailer+CI%2FCD%22)
+[![CI/CD](https://github.com/rclement/mailer/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/rclement/mailer/actions/workflows/ci-cd.yml)
 [![Coverage Status](https://img.shields.io/codecov/c/github/rclement/mailer)](https://codecov.io/gh/rclement/mailer)
 [![License](https://img.shields.io/github/license/rclement/mailer)](https://github.com/rmnclmnt/mailer/blob/master/LICENSE)
 [![Docker Pulls](https://img.shields.io/docker/pulls/rmnclmnt/mailer.svg)](https://hub.docker.com/r/rmnclmnt/mailer)
