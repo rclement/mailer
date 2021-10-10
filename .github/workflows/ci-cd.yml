@@ -143,6 +143,7 @@ jobs:
     name: Vercel preview deployment
     runs-on: ubuntu-latest
     needs: deploy-setup
+    if: ${{ !contains(github.ref, 'tags') }}
     environment:
       name: preview/${{ needs.deploy-setup.outputs.github_ref_slug }}
       url: ${{ needs.deploy-setup.outputs.deployment_url }}
@@ -166,6 +167,8 @@ jobs:
     name: Vercel production deployment
     runs-on: ubuntu-latest
     needs: deploy-setup
+    if: contains(github.ref, 'tags')
+
     environment:
       name: production
       url: ${{ needs.deploy-setup.outputs.deployment_url }}
