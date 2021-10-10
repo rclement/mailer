@@ -2,6 +2,9 @@ name: CI/CD
 
 on: [push]
 
+env:
+  BASE_URL_PREVIEW: mailer-romainclement.vercel.app
+
 jobs:
   test:
     name: Test
@@ -93,26 +96,6 @@ jobs:
           name: build-docs
           path: site
 
-  deploy-vercel:
-    name: Vercel deployment
-    runs-on: ubuntu-latest
-    needs: build-docker
-    if: contains(github.ref, 'master') || contains(github.ref, 'tags')
-
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-      VERCEL_ENV_ARG:
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Select Vercel environment (production only)
-        if: contains(github.ref, 'tags')
-        run: echo "VERCEL_ENV_ARG=--prod" >> $GITHUB_ENV
-      - name: Deploy to Vercel
-        run: |
-          vercel deploy --confirm --token '${{ secrets.VERCEL_TOKEN }}' $VERCEL_ENV_ARG
-
   deploy-docs:
     name: Deploy Documentation
     runs-on: ubuntu-latest
@@ -132,3 +115,71 @@ jobs:
           personal_token: ${{ secrets.GH_PERSONAL_TOKEN }}
           publish_dir: ./site
           publish_branch: gh-pages
+
+  deploy-vercel-setup:
+    name: Deployment setup
+    runs-on: ubuntu-latest
+    needs: build-docker
+
+    outputs:
+      github_ref_slug: ${{ steps.output_step.outputs.github_ref_slug }}
+      deployment_url: ${{ steps.output_step.outputs.deployment_url }}
+
+    steps:
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+      - name: Set preview deployment url variable
+        if: ${{ !contains(github.ref, 'tags') }}
+        run: echo "DEPLOYMENT_URL=https://${GITHUB_REF_SLUG_URL}-${BASE_URL_PREVIEW}" >> $GITHUB_ENV
+      - name: Set production deployment url variable
+        if: ${{ contains(github.ref, 'tags') }}
+        run: echo "DEPLOYMENT_URL=${{ secrets.MAILER_URL }}" >> $GITHUB_ENV
+      - id: output_step
+        run: |
+          echo "::set-output name=github_ref_slug::${GITHUB_REF_SLUG_URL}"
+          echo "::set-output name=deployment_url::${DEPLOYMENT_URL}"
+
+  deploy-vercel-preview:
+    name: Vercel preview deployment
+    runs-on: ubuntu-latest
+    needs: deploy-vercel-setup
+    if: ${{ !contains(github.ref, 'tags') }}
+    environment:
+      name: preview/${{ needs.deploy-vercel-setup.outputs.github_ref_slug }}
+      url: ${{ needs.deploy-vercel-setup.outputs.deployment_url }}
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Inject slug/short variables
+        uses: rlespinasse/github-slug-action@v3.x
+      - name: Deploy to Vercel
+        run: |
+          VERCEL_ALIAS=${GITHUB_REF_SLUG_URL}-${BASE_URL_PREVIEW}
+          VERCEL_URL=$(vercel deploy --confirm --token $VERCEL_TOKEN)
+          vercel alias --token $VERCEL_TOKEN set $VERCEL_URL $VERCEL_ALIAS
+
+  deploy-vercel-production:
+    name: Vercel production deployment
+    runs-on: ubuntu-latest
+    needs: deploy-vercel-setup
+    if: contains(github.ref, 'tags')
+
+    environment:
+      name: production
+      url: ${{ needs.deploy-vercel-setup.outputs.deployment_url }}
+
+    env:
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy to Vercel
+        run: |
+          vercel deploy --confirm --token $VERCEL_TOKEN --prod
