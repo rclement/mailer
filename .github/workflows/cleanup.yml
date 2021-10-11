@@ -22,3 +22,13 @@ jobs:
         run: |
           VERCEL_ALIAS=${GITHUB_EVENT_REF_SLUG_URL}-${BASE_URL_PREVIEW}
           vercel alias --token $VERCEL_TOKEN rm $VERCEL_ALIAS -y
+      - name: Delete GitHub environment
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GH_PERSONAL_TOKEN }}
+          script: |
+            github.rest.repos.deleteAnEnvironment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              environment_name: `preview/${process.env.GITHUB_EVENT_REF_SLUG_URL}`,
+            })
