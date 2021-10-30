@@ -8,7 +8,7 @@ aiocontextvars = "~=0.2.2"
 cryptography = "==3.4.8"
 fastapi = "~=0.70.0"
 gunicorn = "~=20.1.0"
-honcho = "~=1.0.1"
+honcho = "~=1.1.0"
 jinja2 = "~=2.11.2"
 pgpy = "~=0.5.2"
 pydantic = {extras = ["email"],version = "~=1.8.2"}
