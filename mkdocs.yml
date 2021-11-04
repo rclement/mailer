@@ -3,6 +3,7 @@ site_description: Dead-simple mailer micro-service for static websites
 site_author: Romain Clement
 
 site_url: https://mailer.romain-clement.net
+repo_name: rclement/mailer
 repo_url: https://github.com/rclement/mailer
 edit_uri: edit/master/docs/
 docs_dir: docs
