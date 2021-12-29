@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Vercel deployment incompatible with `cryptography>35.0.0`
 
 ### Changed
+- Use Python 3.9.9
 - Fix form link in homepage template
 - Move documentation to https://rclement.github.io/mailer/
 - Disable Renovate dependency dashboard

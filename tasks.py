@@ -12,6 +12,7 @@ def audit(ctx):
 
 @task
 def lint(ctx):
+    ctx.run(f"black --check {app_path} {tests_path}", pty=True)
     ctx.run(f"flake8 {app_path} {tests_path}", pty=True)
 
 
