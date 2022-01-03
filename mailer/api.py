@@ -64,12 +64,6 @@ class MailSchema(BaseModel):
         description="ASCII-armored PGP public of the contact sending the message, to be attached within the e-mail",
     )
 
-    @validator("honeypot")
-    def honeypot_empty(cls, v: str) -> str:
-        if v != "":
-            raise ValueError("Honeypot is not empty")
-        return v
-
     @validator("public_key")
     def validate_public_key(cls, v: Optional[str]) -> Optional[str]:
         from pgpy import PGPKey
