@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9ef7f7a1c76244393b382f7c7e9fa418b809e11e8c3eed0003fdac742d56a0c3"
+            "sha256": "64eea055a37a7b188bd5a4b8ab16d563958e361e42279a3910be34658a9fc84a"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -26,11 +26,11 @@
         },
         "anyio": {
             "hashes": [
-                "sha256:24adc69309fb5779bc1e06158e143e0b6d2c56b302a3ac3de3083c705a6ed39d",
-                "sha256:2855a9423524abcdd652d942f8932fda1735210f77a6b392eafd9ff34d3fe020"
+                "sha256:a0aeffe2fb1fdf374a8e4b471444f0f3ac4fb9f5a5b542b48824475e0042a5a6",
+                "sha256:b5fa16c5ff93fa1046f2eeb5bbff2dad4d3514d6cda61d02816dba34fa8c3c2e"
             ],
             "markers": "python_full_version >= '3.6.2'",
-            "version": "==3.4.0"
+            "version": "==3.5.0"
         },
         "asgiref": {
             "hashes": [
@@ -770,11 +770,11 @@
         },
         "mkdocs-material": {
             "hashes": [
-                "sha256:98dd282d81129a99b540cd56769d6879367e1096cf5a0a89b46279d8fba9accb",
-                "sha256:cab1fc730d72fd17ae59d9c59361b7161f8ffc3e8d40d7156b756d6492f6d6e8"
+                "sha256:12eb74faf018950f51261a773f9bea12cc296ec4bdbb2c8cf74102ee35b6df79",
+                "sha256:b2303413e3154502759f90ee2720b451be8855f769c385d8fb06a93ce54aafe2"
             ],
             "index": "pypi",
-            "version": "==8.1.5"
+            "version": "==8.1.6"
         },
         "mkdocs-material-extensions": {
             "hashes": [
@@ -1182,10 +1182,10 @@
         },
         "types-urllib3": {
             "hashes": [
-                "sha256:580c784925d5902d5fb3b67c0c1019b3d20b8f2d54050f0bb07862d52b93ad03",
-                "sha256:e0c57152d7efc408a877adfc9073316dcd3e3ffb39962e90544f7597696c0d7c"
+                "sha256:35c17be09e1bcef3b1e2101c5172b97cdb78330915973c741f4c1979d8405ef9",
+                "sha256:61a0099899b1472bfbae8ee6ad196950aac46705b99216188aa962ad1e514ed5"
             ],
-            "version": "==1.26.3"
+            "version": "==1.26.4"
         },
         "typing-extensions": {
             "hashes": [
