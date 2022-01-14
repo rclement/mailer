@@ -15,7 +15,7 @@ pydantic = {extras = ["email"],version = "==1.9.0"}
 python-multipart = "==0.0.5"
 requests = "==2.27.1"
 sentry-sdk = "==1.5.2"
-uvicorn = "==0.16.0"
+uvicorn = "==0.17.0"
 
 [dev-packages]
 bandit = "==1.7.1"
