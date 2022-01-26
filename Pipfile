@@ -18,7 +18,7 @@ sentry-sdk = "==1.5.4"
 uvicorn = "==0.17.0.post1"
 
 [dev-packages]
-bandit = "==1.7.1"
+bandit = "==1.7.2"
 black = "==21.9b0"
 faker = "==11.3.0"
 flake8 = "==4.0.1"
