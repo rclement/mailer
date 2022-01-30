@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "b852cc57f97e77169d4ce801f3ac76b85ceb991e0057d9bc4bf8d00118f5f479"
+            "sha256": "ae5e804dec21a7a01d20d58bb915742b666a07359e3b3076ddc2a6da454c7806"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -149,7 +149,7 @@
                 "sha256:081649da27ced5e75709a1ee542136eaba9842a0fe4c03da4fb0a3d3ed1f3c44",
                 "sha256:e79351e032d0b606b98d38a4b0e6e2275b31a5b85c873e587cc11b73aca026d6"
             ],
-            "markers": "python_version >= '3.6' and python_version < '4'",
+            "markers": "python_version >= '3.6' and python_version < '4.0'",
             "version": "==2.2.0"
         },
         "email-validator": {
@@ -428,7 +428,7 @@
                 "sha256:000ca7f471a233c2251c6c7023ee85305721bfdf18621ebff4fd17a8653427ed",
                 "sha256:0e7c33d9a63e7ddfcb86780aac87befc2fbddf46c58dbb487e0855f7ceec283c"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4.0'",
             "version": "==1.26.8"
         },
         "uvicorn": {
@@ -788,11 +788,11 @@
         },
         "mkdocs-material": {
             "hashes": [
-                "sha256:7698b59e09640fb0ae47f4ec426f327f7cbe729386b1cdbbb65ac77bc2a95b45",
-                "sha256:e8adc408c620e5fa23286e7fbfde3ccd37187fbda907a64594c36dbcd119a9ce"
+                "sha256:6feb433f29227b862418bd1009edeec2e52870770c476bf02840fc094b8823f2",
+                "sha256:a15873a5e116bf4615af4fcedc85a0537492464365286cba50310d96fb066958"
             ],
             "index": "pypi",
-            "version": "==8.1.8"
+            "version": "==8.1.9"
         },
         "mkdocs-material-extensions": {
             "hashes": [
@@ -1139,7 +1139,7 @@
                 "sha256:000ca7f471a233c2251c6c7023ee85305721bfdf18621ebff4fd17a8653427ed",
                 "sha256:0e7c33d9a63e7ddfcb86780aac87befc2fbddf46c58dbb487e0855f7ceec283c"
             ],
-            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4'",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4' and python_version < '4.0'",
             "version": "==1.26.8"
         },
         "virtualenv": {
