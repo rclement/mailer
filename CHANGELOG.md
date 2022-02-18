@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.10.1] - 2022-02-18
 ### Changed
 - Use Python 3.9.10
 - Fix form link in homepage template
@@ -174,7 +176,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.10.0...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.10.1...HEAD
+[0.10.1]: https://github.com/rclement/mailer/compare/0.10.0...0.10.1
 [0.10.0]: https://github.com/rclement/mailer/compare/0.9.1...0.10.0
 [0.9.1]: https://github.com/rclement/mailer/compare/0.9.0...0.9.1
 [0.9.0]: https://github.com/rclement/mailer/compare/0.8.1...0.9.0
