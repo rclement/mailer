@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Changed
-- Use Python 3.9.9
+- Use Python 3.9.10
 - Fix form link in homepage template
 - Remove duplicate honeypot validation
 - Move documentation to https://rclement.github.io/mailer/
