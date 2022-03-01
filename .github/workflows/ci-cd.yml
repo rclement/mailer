@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -48,7 +48,7 @@ jobs:
       IMAGE_TAG: latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Select Docker image tag (production only)
         if: contains(github.ref, 'tags')
         run: echo "IMAGE_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
@@ -70,7 +70,7 @@ jobs:
     needs: test
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
@@ -103,7 +103,7 @@ jobs:
     if: contains(github.ref, 'master')
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Download build artifacts
         uses: actions/download-artifact@v2
         with:
@@ -154,7 +154,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v4
       - name: Deploy to Vercel
@@ -179,7 +179,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Deploy to Vercel
         run: |
           vercel deploy --confirm --token $VERCEL_TOKEN --prod
