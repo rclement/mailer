@@ -1,7 +1,7 @@
 {
   "name": "Mailer",
   "description": "Dead-simple mailer micro-service for static websites",
-  "website": "https://mailer.romain-clement.net",
+  "website": "https://rclement.github.io/mailer/",
   "repository": "https://github.com/rclement/mailer",
   "keywords": ["python", "fastapi", "mailer", "smtp", "pgp"],
   "env": {
