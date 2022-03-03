@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://mailer.romain-clement.net/</loc>
-         <lastmod>2022-03-02</lastmod>
+         <loc>https://rclement.github.io/mailer/</loc>
+         <lastmod>2022-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://mailer.romain-clement.net/changelog/</loc>
-         <lastmod>2022-03-02</lastmod>
+         <loc>https://rclement.github.io/mailer/changelog/</loc>
+         <lastmod>2022-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://mailer.romain-clement.net/contributing/</loc>
-         <lastmod>2022-03-02</lastmod>
+         <loc>https://rclement.github.io/mailer/contributing/</loc>
+         <lastmod>2022-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://mailer.romain-clement.net/deployment/</loc>
-         <lastmod>2022-03-02</lastmod>
+         <loc>https://rclement.github.io/mailer/deployment/</loc>
+         <lastmod>2022-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://mailer.romain-clement.net/usage/</loc>
-         <lastmod>2022-03-02</lastmod>
+         <loc>https://rclement.github.io/mailer/usage/</loc>
+         <lastmod>2022-03-03</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
