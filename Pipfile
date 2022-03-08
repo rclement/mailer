@@ -14,7 +14,7 @@ pgpy = "==0.5.4"
 pydantic = {extras = ["email"],version = "==1.9.0"}
 python-multipart = "==0.0.5"
 requests = "==2.27.1"
-sentry-sdk = "==1.5.6"
+sentry-sdk = "==1.5.7"
 uvicorn = "==0.17.5"
 
 [dev-packages]
