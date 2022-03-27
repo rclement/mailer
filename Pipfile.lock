@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "1a9435ab1bb6fabe79688efaab11a9ad6a8d63c177a0a62591b9890cae10486b"
+            "sha256": "aa5de0a1175c1ed8ec7e54b7fe8e87c74867fd6c7e7563e187c3606ba6d10a90"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -356,11 +356,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:63b73d83c4d419d9dd992978cf369af5b6efa06236a4a1397b9bdf3ecadb0453",
-                "sha256:9bc2671450c57d9e4885e7dcdc552e3b107b80a5a8f8b1a1df7d06f52db194be"
+                "sha256:89eef7b71423ab7fccc7dfafdc145410ef170c4a89567427f932448135e08cdf",
+                "sha256:92b15f45ab164eb0c410d2bf661a6e9d15e3b78c0dffb0325f2bf0f313071cae"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==61.1.0"
+            "version": "==61.1.1"
         },
         "six": {
             "hashes": [
@@ -991,11 +991,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:63b73d83c4d419d9dd992978cf369af5b6efa06236a4a1397b9bdf3ecadb0453",
-                "sha256:9bc2671450c57d9e4885e7dcdc552e3b107b80a5a8f8b1a1df7d06f52db194be"
+                "sha256:89eef7b71423ab7fccc7dfafdc145410ef170c4a89567427f932448135e08cdf",
+                "sha256:92b15f45ab164eb0c410d2bf661a6e9d15e3b78c0dffb0325f2bf0f313071cae"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==61.1.0"
+            "version": "==61.1.1"
         },
         "six": {
             "hashes": [
@@ -1047,11 +1047,11 @@
         },
         "types-requests": {
             "hashes": [
-                "sha256:04579ee164f7c2659be46950e3c2f8d51a081ad252ef1b01d4b12faba5c3810b",
-                "sha256:c01838abfe3e8a83ba68346cd373afff97594c19c15c922ddee4a0e80ba7e329"
+                "sha256:2d371183c535208d2cc8fe7473d9b49c344c7077eb70302eb708638fb86086a8",
+                "sha256:77d09182a68e447e9e8b0ffc21abf54618b96f07689dffbb6a41cf0356542969"
             ],
             "index": "pypi",
-            "version": "==2.27.14"
+            "version": "==2.27.15"
         },
         "types-urllib3": {
             "hashes": [
