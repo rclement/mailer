@@ -6,7 +6,6 @@ verify_ssl = true
 [packages]
 aiocontextvars = "==0.2.2"
 cryptography = "==37.0.1"
-email-validator = "<1.2.0"
 fastapi = "==0.75.2"
 gunicorn = "==20.1.0"
 honcho = "==1.1.0"
