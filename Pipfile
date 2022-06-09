@@ -33,7 +33,7 @@ pytest-mock = "==3.7.0"
 python-dotenv = "==0.20.0"
 responses = "==0.21.0"
 safety = "==1.10.3"
-types-certifi = "==2021.10.8.2"
+types-certifi = "==2021.10.8.3"
 types-requests = "==2.27.30"
 
 [requires]
