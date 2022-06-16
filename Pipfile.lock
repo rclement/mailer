@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "dcd6edac2ce5d860e96e7819ba099080b2fda95e48d84f5bd6712521b7ae5d78"
+            "sha256": "318188f16cc5681e73293d8ea88a30300e31c61df2f86c13e57485e5f1d03c88"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -42,11 +42,11 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7",
-                "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"
+                "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d",
+                "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==2022.5.18.1"
+            "version": "==2022.6.15"
         },
         "cffi": {
             "hashes": [
@@ -462,11 +462,11 @@
         },
         "certifi": {
             "hashes": [
-                "sha256:9c5705e395cd70084351dd8ad5c41e65655e08ce46f2ec9cf6c2c08390f71eb7",
-                "sha256:f1d53542ee8cbedbe2118b5686372fb33c297fcd6379b050cca0ef13a597382a"
+                "sha256:84c85a9078b11105f04f3036a9482ae10e4621616db313fe045dd24743a0820d",
+                "sha256:fe86415d55e84719d75f8b69414f6438ac3547d2078ab91b67e779ef69378412"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==2022.5.18.1"
+            "version": "==2022.6.15"
         },
         "cfgv": {
             "hashes": [
@@ -730,11 +730,11 @@
         },
         "mkdocs-material": {
             "hashes": [
-                "sha256:0d7ae82b28fa57a2ad9a4eeb5fd01704cb8fe963eb20c56a68afdd735e52b432",
-                "sha256:9190aef365bd6ed43b27f47d1de956d9e67b61f4b9edb444563337ef717cacd3"
+                "sha256:01f3fbab055751b3b75a64b538e86b9ce0c6a0f8d43620f6287dfa16534443e5",
+                "sha256:be8f95c0dfb927339b55b2cc066423dc0b381be9828ff74a5b02df979a859b66"
             ],
             "index": "pypi",
-            "version": "==8.3.5"
+            "version": "==8.3.6"
         },
         "mkdocs-material-extensions": {
             "hashes": [
