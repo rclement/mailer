@@ -32,7 +32,7 @@ pytest-cov = "==3.0.0"
 pytest-mock = "==3.8.1"
 python-dotenv = "==0.20.0"
 responses = "==0.21.0"
-safety = "==1.10.3"
+safety = "==2.0.0"
 types-certifi = "==2021.10.8.3"
 types-requests = "==2.28.0"
 
