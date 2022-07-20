@@ -17,8 +17,7 @@ to integrate a contact form seamlessly within your next static website!
 When building static websites and [JAMStack](https://jamstack.org/) web applications,
 the need for a contact form arises pretty often but requires some server-side processing.
 `mailer` provides a dead-simple micro-service (usable as a serverless function) for this purpose,
-enabling one to receive e-mails from a simple form using a single request, be it URL-encoded
-or AJAX.
+enabling one to receive e-mails from a simple form using a single request, URL-encoded or AJAX.
 
 Proudly developed in Python using the [FastAPI](https://fastapi.tiangolo.com) ASGI framework.
 
