@@ -1,4 +1,4 @@
-FROM python:3.10.6-slim
+FROM python:3.10.7-slim
 
 ENV APP_USER=app
 ENV APP_GROUP=app
