@@ -5,7 +5,7 @@ verify_ssl = true
 
 [packages]
 aiocontextvars = "==0.2.2"
-cryptography = "==37.0.4"
+cryptography = "<38.0.0"  # https://github.com/SecurityInnovation/PGPy/issues/402
 fastapi = "==0.85.0"
 gunicorn = "==20.1.0"
 honcho = "==1.1.0"
