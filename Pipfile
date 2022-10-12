@@ -20,7 +20,7 @@ uvicorn = "==0.18.3"
 [dev-packages]
 bandit = "==1.7.4"
 black = "==22.10.0"
-faker = "==15.0.0"
+faker = "==15.1.0"
 flake8 = "==5.0.4"
 invoke = "==1.7.3"
 mkdocs = "==1.4.0"
