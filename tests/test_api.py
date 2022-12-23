@@ -734,7 +734,7 @@ def test_send_mail_form_success(
 ) -> None:
     params = params_success
 
-    response = app_client.post("/api/mail/form", data=params)
+    response = app_client.post("/api/mail/form", data=params, follow_redirects=False)
     assert response.status_code == HTTPStatus.FOUND
     assert response.headers["Location"] == os.environ["SUCCESS_REDIRECT_URL"]
 
@@ -770,7 +770,10 @@ def test_send_mail_form_redirect_origin(
     params = params_success
 
     response = app_client.post(
-        "/api/mail/form", headers={"Origin": origin}, data=params
+        "/api/mail/form",
+        headers={"Origin": origin},
+        data=params,
+        follow_redirects=False,
     )
     assert response.status_code == HTTPStatus.FOUND
     assert response.headers["Location"] == origin
@@ -785,7 +788,7 @@ def test_send_mail_form_redirect_origin(
 def test_send_mail_form_none(app_client: TestClient) -> None:
     params: Dict[str, str] = {}
 
-    response = app_client.post("/api/mail/form", data=params)
+    response = app_client.post("/api/mail/form", data=params, follow_redirects=False)
     assert response.status_code == HTTPStatus.FOUND
     assert response.headers["Location"] == os.environ["ERROR_REDIRECT_URL"]
 
@@ -800,7 +803,10 @@ def test_send_mail_form_none_redirect_origin(
     params: Dict[str, str] = {}
 
     response = app_client.post(
-        "/api/mail/form", headers={"Origin": origin}, data=params
+        "/api/mail/form",
+        headers={"Origin": origin},
+        data=params,
+        follow_redirects=False,
     )
     assert response.status_code == HTTPStatus.FOUND
     assert response.headers["Location"] == origin
@@ -816,7 +822,7 @@ def test_send_mail_form_recaptcha_invalid_secret(
     params = params_success
     params["g-recaptcha-response"] = valid_recaptcha_response
 
-    response = app_client.post("/api/mail/form", data=params)
+    response = app_client.post("/api/mail/form", data=params, follow_redirects=False)
     assert response.status_code == HTTPStatus.FOUND
     assert response.headers["Location"] == os.environ["ERROR_REDIRECT_URL"]
 
@@ -828,7 +834,7 @@ def test_send_mail_form_smtp_send_failed(
 ) -> None:
     params = params_success
 
-    response = app_client.post("/api/mail/form", data=params)
+    response = app_client.post("/api/mail/form", data=params, follow_redirects=False)
     assert response.status_code == HTTPStatus.FOUND
     assert response.headers["Location"] == os.environ["ERROR_REDIRECT_URL"]
 

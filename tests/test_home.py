@@ -58,5 +58,5 @@ def test_get_homepage_production_success(
 def test_get_homepage_https_redirect(
     enable_force_https: None, app_client: TestClient
 ) -> None:
-    response = app_client.get("/", allow_redirects=False)
+    response = app_client.get("/", follow_redirects=False)
     assert response.status_code == HTTPStatus.TEMPORARY_REDIRECT
