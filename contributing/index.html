@@ -434,56 +434,56 @@
 
 <h1 id="contributing">Contributing</h1>
 <h2 id="setup">Setup</h2>
-<div class="highlight"><pre><span></span><code>pipenv install -d
-pipenv run pre-commit install --config .pre-commit-config.yml
-pipenv run inv qa
+<div class="highlight"><pre><span></span><code>pipenv<span class="w"> </span>install<span class="w"> </span>-d
+pipenv<span class="w"> </span>run<span class="w"> </span>pre-commit<span class="w"> </span>install<span class="w"> </span>--config<span class="w"> </span>.pre-commit-config.yml
+pipenv<span class="w"> </span>run<span class="w"> </span>inv<span class="w"> </span>qa
 </code></pre></div>
 <h2 id="running-locally">Running locally</h2>
 <ol>
 <li>
 <p>Set and load environment variables:
-<div class="highlight"><pre><span></span><code>cp .example.env .env
-edit .env
-pipenv shell
+<div class="highlight"><pre><span></span><code>cp<span class="w"> </span>.example.env<span class="w"> </span>.env
+edit<span class="w"> </span>.env
+pipenv<span class="w"> </span>shell
 </code></pre></div></p>
 </li>
 <li>
 <p>Run dev server:
-<div class="highlight"><pre><span></span><code>uvicorn mailer.app:app --host <span class="m">0</span>.0.0.0 --port <span class="m">8000</span>
+<div class="highlight"><pre><span></span><code>uvicorn<span class="w"> </span>mailer.app:app<span class="w"> </span>--host<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span>--port<span class="w"> </span><span class="m">8000</span>
 </code></pre></div>
 or if using VSCode, use the following configuration in <code>.vscode/launch.json</code>:
-<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"></span>
-<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.2.0&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mailer:app&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;launch&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;--host=0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port=8000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mailer:app&quot;</span><span class="p">],</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;envFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;justMyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
-<span class="w">    </span><span class="p">},</span><span class="w"></span>
-<span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mailer:tests&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;python&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">,</span><span class="w"></span>
-<span class="w">      </span><span class="nt">&quot;justMyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w"></span>
-<span class="w">    </span><span class="p">}</span><span class="w"></span>
-<span class="w">  </span><span class="p">]</span><span class="w"></span>
-<span class="p">}</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0.2.0&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="nt">&quot;configurations&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mailer:app&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;python&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;launch&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;module&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;uvicorn&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;args&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;--host=0.0.0.0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;--port=8000&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;mailer:app&quot;</span><span class="p">],</span>
+<span class="w">      </span><span class="nt">&quot;envFile&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;justMyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">},</span>
+<span class="w">    </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;mailer:tests&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;python&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;request&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;test&quot;</span><span class="p">,</span>
+<span class="w">      </span><span class="nt">&quot;justMyCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div></p>
 </li>
 <li>
 <p>Try it:
-<div class="highlight"><pre><span></span><code>http GET http://localhost:8000/
-http POST http://localhost:8000/api/mail <span class="se">\</span>
-    Origin:http://localhost:8000 <span class="se">\</span>
-    <span class="nv">email</span><span class="o">=</span><span class="s2">&quot;john@doe.com&quot;</span> <span class="se">\</span>
-    <span class="nv">name</span><span class="o">=</span><span class="s2">&quot;John Doe&quot;</span> <span class="se">\</span>
-    <span class="nv">subject</span><span class="o">=</span><span class="s2">&quot;Test 💫&quot;</span> <span class="se">\</span>
-    <span class="nv">message</span><span class="o">=</span><span class="s2">&quot;Hello 👋&quot;</span> <span class="se">\</span>
-    <span class="nv">honeypot</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code>http<span class="w"> </span>GET<span class="w"> </span>http://localhost:8000/
+http<span class="w"> </span>POST<span class="w"> </span>http://localhost:8000/api/mail<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>Origin:http://localhost:8000<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">email</span><span class="o">=</span><span class="s2">&quot;john@doe.com&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">name</span><span class="o">=</span><span class="s2">&quot;John Doe&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">subject</span><span class="o">=</span><span class="s2">&quot;Test 💫&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">message</span><span class="o">=</span><span class="s2">&quot;Hello 👋&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">honeypot</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
 </code></pre></div></p>
 </li>
 <li>

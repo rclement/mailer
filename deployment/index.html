@@ -637,7 +637,7 @@ You will need to create a Vercel account and to install the <a href="https://ver
 <ol>
 <li>Deploy to production environment:</li>
 </ol>
-<div class="highlight"><pre><span></span><code>vercel --prod
+<div class="highlight"><pre><span></span><code>vercel<span class="w"> </span>--prod
 </code></pre></div>
 <h2 id="paas-eg-heroku-clevercloud">PaaS (e.g. Heroku, CleverCloud)</h2>
 <p>The easiest way to get started with PaaS deployment is to use <a href="https://heroku.com">Heroku</a>.
@@ -663,7 +663,7 @@ You will need to create a Heroku account and to install the
 <p>All stable versions are automatically deployed and available after each release.
 The <code>latest</code> tag will allow to retrieve non-stable changes</p>
 <p>If you want to quickly try the Docker image:</p>
-<div class="highlight"><pre><span></span><code>docker run --env-file .env -p <span class="m">5000</span>:5000 rmnclmnt/mailer:latest
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>--env-file<span class="w"> </span>.env<span class="w"> </span>-p<span class="w"> </span><span class="m">5000</span>:5000<span class="w"> </span>rmnclmnt/mailer:latest
 </code></pre></div>
 <h2 id="vps">VPS</h2>
 <p>If you're feeling nerdy or a bit old-school, you are more than welcome to
