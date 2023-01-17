@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "494f9849185a7f565556b7c683674cf008d3f5ef036efa3df9fe77d494963c66"
+            "sha256": "f3979f2ee0c079fffda73df28f368c96931dbc12d735458e572a4bca5785e827"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -242,11 +242,11 @@
         },
         "dnspython": {
             "hashes": [
-                "sha256:0f7569a4a6ff151958b64304071d370daa3243d15941a7beedf0c9fe5105603e",
-                "sha256:a851e51367fb93e9e1361732c1d60dab63eff98712e503ea7d92e6eccb109b4f"
+                "sha256:224e32b03eb46be70e12ef6d64e0be123a64e621ab4c0822ff6d450d52a540b9",
+                "sha256:89141536394f909066cabd112e3e1a37e4e654db00a25308b0f130bc3152eb46"
             ],
-            "markers": "python_version >= '3.6' and python_version < '4.0'",
-            "version": "==2.2.1"
+            "markers": "python_version >= '3.7' and python_version < '4.0'",
+            "version": "==2.3.0"
         },
         "email-validator": {
             "hashes": [
@@ -631,11 +631,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:4d3c92fac8f1118bb77a22181355e29c239cabfe2b9effdaa665c66b711136d7",
-                "sha256:8ab4f1dbf2b4a65f7eec5ad0c620e84c34111a68d3349833494b9088212214dd"
+                "sha256:a78d01d1e2c175c474884671dde039962c9d74c7223db7369771fcf6e29ceeab",
+                "sha256:bd6eb2d6722568de6d14b87c44a96fac54b2a45ff5e940e639979a3d1792adb6"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==65.7.0"
+            "version": "==66.0.0"
         },
         "six": {
             "hashes": [
@@ -1207,11 +1207,11 @@
         },
         "invoke": {
             "hashes": [
-                "sha256:41b428342d466a82135d5ab37119685a989713742be46e42a3a399d685579314",
-                "sha256:d9694a865764dd3fd91f25f7e9a97fb41666e822bbb00e670091e3f43933574d"
+                "sha256:7ab5dd9cd76b787d560a78b1a9810d252367ab595985c50612702be21d671dd7",
+                "sha256:a860582bcf7a4b336fe18ef53937f0f28cec1c0053ffa767c2fcf7ba0b850f59"
             ],
             "index": "pypi",
-            "version": "==1.7.3"
+            "version": "==2.0.0"
         },
         "jinja2": {
             "hashes": [
@@ -1713,11 +1713,11 @@
         },
         "setuptools": {
             "hashes": [
-                "sha256:4d3c92fac8f1118bb77a22181355e29c239cabfe2b9effdaa665c66b711136d7",
-                "sha256:8ab4f1dbf2b4a65f7eec5ad0c620e84c34111a68d3349833494b9088212214dd"
+                "sha256:a78d01d1e2c175c474884671dde039962c9d74c7223db7369771fcf6e29ceeab",
+                "sha256:bd6eb2d6722568de6d14b87c44a96fac54b2a45ff5e940e639979a3d1792adb6"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==65.7.0"
+            "version": "==66.0.0"
         },
         "six": {
             "hashes": [
