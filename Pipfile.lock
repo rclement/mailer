@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "6a9e7a3f0cd7a680f6ad8564d08156f496dc269097c2b2c90a4da1ded941bb5d"
+            "sha256": "4fc367355fc253709dbf824ca3c20b19c70ffaea9f95b06a7f8df6ed443d4a4b"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1146,11 +1146,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:64dcf95eee9f00d2547f29f6762aec80fc3ccbe3752bfa2c45082a6e2cc4d74a",
-                "sha256:ad181f6f9cdc0f7d70ea6eaea35ab4b6549391fbaaea7629cc567aeb2757d296"
+                "sha256:1f76bd19a642e4af88e8139c6bf764294cfee0172e652d660777e4c570b0699b",
+                "sha256:b5dce93b50cd83278b4e6a47b80f0f1ab340f726e27a2b45ba93b814f0612752"
             ],
             "index": "pypi",
-            "version": "==16.8.1"
+            "version": "==16.9.0"
         },
         "filelock": {
             "hashes": [
@@ -1193,11 +1193,11 @@
         },
         "identify": {
             "hashes": [
-                "sha256:7d526dd1283555aafcc91539acc061d8f6f59adb0a7bba462735b0a318bff7ed",
-                "sha256:93cc61a861052de9d4c541a7acb7e3dcc9c11b398a2144f6e52ae5285f5f4f06"
+                "sha256:89e144fa560cc4cffb6ef2ab5e9fb18ed9f9b3cb054384bab4b95c12f6c309fe",
+                "sha256:93aac7ecf2f6abf879b8f29a8002d3c6de7086b8c28d88e1ad15045a15ab63f9"
             ],
             "markers": "python_version >= '3.7'",
-            "version": "==2.5.17"
+            "version": "==2.5.18"
         },
         "idna": {
             "hashes": [
@@ -1754,11 +1754,11 @@
         },
         "stevedore": {
             "hashes": [
-                "sha256:7f8aeb6e3f90f96832c301bff21a7eb5eefbe894c88c506483d355565d88cc1a",
-                "sha256:aa6436565c069b2946fe4ebff07f5041e0c8bf18c7376dd29edf80cf7d524e4e"
+                "sha256:2c428d2338976279e8eb2196f7a94910960d9f7ba2f41f3988511e95ca447021",
+                "sha256:bd5a71ff5e5e5f5ea983880e4a1dd1bb47f8feebbb3d95b592398e2f02194771"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==4.1.1"
+            "version": "==5.0.0"
         },
         "toml": {
             "hashes": [
