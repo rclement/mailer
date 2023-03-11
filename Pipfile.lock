@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "98b30ad1a515eafed99486073da0b2349b3ae676cc8dfb6224fa906f832bdc5a"
+            "sha256": "4592c469d8075ebb310b34ed6cb0375d2b011b190b7bf2fcccb51d80ec4e8532"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -891,11 +891,11 @@
         },
         "bandit": {
             "hashes": [
-                "sha256:2d63a8c573417bae338962d4b9b06fbc6080f74ecd955a092849e1e65c717bd2",
-                "sha256:412d3f259dab4077d0e7f0c11f50f650cc7d10db905d98f6520a95a18049658a"
+                "sha256:75665181dc1e0096369112541a056c59d1c5f66f9bb74a8d686c3c362b83f549",
+                "sha256:bdfc739baa03b880c2d15d0431b31c658ffc348e907fe197e54e0389dd59e11e"
             ],
             "index": "pypi",
-            "version": "==1.7.4"
+            "version": "==1.7.5"
         },
         "black": {
             "hashes": [
@@ -1205,6 +1205,14 @@
             "markers": "python_version >= '3.6'",
             "version": "==3.3.7"
         },
+        "markdown-it-py": {
+            "hashes": [
+                "sha256:5a35f8d1870171d9acc47b99612dc146129b631baf04970128b568f190d0cc30",
+                "sha256:7c9a5e412688bc771c67432cbfebcdd686c93ce6484913dccf06cb5a0bea35a1"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==2.2.0"
+        },
         "markupsafe": {
             "hashes": [
                 "sha256:0576fe974b40a400449768941d5d0858cc624e3249dfd1e0c33674e5c7ca7aed",
@@ -1268,6 +1276,14 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==0.7.0"
+        },
+        "mdurl": {
+            "hashes": [
+                "sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8",
+                "sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba"
+            ],
+            "markers": "python_version >= '3.7'",
+            "version": "==0.1.2"
         },
         "mergedeep": {
             "hashes": [
@@ -1638,6 +1654,14 @@
             ],
             "index": "pypi",
             "version": "==0.23.1"
+        },
+        "rich": {
+            "hashes": [
+                "sha256:91954fe80cfb7985727a467ca98a7618e5dd15178cc2da10f553b36a93859001",
+                "sha256:a104f37270bf677148d8acb07d33be1569eeee87e2d1beb286a4e9113caf6f2f"
+            ],
+            "markers": "python_full_version >= '3.7.0'",
+            "version": "==13.3.2"
         },
         "ruamel.yaml": {
             "hashes": [
