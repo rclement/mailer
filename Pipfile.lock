@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "53e08210094fb3d501471ae795a99cfa08f83c2c053dc4929dbe8ed8ce4856af"
+            "sha256": "74816bd9734db1a0638d5721327487c6c25618b55c0aa9ab8ab9894bd46d295c"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -588,11 +588,11 @@
         },
         "requests": {
             "hashes": [
-                "sha256:10e94cc4f3121ee6da529d358cdaeaff2f1c409cd377dbc72b825852f2f7e294",
-                "sha256:239d7d4458afcb28a692cdd298d87542235f4ca8d36d03a15bfc128a6559a2f4"
+                "sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f",
+                "sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"
             ],
             "index": "pypi",
-            "version": "==2.30.0"
+            "version": "==2.31.0"
         },
         "sentry-sdk": {
             "extras": [
@@ -1608,11 +1608,11 @@
         },
         "requests": {
             "hashes": [
-                "sha256:10e94cc4f3121ee6da529d358cdaeaff2f1c409cd377dbc72b825852f2f7e294",
-                "sha256:239d7d4458afcb28a692cdd298d87542235f4ca8d36d03a15bfc128a6559a2f4"
+                "sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f",
+                "sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1"
             ],
             "index": "pypi",
-            "version": "==2.30.0"
+            "version": "==2.31.0"
         },
         "responses": {
             "hashes": [
@@ -1738,10 +1738,10 @@
         },
         "types-pyyaml": {
             "hashes": [
-                "sha256:5aed5aa66bd2d2e158f75dda22b059570ede988559f030cf294871d3b647e3e8",
-                "sha256:c51b1bd6d99ddf0aa2884a7a328810ebf70a4262c292195d3f4f9a0005f9eeb6"
+                "sha256:662fa444963eff9b68120d70cda1af5a5f2aa57900003c2006d7626450eaae5f",
+                "sha256:ebab3d0700b946553724ae6ca636ea932c1b0868701d4af121630e78d695fc97"
             ],
-            "version": "==6.0.12.9"
+            "version": "==6.0.12.10"
         },
         "types-requests": {
             "hashes": [
