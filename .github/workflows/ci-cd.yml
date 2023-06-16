@@ -4,6 +4,7 @@ on: [push]
 
 env:
   BASE_URL_PREVIEW: mailer-romainclement.vercel.app
+  PYTHON_VERSION: '3.11.4'
 
 jobs:
   test:
@@ -15,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11.3'
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Cache Python modules
         uses: actions/cache@v3
         with:
@@ -74,7 +75,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.11.3'
+          python-version: ${{ env.PYTHON_VERSION }}
       - name: Cache Python modules
         uses: actions/cache@v3
         with:
