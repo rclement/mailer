@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [0.10.3] - 2023-06-16
 ### Changed
 - Use Python 3.11.4
 - Update dependencies
@@ -184,7 +186,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.10.2...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.10.3...HEAD
+[0.10.3]: https://github.com/rclement/mailer/compare/0.10.2...0.10.3
 [0.10.2]: https://github.com/rclement/mailer/compare/0.10.1...0.10.2
 [0.10.1]: https://github.com/rclement/mailer/compare/0.10.0...0.10.1
 [0.10.0]: https://github.com/rclement/mailer/compare/0.9.1...0.10.0
