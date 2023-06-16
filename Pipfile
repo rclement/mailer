@@ -33,4 +33,4 @@ types-certifi = "==2021.10.8.3"
 types-requests = "==2.31.0.1"
 
 [requires]
-python_full_version = "3.11.3"
+python_full_version = "3.11.4"
