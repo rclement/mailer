@@ -21,7 +21,7 @@
         <link rel="next" href="../contributing/">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.19">
+      <meta name="generator" content="mkdocs-1.5.0, mkdocs-material-9.1.19">
     
     
       
@@ -498,106 +498,106 @@ serverless platform within minutes! But any PaaS and/or Docker-compatible provid
 <thead>
 <tr>
 <th>Variable</th>
-<th align="center">Default</th>
-<th align="center">Format</th>
+<th style="text-align: center;">Default</th>
+<th style="text-align: center;">Format</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>SENDER_EMAIL</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>no-reply@domain.me</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>no-reply@domain.me</code></td>
 <td>(<strong>required</strong>) E-mail address to send e-mail from</td>
 </tr>
 <tr>
 <td><code>TO_EMAIL</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>contact@domain.me</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>contact@domain.me</code></td>
 <td>(<strong>required</strong>) E-mail address of the recipient</td>
 </tr>
 <tr>
 <td><code>TO_NAME</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>My Name</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>My Name</code></td>
 <td>(<strong>required</strong>) Name of the recipient</td>
 </tr>
 <tr>
 <td><code>SMTP_HOST</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>smtp.host.com</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>smtp.host.com</code></td>
 <td>(<strong>required</strong>) SMTP host URL</td>
 </tr>
 <tr>
 <td><code>SMTP_PORT</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>587</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>587</code></td>
 <td>(<strong>required</strong>) SMTP host port</td>
 </tr>
 <tr>
 <td><code>SMTP_TLS</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>true</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>true</code></td>
 <td>(<strong>required</strong>) SMTP host use TLS (mutually exclusive with SSL)</td>
 </tr>
 <tr>
 <td><code>SMTP_SSL</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>false</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>false</code></td>
 <td>(<strong>required</strong>) SMTP host use SSL (mutually exclusive with TLS)</td>
 </tr>
 <tr>
 <td><code>SMTP_USER</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>smtp-user</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>smtp-user</code></td>
 <td>(<strong>required</strong>) SMTP host user</td>
 </tr>
 <tr>
 <td><code>SMTP_PASSWORD</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>smtp-password</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>smtp-password</code></td>
 <td>(<strong>required</strong>) SMTP host password (or API key)</td>
 </tr>
 <tr>
 <td><code>SUCCESS_REDIRECT_URL</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>https://domain.me/contact/success</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>https://domain.me/contact/success</code></td>
 <td>(<strong>optional</strong>) Redirect to this URL after an e-mail has been successfully submitted using the url-encoded form API. If not set, the default behaviour is to redirect to the <code>Origin</code> URL from the request header</td>
 </tr>
 <tr>
 <td><code>ERROR_REDIRECT_URL</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>https://domain.me/contact/error</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>https://domain.me/contact/error</code></td>
 <td>(<strong>optional</strong>) Redirect to this URL if an error occurred when submitting an e-mail using the url-encoded form API. If not set, the default behaviour is to redirect to the <code>Origin</code> URL from the request header</td>
 </tr>
 <tr>
 <td><code>FORCE_HTTPS</code></td>
-<td align="center"><code>'true'</code></td>
-<td align="center"><code>'true'</code></td>
+<td style="text-align: center;"><code>'true'</code></td>
+<td style="text-align: center;"><code>'true'</code></td>
 <td>(<strong>optional</strong>) Force HTTPS redirect</td>
 </tr>
 <tr>
 <td><code>CORS_ORIGINS</code></td>
-<td align="center"><code>'[]'</code></td>
-<td align="center"><code>'["https://domain.me", "https://mydomain.me"]'</code></td>
+<td style="text-align: center;"><code>'[]'</code></td>
+<td style="text-align: center;"><code>'["https://domain.me", "https://mydomain.me"]'</code></td>
 <td>(<strong>optional</strong>) List (JSON string) of authorized origins for CORS origins and Origin request header validation</td>
 </tr>
 <tr>
 <td><code>RECAPTCHA_SECRET_KEY</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>string</code></td>
 <td>(<strong>optional</strong>) Google ReCaptcha v2 secret key</td>
 </tr>
 <tr>
 <td><code>PGP_PUBLIC_KEY</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>base64</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>base64</code></td>
 <td>(<strong>optional</strong>) Base64-encoded PGP public key to encrypt e-mails with before sending to SMTP backend (generate with <code>cat &lt;pub.asc&gt; \| base64</code>)</td>
 </tr>
 <tr>
 <td><code>SENTRY_DSN</code></td>
-<td align="center"><code>""</code></td>
-<td align="center"><code>string</code></td>
+<td style="text-align: center;"><code>""</code></td>
+<td style="text-align: center;"><code>string</code></td>
 <td>(<strong>optional</strong>) Sentry crash reporting DSN</td>
 </tr>
 </tbody>
