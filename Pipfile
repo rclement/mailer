@@ -11,7 +11,7 @@ gunicorn = "==21.2.0"
 honcho = "==1.1.0"
 pgpy = "==0.6.0"
 requests = "==2.31.0"
-sentry-sdk = {extras = ["fastapi"],version = "==1.29.2"}
+sentry-sdk = {extras = ["fastapi"],version = "==1.31.0"}
 
 [dev-packages]
 bandit = "==1.7.5"
