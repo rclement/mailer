@@ -30,7 +30,7 @@ python-dotenv = "==1.0.0"
 responses = "==0.23.3"
 safety = "==2.3.5"
 types-certifi = "==2021.10.8.3"
-types-requests = "==2.31.0.2"
+types-requests = "==2.31.0.7"
 
 [requires]
 python_full_version = "3.11.4"
