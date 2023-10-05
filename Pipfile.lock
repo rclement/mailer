@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "697ed9af648e2b4fdae2177f38b3147aaeeb5373838c0417a382f9598607789b"
+            "sha256": "66ed270da545f620ba0d4921a18922de74e943b93b4ef93c8653d0f6be57f15e"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -1346,12 +1346,12 @@
         },
         "mkdocs-material": {
             "hashes": [
-                "sha256:3274a47a4e55a541b25bd8fa4937cf3f3c82a51763453511661e0052062758b9",
-                "sha256:5c9abc3f6ba8f88be1f9f13df23d695ca4dddbdd8a3538e4e6279c055c3936bc"
+                "sha256:86fe79253afccc7f085f89a2d8e9e3300f82c4813d9b910d9081ce57a7e68380",
+                "sha256:ab84a7cfaf009c47cd2926cdd7e6040b8cc12c3806cc533e8b16d57bd16d9c47"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.8'",
-            "version": "==9.4.3"
+            "version": "==9.4.4"
         },
         "mkdocs-material-extensions": {
             "hashes": [
@@ -1733,11 +1733,11 @@
         },
         "ruamel.yaml": {
             "hashes": [
-                "sha256:2080c7a02b8a30fb3c06727cdf3e254a64055eedf3aa2d17c2b669639c04971b",
-                "sha256:5c56aa0bff2afceaa93bffbfc78b450b7dc1e01d5edb80b3a570695286ae62b1"
+                "sha256:801046a9caacb1b43acc118969b49b96b65e8847f29029563b29ac61d02db61b",
+                "sha256:b105e3e6fc15b41fdb201ba1b95162ae566a4ef792b9f884c46b4ccc5513a87a"
             ],
             "markers": "python_version >= '3'",
-            "version": "==0.17.33"
+            "version": "==0.17.35"
         },
         "ruamel.yaml.clib": {
             "hashes": [
@@ -1772,7 +1772,7 @@
                 "sha256:f481f16baec5290e45aebdc2a5168ebc6d35189ae6fea7a58787613a25f6e875",
                 "sha256:fff3573c2db359f091e1589c3d7c5fc2f86f5bdb6f24252c2d8e539d4e45f412"
             ],
-            "markers": "python_version < '3.12' and platform_python_implementation == 'CPython'",
+            "markers": "python_version < '3.13' and platform_python_implementation == 'CPython'",
             "version": "==0.2.8"
         },
         "safety": {
