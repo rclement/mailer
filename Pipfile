@@ -5,7 +5,7 @@ verify_ssl = true
 
 [packages]
 aiocontextvars = "==0.2.2"
-cryptography = "==41.0.5"
+cryptography = "==41.0.6"
 fastapi = {extras = ["all"],version = "==0.99.1"}
 gunicorn = "==21.2.0"
 honcho = "==1.1.0"
