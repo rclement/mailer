@@ -92,7 +92,7 @@ jobs:
         run: |
           pipenv run mkdocs build
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build-docs
           path: site
