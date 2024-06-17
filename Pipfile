@@ -10,7 +10,7 @@ fastapi = {extras = ["all"],version = "==0.99.1"}
 gunicorn = "==21.2.0"
 honcho = "==1.1.0"
 pgpy = "==0.6.0"
-requests = "==2.31.0"
+requests = "==2.32.2"
 sentry-sdk = {extras = ["fastapi"],version = "==1.39.1"}
 
 [dev-packages]
