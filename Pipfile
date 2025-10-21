@@ -7,7 +7,7 @@ verify_ssl = true
 aiocontextvars = "==0.2.2"
 cryptography = "==41.0.6"
 fastapi = {extras = ["all"],version = "==0.99.1"}
-gunicorn = "==21.2.0"
+gunicorn = "==22.0.0"
 honcho = "==1.1.0"
 pgpy = "==0.6.0"
 requests = "==2.31.0"
