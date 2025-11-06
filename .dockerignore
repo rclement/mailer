@@ -2,6 +2,7 @@
 !mailer
 !templates
 !LICENSE
-!Pipfile
-!Pipfile.lock
 !Procfile
+!pyproject.toml
+!README.md
+!uv.lock

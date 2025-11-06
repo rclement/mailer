@@ -68,7 +68,7 @@ class Mailer:
         msg["From"] = formataddr((from_name, self.sender_email))
         msg["To"] = formataddr((self.to_name, self.to_email))
         msg["Reply-To"] = formataddr((from_name, from_email))
-        msg["Subject"] = Header(subject, "utf-8")
+        msg["Subject"] = str(Header(subject, "utf-8"))
         msg.preamble = "This is a multi-part message in MIME format.\n"
 
         msg_text = MIMEText(message, _subtype="plain", _charset="utf-8")
@@ -92,7 +92,11 @@ class Mailer:
         msg = EmailMessage()
         msg.add_header(_name="Content-Type", _value="multipart/mixed")
 
-        msg_text = MIMEText(message, _subtype="plain", _charset="utf-8")
+        msg_text = EmailMessage()
+        msg_text.add_header(_name="Content-Type", _value="text/plain", charset="utf-8")
+        msg_text.add_header(_name="MIME-Version", _value="1.0")
+        msg_text.set_payload(message)
+        encoders.encode_base64(msg_text)
         msg.attach(msg_text)
 
         if public_key:
@@ -127,7 +131,7 @@ class Mailer:
         pgp_msg["From"] = formataddr((from_name, self.sender_email))
         pgp_msg["To"] = formataddr((self.to_name, self.to_email))
         pgp_msg["Reply-To"] = formataddr((from_name, from_email))
-        pgp_msg["Subject"] = Header(subject, "utf-8")
+        pgp_msg["Subject"] = str(Header(subject, "utf-8"))
 
         pgp_msg_part1 = EmailMessage()
         pgp_msg_part1.add_header(

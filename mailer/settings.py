@@ -1,11 +1,14 @@
 from typing import Optional, Set
-from pydantic import BaseSettings, EmailStr, AnyHttpUrl, validator
+from pydantic import EmailStr, AnyHttpUrl, field_validator
+from pydantic_settings import BaseSettings, SettingsConfigDict
 from pgpy import PGPKey
 
 from . import __about__
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(extra="allow")
+
     app_title: str = __about__.__title__
     app_description: str = __about__.__description__
     app_version: str = __about__.__version__
@@ -33,7 +36,8 @@ class Settings(BaseSettings):
 
     sentry_dsn: Optional[str] = None
 
-    @validator("pgp_public_key", pre=True)
+    @field_validator("pgp_public_key", mode="before")
+    @classmethod
     def validate_pgp_public_key(cls, v: Optional[str]) -> Optional[PGPKey]:
         from base64 import urlsafe_b64decode
         from pgpy.errors import PGPError
