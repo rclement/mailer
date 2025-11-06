@@ -2,7 +2,7 @@ import pgpy
 
 from base64 import b64decode
 from email import parser
-from typing import Optional
+from typing import Optional, Any, cast
 from pgpy.constants import (
     PubKeyAlgorithm,
     KeyFlags,
@@ -89,13 +89,13 @@ def assert_pgp_email(
     assert email in mail_headers["Reply-To"]
     assert mail_headers["Subject"]
 
-    pgp_mime = mail.get_payload(0)
+    pgp_mime = cast(Any, mail.get_payload(0))
     pgp_mime_headers = {k: v for k, v in pgp_mime._headers}
     assert pgp_mime_headers["Content-Type"] == "application/pgp-encrypted"
     assert pgp_mime_headers["Content-Description"] == "PGP/MIME version identification"
     assert pgp_mime._payload == "Version: 1\n"
 
-    pgp_enc_body = mail.get_payload(1)
+    pgp_enc_body = cast(Any, mail.get_payload(1))
     pgp_enc_body_headers = {k: v for k, v in pgp_enc_body._headers}
     assert (
         pgp_enc_body_headers["Content-Type"]
@@ -115,7 +115,7 @@ def assert_pgp_email(
     dec_email_headers = {k: v for k, v in dec_email.items()}
     assert "multipart/mixed" in dec_email_headers["Content-Type"]
 
-    dec_email_body = dec_email.get_payload(0)
+    dec_email_body = cast(Any, dec_email.get_payload(0))
     dec_email_body_headers = {k: v for k, v in dec_email_body._headers}
     assert dec_email_body_headers["Content-Type"] == 'text/plain; charset="utf-8"'
     assert dec_email_body_headers["MIME-Version"] == "1.0"
@@ -126,7 +126,7 @@ def assert_pgp_email(
 
     pub_key = None
     if dec_email.is_multipart() and sender_public_key:
-        dec_email_attach = dec_email.get_payload(1)
+        dec_email_attach = cast(Any, dec_email.get_payload(1))
         dec_email_attach_headers = {k: v for k, v in dec_email_attach._headers}
         assert (
             dec_email_attach_headers["Content-Type"]
@@ -170,7 +170,7 @@ def assert_plain_email(
     assert mail_headers["Subject"]
     assert mail.preamble == "This is a multi-part message in MIME format.\n"
 
-    body = mail.get_payload(0)
+    body = cast(Any, mail.get_payload(0))
     body_headers = {k: v for k, v in body._headers}
     assert body_headers["Content-Type"] == 'text/plain; charset="utf-8"'
     assert body_headers["MIME-Version"] == "1.0"

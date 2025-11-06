@@ -2,7 +2,7 @@ from typing import Dict, Optional
 from http import HTTPStatus
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.responses import RedirectResponse
-from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
+from pydantic import BaseModel, EmailStr, Field, ValidationError, field_validator
 
 from . import recaptcha
 from .mailer import Mailer
@@ -62,9 +62,11 @@ class MailSchema(BaseModel):
         None,
         title="PGP public key",
         description="ASCII-armored PGP public of the contact sending the message, to be attached within the e-mail",
+        validate_default=True,
     )
 
-    @validator("public_key")
+    @field_validator("public_key")
+    @classmethod
     def validate_public_key(cls, v: Optional[str]) -> Optional[str]:
         from pgpy import PGPKey
         from pgpy.errors import PGPError
@@ -84,7 +86,7 @@ class MailSchema(BaseModel):
 def check_origin(req: Request, origin: str = Header(None)) -> None:
     settings: Settings = req.app.state.settings
     if len(settings.cors_origins) > 0:
-        if origin not in settings.cors_origins:
+        if origin not in [str(o) for o in settings.cors_origins]:
             raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
 
 

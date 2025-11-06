@@ -8,7 +8,7 @@ def create_app(env_file: Optional[str] = ".env") -> FastAPI:
     from . import api, home, sentry
     from .settings import Settings
 
-    settings = Settings(_env_file=env_file)  # type: ignore
+    settings = Settings(_env_file=env_file)
 
     app = FastAPI(
         title=settings.app_title,
@@ -23,7 +23,7 @@ def create_app(env_file: Optional[str] = ".env") -> FastAPI:
 
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.cors_origins,
+        allow_origins=[str(origin) for origin in settings.cors_origins],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

@@ -3,9 +3,9 @@
 ## Setup
 
 ```bash
-pipenv install -d
-pipenv run pre-commit install --config .pre-commit-config.yml
-pipenv run inv qa
+uv sync
+uv run pre-commit install --config .pre-commit-config.yml
+uv run inv qa
 ```
 
 ## Running locally
@@ -14,12 +14,11 @@ pipenv run inv qa
 ```bash
 cp .example.env .env
 edit .env
-pipenv shell
 ```
 
 2. Run dev server:
 ```bash
-uvicorn mailer.app:app --host 0.0.0.0 --port 8000
+uv run uvicorn mailer.app:app --host 0.0.0.0 --port 8000
 ```
 or if using VSCode, use the following configuration in `.vscode/launch.json`:
 ```json
@@ -65,5 +64,5 @@ Run the examples:
 
 ```
 cd examples
-pipenv run python -m http.server 5000
+uv run python -m http.server 5000
 ```
