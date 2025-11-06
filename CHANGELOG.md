@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Use Python 3.12.11
 - Upgrade dependencies
 - Migrate from `pipenv` to `uv` package manager
+- Migrate from `safety` to `pip-audit`
 
 ## [0.10.3] - 2023-06-16
 ### Changed
