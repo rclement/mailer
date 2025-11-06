@@ -12,8 +12,7 @@ def audit(ctx):
 
 @task
 def lint(ctx):
-    ctx.run(f"black --check {app_path} {tests_path}", pty=True)
-    ctx.run(f"flake8 {app_path} {tests_path}", pty=True)
+    ctx.run(f"ruff check {app_path} {tests_path}", pty=True)
 
 
 @task
@@ -41,7 +40,7 @@ def qa(ctx):
 
 @task
 def reformat(ctx):
-    ctx.run(f"black {app_path} {tests_path}", pty=True)
+    ctx.run(f"ruff format {app_path} {tests_path}", pty=True)
 
 
 @task
