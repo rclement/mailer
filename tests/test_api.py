@@ -20,7 +20,7 @@ from . import utils
 
 @pytest.fixture(scope="function")
 def enable_cors_origins_single(monkeypatch: pytest.MonkeyPatch, faker: Faker) -> str:
-    origin: str = faker.url()
+    origin: str = faker.url().rstrip("/")
     monkeypatch.setenv("CORS_ORIGINS", f'["{origin}"]')
     return origin
 
@@ -31,7 +31,7 @@ def enable_cors_origins_multiple(
 ) -> list[str]:
     import json
 
-    origins: list[str] = [faker.url(), faker.url()]
+    origins: list[str] = [faker.url().rstrip("/") for _ in range(2)]
     monkeypatch.setenv("CORS_ORIGINS", f"{json.dumps(origins)}")
 
     return origins
@@ -509,7 +509,7 @@ def test_send_mail_cors_origin_single(
     assert response.headers["access-control-allow-origin"] == enable_cors_origins_single
 
     response = app_client.post(
-        "/api/mail", json=params, headers={"Origin": faker.url()}
+        "/api/mail", json=params, headers={"Origin": faker.url().rstrip("/")}
     )
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
@@ -536,7 +536,7 @@ def test_send_mail_cors_origin_multiple(
         assert response.headers["access-control-allow-origin"] == origin
 
     response = app_client.post(
-        "/api/mail", json=params, headers={"Origin": faker.url()}
+        "/api/mail", json=params, headers={"Origin": faker.url().rstrip("/")}
     )
     assert response.status_code == HTTPStatus.UNAUTHORIZED
 
@@ -766,7 +766,7 @@ def test_send_mail_form_redirect_origin(
     params_success: dict[str, str],
     faker: Faker,
 ) -> None:
-    origin = faker.url()
+    origin = faker.url().rstrip("/")
     params = params_success
 
     response = app_client.post(
@@ -798,7 +798,7 @@ def test_send_mail_form_none_redirect_origin(
     app_client: TestClient,
     faker: Faker,
 ) -> None:
-    origin = faker.url()
+    origin = faker.url().rstrip("/")
 
     params: dict[str, str] = {}
 

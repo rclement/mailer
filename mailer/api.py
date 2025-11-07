@@ -85,7 +85,7 @@ class MailSchema(BaseModel):
 def check_origin(req: Request, origin: str = Header(None)) -> None:
     settings: Settings = req.app.state.settings
     if len(settings.cors_origins) > 0:
-        if origin not in [str(o) for o in settings.cors_origins]:
+        if origin.rstrip("/") not in settings.cors_origins_list:
             raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
 
 
