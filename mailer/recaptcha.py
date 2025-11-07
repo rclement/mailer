@@ -1,12 +1,10 @@
 import requests
 
-from typing import Optional
-
 
 verify_url = "https://www.google.com/recaptcha/api/siteverify"
 
 
-def verify(secret_key: Optional[str], response: Optional[str]) -> None:
+def verify(secret_key: str | None, response: str | None) -> None:
     if secret_key:
         params = {"secret": secret_key, "response": response}
         rv = requests.post(verify_url, data=params, timeout=30)

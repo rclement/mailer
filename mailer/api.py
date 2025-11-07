@@ -1,4 +1,3 @@
-from typing import Dict, Optional
 from http import HTTPStatus
 from fastapi import APIRouter, Depends, Header, HTTPException, Request
 from fastapi.responses import RedirectResponse
@@ -52,13 +51,13 @@ class MailSchema(BaseModel):
         min_length=0,
         max_length=0,
     )
-    g_recaptcha_response: Optional[str] = Field(
+    g_recaptcha_response: str | None = Field(
         None,
         alias="g-recaptcha-response",
         title="Google ReCaptcha Response",
         description="Obtained response from Google ReCaptcha v2 widget (or invisible)",
     )
-    public_key: Optional[str] = Field(
+    public_key: str | None = Field(
         None,
         title="PGP public key",
         description="ASCII-armored PGP public of the contact sending the message, to be attached within the e-mail",
@@ -67,7 +66,7 @@ class MailSchema(BaseModel):
 
     @field_validator("public_key")
     @classmethod
-    def validate_public_key(cls, v: Optional[str]) -> Optional[str]:
+    def validate_public_key(cls, v: str | None) -> str | None:
         from pgpy import PGPKey
         from pgpy.errors import PGPError
 
@@ -96,7 +95,7 @@ def check_origin(req: Request, origin: str = Header(None)) -> None:
     description="Obtain API information",
     response_model=ApiInfoSchema,
 )
-def get_api_info(req: Request) -> Dict[str, str]:
+def get_api_info(req: Request) -> dict[str, str]:
     settings: Settings = req.app.state.settings
     data = {
         "name": settings.app_title,

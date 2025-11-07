@@ -1,8 +1,7 @@
-from typing import Optional
 from fastapi import FastAPI
 
 
-def create_app(env_file: Optional[str] = ".env") -> FastAPI:
+def create_app(env_file: str | None = ".env") -> FastAPI:
     from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
     from fastapi.middleware.cors import CORSMiddleware
     from . import api, home, sentry

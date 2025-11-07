@@ -1,5 +1,6 @@
 import dataclasses
 import smtplib
+from typing import Any
 
 from email import encoders
 from email.header import Header
@@ -8,7 +9,6 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formataddr, formatdate
-from typing import Any, Dict, Optional
 from pgpy import PGPKey, PGPMessage
 from pgpy.errors import PGPError
 
@@ -24,8 +24,8 @@ class Mailer:
     smtp_ssl: dataclasses.InitVar[bool]
     smtp_user: dataclasses.InitVar[str]
     smtp_password: dataclasses.InitVar[str]
-    smtp_config: Dict[str, Any] = dataclasses.field(init=False)
-    pgp_public_key: Optional[PGPKey]
+    smtp_config: dict[str, Any] = dataclasses.field(init=False)
+    pgp_public_key: PGPKey | None
 
     def __post_init__(
         self,
@@ -51,7 +51,7 @@ class Mailer:
         from_name: str,
         subject: str,
         message: str,
-        public_key: Optional[str],
+        public_key: str | None,
     ) -> None:
         if self.pgp_public_key:
             return self._send_encrypted_email(
@@ -82,7 +82,7 @@ class Mailer:
         from_name: str,
         subject: str,
         message: str,
-        public_key: Optional[str],
+        public_key: str | None,
         pgp_public_key: PGPKey,
     ) -> None:
         # Sources:

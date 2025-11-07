@@ -2,7 +2,7 @@ import pgpy
 
 from base64 import b64decode
 from email import parser
-from typing import Optional, Any, cast
+from typing import Any, cast
 from pgpy.constants import (
     PubKeyAlgorithm,
     KeyFlags,
@@ -69,8 +69,8 @@ def assert_pgp_email(
     to_email: str,
     to_name: str,
     private_key: pgpy.PGPKey,
-    sender_public_key: Optional[pgpy.PGPKey],
-) -> Optional[str]:
+    sender_public_key: pgpy.PGPKey | None,
+) -> str | None:
     p = parser.Parser()
     mail = p.parsestr(email_str)
 

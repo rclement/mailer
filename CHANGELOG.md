@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrate from `pipenv` to `uv` package manager
 - Migrate from `safety` to `pip-audit`
 - Migrate from `flake8` and `black` to `ruff`
+- Modernize Python type hints
 
 ## [0.10.3] - 2023-06-16
 ### Changed
