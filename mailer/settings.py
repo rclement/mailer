@@ -1,4 +1,4 @@
-from pydantic import EmailStr, AnyHttpUrl, field_validator
+from pydantic import AnyHttpUrl, EmailStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from pgpy import PGPKey
 
@@ -54,3 +54,7 @@ class Settings(BaseSettings):
             return key
 
         return None
+
+    @property
+    def cors_origins_list(self) -> list[str]:
+        return [str(origin).rstrip("/") for origin in self.cors_origins]
