@@ -3,7 +3,7 @@ import pytest
 
 from base64 import urlsafe_b64encode
 from http import HTTPStatus
-from typing import Any, Dict, List, Tuple
+from typing import Any
 from unittest.mock import MagicMock
 from faker import Faker
 from fastapi import FastAPI
@@ -28,10 +28,10 @@ def enable_cors_origins_single(monkeypatch: pytest.MonkeyPatch, faker: Faker) ->
 @pytest.fixture(scope="function")
 def enable_cors_origins_multiple(
     monkeypatch: pytest.MonkeyPatch, faker: Faker
-) -> List[str]:
+) -> list[str]:
     import json
 
-    origins: List[str] = [faker.url(), faker.url()]
+    origins: list[str] = [faker.url(), faker.url()]
     monkeypatch.setenv("CORS_ORIGINS", f"{json.dumps(origins)}")
 
     return origins
@@ -129,11 +129,11 @@ def mock_recaptcha_verify_api(responses: RequestsMock, faker: Faker) -> Requests
 
     def request_callback(
         request: PreparedRequest,
-    ) -> Tuple[HTTPStatus, Dict[str, Any], str]:
+    ) -> tuple[HTTPStatus, dict[str, Any], str]:
         import json
         from urllib.parse import parse_qs
 
-        headers: Dict[str, Any] = {}
+        headers: dict[str, Any] = {}
 
         params = parse_qs(str(request.body))
         secret = params.get("secret")
@@ -148,7 +148,7 @@ def mock_recaptcha_verify_api(responses: RequestsMock, faker: Faker) -> Requests
         elif response != [valid_recaptcha_response]:
             errors.append("invalid-input-response")
 
-        body: Dict[str, Any] = {}
+        body: dict[str, Any] = {}
         if len(errors) > 0:
             body["success"] = False
             body["error-codes"] = errors
@@ -198,7 +198,7 @@ def no_error_redirect_url(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 @pytest.fixture(scope="function")
-def params_success(faker: Faker) -> Dict[str, str]:
+def params_success(faker: Faker) -> dict[str, str]:
     return {
         "email": faker.email(),
         "name": faker.name(),
@@ -230,7 +230,7 @@ def test_send_mail_success(
     app: FastAPI,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -269,7 +269,7 @@ def test_send_mail_ssl_success(
     app: FastAPI,
     app_client: TestClient,
     mock_smtp_ssl: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -302,7 +302,7 @@ def test_send_mail_ssl_success(
 def test_send_mail_smtp_connect_failed(
     app_client: TestClient,
     mock_smtp_connect_error: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -319,7 +319,7 @@ def test_send_mail_smtp_connect_failed(
 def test_send_mail_smtp_tls_failed(
     app_client: TestClient,
     mock_smtp_tls_error: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -336,7 +336,7 @@ def test_send_mail_smtp_tls_failed(
 def test_send_mail_smtp_login_failed(
     app_client: TestClient,
     mock_smtp_auth_error: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -353,7 +353,7 @@ def test_send_mail_smtp_login_failed(
 def test_send_mail_smtp_send_failed(
     app_client: TestClient,
     mock_smtp_send_error: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -368,7 +368,7 @@ def test_send_mail_smtp_send_failed(
 
 
 def test_send_mail_none(app_client: TestClient, mock_smtp: MagicMock) -> None:
-    params: Dict[str, str] = {}
+    params: dict[str, str] = {}
 
     response = app_client.post("/api/mail", json=params)
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
@@ -382,7 +382,7 @@ def test_send_mail_empty_fields(app_client: TestClient, mock_smtp: MagicMock) ->
 
 
 def test_send_mail_empty_email(
-    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+    app_client: TestClient, mock_smtp: MagicMock, params_success: dict[str, str]
 ) -> None:
     params = params_success
     params["email"] = ""
@@ -392,7 +392,7 @@ def test_send_mail_empty_email(
 
 
 def test_send_mail_empty_name(
-    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+    app_client: TestClient, mock_smtp: MagicMock, params_success: dict[str, str]
 ) -> None:
     params = params_success
     params["name"] = ""
@@ -402,7 +402,7 @@ def test_send_mail_empty_name(
 
 
 def test_send_mail_empty_subject(
-    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+    app_client: TestClient, mock_smtp: MagicMock, params_success: dict[str, str]
 ) -> None:
     params = params_success
     params["subject"] = ""
@@ -412,7 +412,7 @@ def test_send_mail_empty_subject(
 
 
 def test_send_mail_empty_message(
-    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+    app_client: TestClient, mock_smtp: MagicMock, params_success: dict[str, str]
 ) -> None:
     params = params_success
     params["message"] = ""
@@ -422,7 +422,7 @@ def test_send_mail_empty_message(
 
 
 def test_send_mail_bad_email(
-    app_client: TestClient, mock_smtp: MagicMock, params_success: Dict[str, str]
+    app_client: TestClient, mock_smtp: MagicMock, params_success: dict[str, str]
 ) -> None:
     params = params_success
     params["email"] = "joe@doe"
@@ -434,7 +434,7 @@ def test_send_mail_bad_email(
 def test_send_mail_too_long_name(
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     params = params_success
@@ -447,7 +447,7 @@ def test_send_mail_too_long_name(
 def test_send_mail_too_long_subject(
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     params = params_success
@@ -460,7 +460,7 @@ def test_send_mail_too_long_subject(
 def test_send_mail_too_long_message(
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     params = params_success
@@ -473,7 +473,7 @@ def test_send_mail_too_long_message(
 def test_send_mail_non_empty_honeypot(
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     params = params_success
@@ -487,7 +487,7 @@ def test_send_mail_cors_origin_single(
     enable_cors_origins_single: str,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     params = params_success
@@ -515,10 +515,10 @@ def test_send_mail_cors_origin_single(
 
 
 def test_send_mail_cors_origin_multiple(
-    enable_cors_origins_multiple: List[str],
+    enable_cors_origins_multiple: list[str],
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     params = params_success
@@ -546,7 +546,7 @@ def test_send_mail_recaptcha_success(
     app_client: TestClient,
     mock_smtp: MagicMock,
     mock_recaptcha_verify_api: RequestsMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
     params["g-recaptcha-response"] = valid_recaptcha_response
@@ -560,7 +560,7 @@ def test_send_mail_recaptcha_invalid_secret(
     app_client: TestClient,
     mock_smtp: MagicMock,
     mock_recaptcha_verify_api: RequestsMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
     params["g-recaptcha-response"] = valid_recaptcha_response
@@ -574,7 +574,7 @@ def test_send_mail_recaptcha_no_response(
     app_client: TestClient,
     mock_smtp: MagicMock,
     mock_recaptcha_verify_api: RequestsMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
     params["g-recaptcha-response"] = ""
@@ -588,7 +588,7 @@ def test_send_mail_recaptcha_invalid_response(
     app_client: TestClient,
     mock_smtp: MagicMock,
     mock_recaptcha_verify_api: RequestsMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     params = params_success
@@ -603,7 +603,7 @@ def test_send_pgp_mail_success(
     app: FastAPI,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -645,7 +645,7 @@ def test_send_pgp_mail_with_attached_public_key_success(
     app: FastAPI,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     sender_key = utils.generate_pgp_key_pair(faker.name(), faker.email())
@@ -695,7 +695,7 @@ def test_send_pgp_mail_with_attached_public_key_private(
     enable_pgp_public_key: PGPKey,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     sender_key = utils.generate_pgp_key_pair(faker.name(), faker.email())
@@ -711,7 +711,7 @@ def test_send_pgp_mail_with_attached_public_key_invalid(
     enable_pgp_public_key: PGPKey,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     pgp_key = urlsafe_b64encode(faker.binary()).decode("utf-8")
@@ -730,7 +730,7 @@ def test_send_mail_form_success(
     app: FastAPI,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
@@ -763,7 +763,7 @@ def test_send_mail_form_redirect_origin(
     app: FastAPI,
     app_client: TestClient,
     mock_smtp: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
     faker: Faker,
 ) -> None:
     origin = faker.url()
@@ -786,7 +786,7 @@ def test_send_mail_form_redirect_origin(
 
 
 def test_send_mail_form_none(app_client: TestClient) -> None:
-    params: Dict[str, str] = {}
+    params: dict[str, str] = {}
 
     response = app_client.post("/api/mail/form", data=params, follow_redirects=False)
     assert response.status_code == HTTPStatus.FOUND
@@ -800,7 +800,7 @@ def test_send_mail_form_none_redirect_origin(
 ) -> None:
     origin = faker.url()
 
-    params: Dict[str, str] = {}
+    params: dict[str, str] = {}
 
     response = app_client.post(
         "/api/mail/form",
@@ -817,7 +817,7 @@ def test_send_mail_form_recaptcha_invalid_secret(
     app_client: TestClient,
     mock_smtp: MagicMock,
     mock_recaptcha_verify_api: RequestsMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
     params["g-recaptcha-response"] = valid_recaptcha_response
@@ -830,7 +830,7 @@ def test_send_mail_form_recaptcha_invalid_secret(
 def test_send_mail_form_smtp_send_failed(
     app_client: TestClient,
     mock_smtp_send_error: MagicMock,
-    params_success: Dict[str, str],
+    params_success: dict[str, str],
 ) -> None:
     params = params_success
 
