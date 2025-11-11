@@ -34,7 +34,7 @@ dev = [
     "faker==37.12.0",
     "invoke==2.2.1",
     "mkdocs==1.6.1",
-    "mkdocs-material==9.6.23",
+    "mkdocs-material==9.7.0",
     "mypy==1.18.2",
     "pip-audit==2.9.0",
     "pre-commit==4.4.0",
