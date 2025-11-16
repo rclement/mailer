@@ -39,7 +39,7 @@ def qa(ctx):
 
 
 @task
-def reformat(ctx):
+def format(ctx):
     ctx.run(f"ruff format {app_path} {tests_path}", pty=True)
 
 
