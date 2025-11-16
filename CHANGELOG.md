@@ -6,6 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Update dependencies
+- Upgrade CI/CD workflow
+- Refactor internal task names
+
 ## [0.11.0] - 2025-11-07
 Long-awaited release with:
 - All known CVEs in dependencies fixed.
@@ -203,7 +208,8 @@ Long-awaited release with:
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.10.3...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.11.0...HEAD
+[0.11.0]: https://github.com/rclement/mailer/compare/0.10.3...0.11.0
 [0.10.3]: https://github.com/rclement/mailer/compare/0.10.2...0.10.3
 [0.10.2]: https://github.com/rclement/mailer/compare/0.10.1...0.10.2
 [0.10.1]: https://github.com/rclement/mailer/compare/0.10.0...0.10.1
