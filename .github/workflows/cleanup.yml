@@ -22,7 +22,9 @@ jobs:
         run: npm install --global vercel@latest
       - name: Remove Vercel alias
         run: |
-          VERCEL_ALIAS=${GITHUB_EVENT_REF_SLUG_URL}-${BASE_URL_PREVIEW}
+          MAX_SLUG_LENGTH=$((63 - ${#BASE_URL_PREVIEW} - 1))
+          TRUNCATED_SLUG=${GITHUB_EVENT_REF_SLUG_URL:0:$MAX_SLUG_LENGTH}
+          VERCEL_ALIAS=${TRUNCATED_SLUG}-${BASE_URL_PREVIEW}
           vercel alias --token $VERCEL_TOKEN rm $VERCEL_ALIAS -y
       - name: Delete GitHub environment
         uses: actions/github-script@v8
