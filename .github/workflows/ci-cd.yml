@@ -85,6 +85,10 @@ jobs:
     needs: build-docs
     if: contains(github.ref, 'master')
 
+    permissions:
+      pages: write
+      id-token: write
+
     steps:
       - uses: actions/checkout@v5
       - name: Download build artifacts
@@ -92,12 +96,15 @@ jobs:
         with:
           name: build-docs
           path: site
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          personal_token: ${{ secrets.GH_PERSONAL_TOKEN }}
-          publish_dir: ./site
-          publish_branch: gh-pages
+          path: site
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   deploy-vercel-setup:
     name: Deployment setup
