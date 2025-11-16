@@ -60,6 +60,8 @@ jobs:
     name: Build Documentation
     runs-on: ubuntu-latest
     needs: test
+    environment:
+      name: github-pages
 
     steps:
       - uses: actions/checkout@v5
