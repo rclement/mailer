@@ -21,7 +21,7 @@ def typing(ctx):
 
 
 @task
-def security_check(ctx):
+def vuln(ctx):
     ctx.run(f"bandit -v -r {app_path}", pty=True)
 
 
@@ -33,7 +33,7 @@ def test(ctx):
     )
 
 
-@task(audit, lint, typing, security_check, test)
+@task(audit, lint, typing, vuln, test)
 def qa(ctx):
     pass
 
