@@ -113,6 +113,7 @@ jobs:
 
     outputs:
       github_ref_slug: ${{ steps.output_step.outputs.github_ref_slug }}
+      vercel_alias: ${{ steps.output_step.outputs.vercel_alias }}
       deployment_url: ${{ steps.output_step.outputs.deployment_url }}
 
     steps:
@@ -120,14 +121,22 @@ jobs:
         uses: rlespinasse/github-slug-action@v5
       - name: Set preview deployment url variable
         if: ${{ !contains(github.ref, 'tags') }}
-        run: echo "DEPLOYMENT_URL=https://${GITHUB_REF_SLUG_URL}-${BASE_URL_PREVIEW}" >> $GITHUB_ENV
+        run: |
+          MAX_SLUG_LENGTH=$((63 - ${#BASE_URL_PREVIEW} - 1))
+          TRUNCATED_SLUG=${GITHUB_REF_SLUG_URL:0:$MAX_SLUG_LENGTH}
+          VERCEL_ALIAS=${TRUNCATED_SLUG}-${BASE_URL_PREVIEW}
+          echo "VERCEL_ALIAS=${VERCEL_ALIAS}" >> $GITHUB_ENV
+          echo "DEPLOYMENT_URL=https://${VERCEL_ALIAS}" >> $GITHUB_ENV
       - name: Set production deployment url variable
         if: ${{ contains(github.ref, 'tags') }}
-        run: echo "DEPLOYMENT_URL=${{ secrets.MAILER_URL }}" >> $GITHUB_ENV
+        run: |
+          echo "VERCEL_ALIAS=" >> $GITHUB_ENV
+          echo "DEPLOYMENT_URL=${{ secrets.MAILER_URL }}" >> $GITHUB_ENV
       - id: output_step
         run: |
-          echo "::set-output name=github_ref_slug::${GITHUB_REF_SLUG_URL}"
-          echo "::set-output name=deployment_url::${DEPLOYMENT_URL}"
+          echo "github_ref_slug=${GITHUB_REF_SLUG_URL}" >> $GITHUB_OUTPUT
+          echo "vercel_alias=${VERCEL_ALIAS}" >> $GITHUB_OUTPUT
+          echo "deployment_url=${DEPLOYMENT_URL}" >> $GITHUB_OUTPUT
 
   deploy-vercel-preview:
     name: Vercel preview deployment
@@ -158,9 +167,7 @@ jobs:
         run: npm install --global vercel@latest
       - name: Deploy to Vercel
         run: |
-          MAX_SLUG_LENGTH=$((63 - ${#BASE_URL_PREVIEW} - 1))
-          TRUNCATED_SLUG=${GITHUB_REF_SLUG_URL:0:$MAX_SLUG_LENGTH}
-          VERCEL_ALIAS=${TRUNCATED_SLUG}-${BASE_URL_PREVIEW}
+          VERCEL_ALIAS=${{ needs.deploy-vercel-setup.outputs.vercel_alias }}
           VERCEL_URL=$(vercel deploy --confirm --token $VERCEL_TOKEN)
           vercel alias --token $VERCEL_TOKEN set $VERCEL_URL $VERCEL_ALIAS
 
