@@ -151,7 +151,9 @@ jobs:
         run: npm install --global vercel@latest
       - name: Deploy to Vercel
         run: |
-          VERCEL_ALIAS=${GITHUB_REF_SLUG_URL}-${BASE_URL_PREVIEW}
+          MAX_SLUG_LENGTH=$((63 - ${#BASE_URL_PREVIEW} - 1))
+          TRUNCATED_SLUG=${GITHUB_REF_SLUG_URL:0:$MAX_SLUG_LENGTH}
+          VERCEL_ALIAS=${TRUNCATED_SLUG}-${BASE_URL_PREVIEW}
           VERCEL_URL=$(vercel deploy --confirm --token $VERCEL_TOKEN)
           vercel alias --token $VERCEL_TOKEN set $VERCEL_URL $VERCEL_ALIAS
 
