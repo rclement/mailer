@@ -16,7 +16,7 @@ def lint(ctx):
 
 
 @task
-def static_check(ctx):
+def typing(ctx):
     ctx.run(f"mypy --strict {app_path} {tests_path}", pty=True)
 
 
@@ -33,7 +33,7 @@ def test(ctx):
     )
 
 
-@task(audit, lint, static_check, security_check, test)
+@task(audit, lint, typing, security_check, test)
 def qa(ctx):
     pass
 
