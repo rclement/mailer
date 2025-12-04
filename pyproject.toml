@@ -11,7 +11,7 @@ requires-python = "==3.12.11"
 dependencies = [
     "aiocontextvars==0.2.2",
     "cryptography==46.0.3",
-    "fastapi[all]==0.123.5",
+    "fastapi[all]==0.123.7",
     "gunicorn==23.0.0",
     "honcho==2.0.0",
     "pgpy==0.6.0",
