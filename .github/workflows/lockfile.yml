@@ -11,7 +11,7 @@ jobs:
       contents: write
       pull-requests: write
     env:
-      BASE_BRANCH: main
+      BASE_BRANCH: master
       LOCKFILE_BRANCH: chore/uv-lockfile
 
     steps:
