@@ -129,11 +129,17 @@ jobs:
     steps:
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v5
+      - name: Get current branch name slug
+        # retrieving the branch name depends on the event type:
+        # - pull_request events: GITHUB_HEAD_REF_SLUG_URL
+        # - push events: GITHUB_REF_SLUG_URL
+        # - delete events: GITHUB_EVENT_REF_SLUG_URL
+        run: echo "BRANCH_NAME_SLUG=${GITHUB_HEAD_REF_SLUG_URL:-${GITHUB_REF_SLUG_URL}}" >> $GITHUB_ENV
       - name: Set preview deployment url variable
         if: ${{ !contains(github.ref, 'tags') }}
         run: |
           MAX_SLUG_LENGTH=$((63 - ${#BASE_URL_PREVIEW} - 1))
-          TRUNCATED_SLUG=${GITHUB_REF_SLUG_URL:0:$MAX_SLUG_LENGTH}
+          TRUNCATED_SLUG=${BRANCH_NAME_SLUG:0:$MAX_SLUG_LENGTH}
           VERCEL_ALIAS=${TRUNCATED_SLUG}-${BASE_URL_PREVIEW}
           echo "VERCEL_ALIAS=${VERCEL_ALIAS}" >> $GITHUB_ENV
           echo "DEPLOYMENT_URL=https://${VERCEL_ALIAS}" >> $GITHUB_ENV
@@ -144,7 +150,7 @@ jobs:
           echo "DEPLOYMENT_URL=${{ secrets.MAILER_URL }}" >> $GITHUB_ENV
       - id: output_step
         run: |
-          echo "github_ref_slug=${GITHUB_REF_SLUG_URL}" >> $GITHUB_OUTPUT
+          echo "github_ref_slug=${BRANCH_NAME_SLUG}" >> $GITHUB_OUTPUT
           echo "vercel_alias=${VERCEL_ALIAS}" >> $GITHUB_OUTPUT
           echo "deployment_url=${DEPLOYMENT_URL}" >> $GITHUB_OUTPUT
 
