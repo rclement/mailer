@@ -11,7 +11,6 @@ on:
 
 env:
   BASE_URL_PREVIEW: mailer-romainclement.vercel.app
-  PYTHON_VERSION: '3.11.4'
 
 jobs:
   test:
