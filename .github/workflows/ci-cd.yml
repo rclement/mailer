@@ -1,6 +1,13 @@
 name: CI/CD
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "*"
+  pull_request:
+  workflow_dispatch:
 
 env:
   BASE_URL_PREVIEW: mailer-romainclement.vercel.app
