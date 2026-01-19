@@ -30,7 +30,7 @@ Changelog = "https://github.com/rclement/mailer/blob/main/CHANGELOG.md"
 
 [dependency-groups]
 dev = [
-    "bandit==1.9.2",
+    "bandit==1.9.3",
     "faker==40.1.2",
     "invoke==2.2.1",
     "mkdocs==1.6.1",
