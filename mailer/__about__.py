@@ -1,4 +1,4 @@
-__version__ = "0.11.0"
+__version__ = "0.11.1"
 version = tuple(int(v) for v in __version__.split("."))
 __title__ = "Mailer"
 __description__ = "Dead-simple mailer micro-service for static websites"
