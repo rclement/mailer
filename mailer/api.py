@@ -1,5 +1,7 @@
+from enum import StrEnum
 from http import HTTPStatus
-from fastapi import APIRouter, Depends, Header, HTTPException, Request
+
+from fastapi import APIRouter, Depends, Header, HTTPException, Request, Response
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, EmailStr, Field, ValidationError, field_validator
 
@@ -15,6 +17,26 @@ class ApiInfoSchema(BaseModel):
     name: str = Field(..., title="Name", description="Name of the app")
     version: str = Field(..., title="Version", description="Version of the app")
     api_version: str = Field(..., title="API Version", description="Version of the API")
+
+
+class HealthStatusEnum(StrEnum):
+    ok = "ok"
+    error = "error"
+
+
+class HealthChecksSchema(BaseModel):
+    smtp: HealthStatusEnum = Field(
+        ..., title="SMTP", description="SMTP connectivity status"
+    )
+
+
+class HealthSchema(BaseModel):
+    status: HealthStatusEnum = Field(
+        ..., title="Status", description="Overall health status"
+    )
+    checks: HealthChecksSchema = Field(
+        ..., title="Checks", description="Individual health checks"
+    )
 
 
 class MailSchema(BaseModel):
@@ -199,4 +221,51 @@ async def post_mail_form(req: Request) -> RedirectResponse:
     return RedirectResponse(
         settings.success_redirect_url or req.headers["Origin"],
         status_code=HTTPStatus.FOUND,
+    )
+
+
+@router.get(
+    "/health",
+    summary="Health Check",
+    description="Check SMTP connectivity and service health",
+    response_model=HealthSchema,
+    responses={
+        str(int(HTTPStatus.SERVICE_UNAVAILABLE)): {
+            "description": "Service unhealthy",
+            "model": HealthSchema,
+        }
+    },
+)
+def get_health(req: Request, response: Response) -> HealthSchema:
+    settings: Settings = req.app.state.settings
+
+    mailer = Mailer(
+        settings.sender_email,
+        settings.to_email,
+        settings.to_name,
+        settings.smtp_host,
+        settings.smtp_port,
+        settings.smtp_tls,
+        settings.smtp_ssl,
+        settings.smtp_user,
+        settings.smtp_password,
+        settings.pgp_public_key,
+    )
+
+    smtp_status = (
+        HealthStatusEnum.ok if mailer.check_smtp_health() else HealthStatusEnum.error
+    )
+
+    health_status = (
+        HealthStatusEnum.error
+        if HealthStatusEnum.error in [smtp_status]
+        else HealthStatusEnum.ok
+    )
+
+    if health_status == HealthStatusEnum.error:
+        response.status_code = HTTPStatus.SERVICE_UNAVAILABLE
+
+    return HealthSchema(
+        status=health_status,
+        checks=HealthChecksSchema(smtp=smtp_status),
     )
