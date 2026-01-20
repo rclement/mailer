@@ -185,3 +185,19 @@ class Mailer:
             s.quit()
         except smtplib.SMTPException:
             raise RuntimeError
+
+    def check_smtp_health(self) -> bool:
+        try:
+            s = self._get_smtp_handler()
+
+            if self.smtp_config["tls"]:
+                s.starttls()
+
+            s.login(
+                user=self.smtp_config["user"], password=self.smtp_config["password"]
+            )
+            s.noop()
+            s.quit()
+            return True
+        except (smtplib.SMTPException, OSError):
+            return False

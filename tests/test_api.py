@@ -843,3 +843,68 @@ def test_send_mail_form_smtp_send_failed(
     assert mock_smtp_send_error.return_value.login.call_count == 1
     assert mock_smtp_send_error.return_value.send_message.call_count == 1
     assert mock_smtp_send_error.return_value.quit.call_count == 0
+
+
+# ------------------------------------------------------------------------------
+
+
+def test_get_health_success(
+    app_client: TestClient,
+    mock_smtp: MagicMock,
+) -> None:
+    response = app_client.get("/api/health")
+    assert response.status_code == HTTPStatus.OK
+
+    assert response.json() == {"status": "ok", "checks": {"smtp": "ok"}}
+
+    assert mock_smtp.call_count == 1
+    assert mock_smtp.return_value.starttls.call_count == 1
+    assert mock_smtp.return_value.login.call_count == 1
+    assert mock_smtp.return_value.noop.call_count == 1
+    assert mock_smtp.return_value.quit.call_count == 1
+
+
+def test_get_health_smtp_connect_error(
+    app_client: TestClient,
+    mock_smtp_connect_error: MagicMock,
+) -> None:
+    response = app_client.get("/api/health")
+    assert response.status_code == HTTPStatus.SERVICE_UNAVAILABLE
+    assert response.json() == {"status": "error", "checks": {"smtp": "error"}}
+
+    assert mock_smtp_connect_error.call_count == 1
+    assert mock_smtp_connect_error.return_value.starttls.call_count == 0
+    assert mock_smtp_connect_error.return_value.login.call_count == 0
+    assert mock_smtp_connect_error.return_value.noop.call_count == 0
+    assert mock_smtp_connect_error.return_value.quit.call_count == 0
+
+
+def test_get_health_smtp_auth_error(
+    app_client: TestClient,
+    mock_smtp_auth_error: MagicMock,
+) -> None:
+    response = app_client.get("/api/health")
+    assert response.status_code == HTTPStatus.SERVICE_UNAVAILABLE
+    assert response.json() == {"status": "error", "checks": {"smtp": "error"}}
+
+    assert mock_smtp_auth_error.call_count == 1
+    assert mock_smtp_auth_error.return_value.starttls.call_count == 1
+    assert mock_smtp_auth_error.return_value.login.call_count == 1
+    assert mock_smtp_auth_error.return_value.noop.call_count == 0
+    assert mock_smtp_auth_error.return_value.quit.call_count == 0
+
+
+def test_get_health_ssl_success(
+    enable_smtp_ssl: None,
+    app_client: TestClient,
+    mock_smtp_ssl: MagicMock,
+) -> None:
+    response = app_client.get("/api/health")
+    assert response.status_code == HTTPStatus.OK
+    assert response.json() == {"status": "ok", "checks": {"smtp": "ok"}}
+
+    assert mock_smtp_ssl.call_count == 1
+    assert mock_smtp_ssl.return_value.starttls.call_count == 0
+    assert mock_smtp_ssl.return_value.login.call_count == 1
+    assert mock_smtp_ssl.return_value.noop.call_count == 1
+    assert mock_smtp_ssl.return_value.quit.call_count == 1
