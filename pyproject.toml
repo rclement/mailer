@@ -10,7 +10,7 @@ dynamic = ["version"]
 requires-python = "==3.12.11"
 dependencies = [
     "aiocontextvars==0.2.2",
-    "cryptography==46.0.3",
+    "cryptography==46.0.4",
     "fastapi[all]==0.128.0",
     "gunicorn==24.1.1",
     "honcho==2.0.0",
