@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Health-check API endpoint `/api/health` with SMTP provider check
 
+### Fixed
+- Fix Vercel deployment to use native `uv` with `pyproject.toml` instead of generating `requirements.txt`
+
+### Changed
+- Update dependencies
+
 ## [0.11.1] - 2026-01-19
 Minor release with security dependencies updates and some internal refactoring.
 
