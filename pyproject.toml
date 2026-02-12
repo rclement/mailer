@@ -7,7 +7,7 @@ authors = [
     { name = "Romain Clement", email = "git@romain-clement.net" }
 ]
 dynamic = ["version"]
-requires-python = "==3.12.11"
+requires-python = ">=3.12,<3.13"
 dependencies = [
     "aiocontextvars==0.2.2",
     "cryptography==46.0.5",
