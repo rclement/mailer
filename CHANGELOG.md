@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-02-14
 ### Added
 - Health-check API endpoint `/api/health` with SMTP provider check
 
@@ -222,7 +223,8 @@ Long-awaited release with:
 - Initial release of `mailer`
 - Sendgrid mailing provider support
 
-[Unreleased]: https://github.com/rclement/mailer/compare/0.11.1...HEAD
+[Unreleased]: https://github.com/rclement/mailer/compare/0.12.0...HEAD
+[0.12.0]: https://github.com/rclement/mailer/compare/0.11.1...0.12.0
 [0.11.1]: https://github.com/rclement/mailer/compare/0.11.0...0.11.1
 [0.11.0]: https://github.com/rclement/mailer/compare/0.10.3...0.11.0
 [0.10.3]: https://github.com/rclement/mailer/compare/0.10.2...0.10.3
