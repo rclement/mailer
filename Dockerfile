@@ -1,4 +1,4 @@
-FROM python:3.12.11-slim-bookworm AS builder
+FROM python:3.14.3-slim-bookworm AS builder
 
 ENV APP_USER=app
 ENV APP_ROOT=/${APP_USER}
@@ -13,7 +13,7 @@ RUN uv sync --locked --no-dev --no-cache --no-install-project --no-editable
 COPY . ./
 RUN uv sync --locked --no-dev --no-editable
 
-FROM python:3.12.11-slim-bookworm AS final
+FROM python:3.14.3-slim-bookworm AS final
 
 ENV APP_USER=app
 ENV APP_GROUP=app
