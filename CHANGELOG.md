@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Use Python 3.14
 - Update dependencies
+- Replace `pgpy` with `pgpy13` for Python 3.13+ support
 
 ## [0.11.1] - 2026-01-19
 Minor release with security dependencies updates and some internal refactoring.

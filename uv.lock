@@ -672,7 +672,7 @@ dependencies = [
     { name = "fastapi", extra = ["all"] },
     { name = "gunicorn" },
     { name = "honcho" },
-    { name = "pgpy" },
+    { name = "pgpy13" },
     { name = "requests" },
     { name = "sentry-sdk", extra = ["fastapi"] },
 ]
@@ -704,7 +704,7 @@ requires-dist = [
     { name = "fastapi", extras = ["all"], specifier = "==0.129.0" },
     { name = "gunicorn", specifier = "==25.1.0" },
     { name = "honcho", specifier = "==2.0.0" },
-    { name = "pgpy", specifier = "==0.6.0" },
+    { name = "pgpy13", specifier = "==0.6.1rc1" },
     { name = "requests", specifier = "==2.32.5" },
     { name = "sentry-sdk", extras = ["fastapi"], specifier = "==2.52.0" },
 ]
@@ -992,14 +992,17 @@ wheels = [
 ]
 
 [[package]]
-name = "pgpy"
-version = "0.6.0"
+name = "pgpy13"
+version = "0.6.1rc1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "cryptography" },
     { name = "pyasn1" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f8/68/5e285ba9465550a48e837b08b27fa99ef238618f6085a1464afaa4dc8426/PGPy-0.6.0.tar.gz", hash = "sha256:279c2e353f4c3a319f00bd9bd582456e420f8a3ac6de2b4e9731444746828383", size = 603002, upload-time = "2022-11-24T02:35:22.133Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/27/4a/49f87efd9c320d25b2edda4d9bda520607fbc12338cd1030468d830f29bb/pgpy13-0.6.1rc1.tar.gz", hash = "sha256:398d71b8c5b0852c79c7b4598c0c98f7458f39b439b62068cfb49b19caaf5912", size = 603304, upload-time = "2025-03-01T22:27:18.879Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/4f/de/8e43636f1244989fb733513fa7c1252a3f82feda4ee861ec1b6377f2e6e7/pgpy13-0.6.1rc1-py3-none-any.whl", hash = "sha256:c8d6cf3dea0cc23373ff1c4ed79a6a4bf39216bf54970bae7cca656003d1aa4f", size = 84589, upload-time = "2025-03-01T22:27:17.242Z" },
+]
 
 [[package]]
 name = "pip"
