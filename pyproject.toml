@@ -16,7 +16,7 @@ dependencies = [
     "honcho==2.0.0",
     "pgpy13==0.6.1rc1",
     "requests==2.32.5",
-    "sentry-sdk[fastapi]==2.52.0",
+    "sentry-sdk[fastapi]==2.53.0",
 ]
 
 [build-system]
