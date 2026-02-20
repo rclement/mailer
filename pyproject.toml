@@ -42,7 +42,7 @@ dev = [
     "pytest-cov==7.0.0",
     "pytest-mock==3.15.1",
     "python-dotenv==1.2.1",
-    "responses==0.25.8",
+    "responses==0.26.0",
     "ruff==0.15.2",
     "types-certifi==2021.10.8.3",
     "types-requests==2.32.4.20260107",
