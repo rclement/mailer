@@ -29,7 +29,7 @@ jobs:
       - name: Run QA
         run: uv run inv qa
       - name: Upload coverage artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: coverage
           path: .coverage
@@ -59,7 +59,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras --dev
       - name: Download coverage artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: coverage
       - name: Generate Markdown code coverage report
@@ -167,7 +167,7 @@ jobs:
         run: |
           uv run mkdocs build
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: build-docs
           path: site
@@ -188,7 +188,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - name: Download build artifacts
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v8
         with:
           name: build-docs
           path: site
