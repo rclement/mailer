@@ -45,7 +45,7 @@ dev = [
     "responses==0.26.0",
     "ruff==0.15.12",
     "types-certifi==2021.10.8.3",
-    "types-requests==2.33.0.20260408",
+    "types-requests==2.33.0.20260503",
 ]
 
 [tool.hatch.version]
