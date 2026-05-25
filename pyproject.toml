@@ -15,7 +15,7 @@ dependencies = [
     "gunicorn==26.0.0",
     "honcho==2.0.0",
     "pgpy13==0.6.1rc1",
-    "requests==2.33.1",
+    "requests==2.34.2",
     "sentry-sdk[fastapi]==2.59.0",
 ]
 
