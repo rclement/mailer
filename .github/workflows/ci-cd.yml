@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install uv
         uses: astral-sh/setup-uv@v8.1.0
         with:
@@ -48,7 +48,7 @@ jobs:
       COVERAGE_REPORT_TITLE: "Code coverage report"
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
       - name: Install uv
@@ -133,7 +133,7 @@ jobs:
       IMAGE_TAG: latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Select Docker image tag (production only)
         if: contains(github.ref, 'tags')
         run: echo "IMAGE_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
@@ -155,7 +155,7 @@ jobs:
     needs: test
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install uv
         uses: astral-sh/setup-uv@v8.1.0
         with:
@@ -186,7 +186,7 @@ jobs:
       id-token: write
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Download build artifacts
         uses: actions/download-artifact@v8
         with:
@@ -255,7 +255,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Inject slug/short variables
         uses: rlespinasse/github-slug-action@v5
       - name: Install Vercel CLI
@@ -282,7 +282,7 @@ jobs:
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Deploy to Vercel
