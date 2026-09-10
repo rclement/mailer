@@ -1,10 +1,10 @@
 import os
-import pytest
-
 from base64 import urlsafe_b64encode
 from http import HTTPStatus
 from typing import Any
 from unittest.mock import MagicMock
+
+import pytest
 from faker import Faker
 from fastapi import FastAPI
 from pgpy.pgp import PGPKey
@@ -13,7 +13,6 @@ from responses import RequestsMock
 from starlette.testclient import TestClient
 
 from . import utils
-
 
 # ------------------------------------------------------------------------------
 
@@ -125,6 +124,7 @@ def enable_recaptcha_invalid_secret(
 @pytest.fixture(scope="function")
 def mock_recaptcha_verify_api(responses: RequestsMock, faker: Faker) -> RequestsMock:
     from requests.models import PreparedRequest
+
     from mailer import recaptcha
 
     def request_callback(

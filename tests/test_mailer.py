@@ -1,5 +1,4 @@
 import pytest
-
 from faker import Faker
 
 from mailer import mailer

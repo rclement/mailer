@@ -1,6 +1,6 @@
-import pytest
-
 from base64 import urlsafe_b64encode
+
+import pytest
 from faker import Faker
 from pydantic import ValidationError
 

@@ -2,8 +2,9 @@ from fastapi import FastAPI
 
 
 def create_app(env_file: str | None = ".env") -> FastAPI:
-    from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
     from fastapi.middleware.cors import CORSMiddleware
+    from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
+
     from . import api, home, sentry
     from .settings import Settings
 

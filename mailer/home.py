@@ -4,7 +4,6 @@ from fastapi.templating import Jinja2Templates
 
 from .settings import Settings
 
-
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
@@ -18,4 +17,4 @@ templates = Jinja2Templates(directory="templates")
 )
 def get_homepage(req: Request) -> HTMLResponse:
     settings: Settings = req.app.state.settings
-    return templates.TemplateResponse(req, "homepage.html", dict(settings=settings))
+    return templates.TemplateResponse(req, "homepage.html", {"settings": settings})

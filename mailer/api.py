@@ -9,7 +9,6 @@ from . import recaptcha
 from .mailer import Mailer
 from .settings import Settings
 
-
 router = APIRouter()
 
 
@@ -95,7 +94,7 @@ class MailSchema(BaseModel):
         if v:
             try:
                 key, _ = PGPKey.from_blob(v.encode("utf-8"))
-            except (ValueError, PGPError):
+            except ValueError, PGPError:
                 raise ValueError("Invalid PGP public key: cannot load the key")
 
             if not key.is_public:
@@ -106,9 +105,11 @@ class MailSchema(BaseModel):
 
 def check_origin(req: Request, origin: str = Header(None)) -> None:
     settings: Settings = req.app.state.settings
-    if len(settings.cors_origins) > 0:
-        if origin.rstrip("/") not in settings.cors_origins_list:
-            raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
+    if (
+        len(settings.cors_origins) > 0
+        and origin.rstrip("/") not in settings.cors_origins_list
+    ):
+        raise HTTPException(HTTPStatus.UNAUTHORIZED, detail="Unauthorized origin")
 
 
 @router.get(
@@ -212,7 +213,7 @@ async def post_mail_form(req: Request) -> RedirectResponse:
             message=mail.message,
             public_key=mail.public_key,
         )
-    except (ValidationError, RuntimeError):
+    except ValidationError, RuntimeError:
         return RedirectResponse(
             settings.error_redirect_url or req.headers["Origin"],
             status_code=HTTPStatus.FOUND,
