@@ -1,6 +1,6 @@
+from pgpy import PGPKey
 from pydantic import AnyHttpUrl, EmailStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from pgpy import PGPKey
 
 from . import __about__
 
@@ -39,13 +39,14 @@ class Settings(BaseSettings):
     @classmethod
     def validate_pgp_public_key(cls, v: str | None) -> PGPKey | None:
         from base64 import urlsafe_b64decode
+
         from pgpy.errors import PGPError
 
         if v:
             try:
                 public_key_str = urlsafe_b64decode(v)
                 key, _ = PGPKey.from_blob(public_key_str)
-            except (ValueError, PGPError):
+            except ValueError, PGPError:
                 raise ValueError("Invalid PGP public key: cannot load the key")
 
             if not key.is_public:

@@ -1,11 +1,10 @@
 import os
-import pytest
+from collections.abc import Generator
 
-from typing import Generator
+import pytest
 from fastapi import FastAPI
 from responses import RequestsMock
 from starlette.testclient import TestClient
-
 
 # ------------------------------------------------------------------------------
 
@@ -33,7 +32,7 @@ os.environ["SENTRY_DSN"] = ""
 
 
 @pytest.fixture(scope="function")
-def responses() -> Generator[RequestsMock, None, None]:
+def responses() -> Generator[RequestsMock]:
     with RequestsMock(assert_all_requests_are_fired=False) as rsps:
         yield rsps
 
@@ -46,6 +45,6 @@ def app() -> FastAPI:
 
 
 @pytest.fixture(scope="function")
-def app_client(app: FastAPI) -> Generator[TestClient, None, None]:
+def app_client(app: FastAPI) -> Generator[TestClient]:
     with TestClient(app) as test_client:
         yield test_client

@@ -1,8 +1,7 @@
 import sentry_sdk
-
 from fastapi import FastAPI
-from sentry_sdk.integrations.starlette import StarletteIntegration
 from sentry_sdk.integrations.fastapi import FastApiIntegration
+from sentry_sdk.integrations.starlette import StarletteIntegration
 
 from .settings import Settings
 

@@ -1,9 +1,8 @@
-import pytest
-
 from http import HTTPStatus
+
+import pytest
 from fastapi import FastAPI
 from starlette.testclient import TestClient
-
 
 # ------------------------------------------------------------------------------
 
@@ -38,8 +37,9 @@ def test_get_homepage_success(app: FastAPI, app_client: TestClient) -> None:
 def test_get_homepage_production_success(
     enable_production: None, app: FastAPI, app_client: TestClient
 ) -> None:
-    from mailer import __about__
     from starlette.routing import NoMatchFound
+
+    from mailer import __about__
 
     response = app_client.get("/")
     assert response.status_code == HTTPStatus.OK

@@ -1,7 +1,5 @@
 import dataclasses
 import smtplib
-from typing import Any
-
 from email import encoders
 from email.header import Header
 from email.message import EmailMessage, Message
@@ -9,6 +7,8 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formataddr, formatdate
+from typing import Any
+
 from pgpy import PGPKey, PGPMessage
 from pgpy.errors import PGPError
 
@@ -36,14 +36,14 @@ class Mailer:
         smtp_user: str,
         smtp_password: str,
     ) -> None:
-        self.smtp_config = dict(
-            host=smtp_host,
-            port=smtp_port,
-            tls=smtp_tls,
-            ssl=smtp_ssl,
-            user=smtp_user,
-            password=smtp_password,
-        )
+        self.smtp_config = {
+            "host": smtp_host,
+            "port": smtp_port,
+            "tls": smtp_tls,
+            "ssl": smtp_ssl,
+            "user": smtp_user,
+            "password": smtp_password,
+        }
 
     def send_email(
         self,
@@ -199,5 +199,5 @@ class Mailer:
             s.noop()
             s.quit()
             return True
-        except (smtplib.SMTPException, OSError):
+        except smtplib.SMTPException, OSError:
             return False

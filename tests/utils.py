@@ -1,14 +1,14 @@
-import pgpy
-
 from base64 import b64decode
 from email import parser
 from typing import Any, cast
+
+import pgpy
 from pgpy.constants import (
-    PubKeyAlgorithm,
-    KeyFlags,
-    HashAlgorithm,
-    SymmetricKeyAlgorithm,
     CompressionAlgorithm,
+    HashAlgorithm,
+    KeyFlags,
+    PubKeyAlgorithm,
+    SymmetricKeyAlgorithm,
 )
 
 

@@ -1,6 +1,5 @@
 from invoke import task
 
-
 app_path = "mailer"
 tests_path = "tests"
 
