@@ -12,7 +12,7 @@ dependencies = [
     "aiocontextvars==0.2.2",
     "cryptography==50.0.1",
     "fastapi[all]==0.141.1",
-    "gunicorn==26.0.0",
+    "gunicorn==26.2.0",
     "honcho==2.0.0",
     "pgpy13==0.6.1rc1",
     "requests==2.34.2",
