@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Internal
+- Replace `pip-audit` with `uv audit`
 - Replace CodeCov service with GitHub native code coverage reporting in pull requests
 
 ## [0.12.0] - 2026-02-14

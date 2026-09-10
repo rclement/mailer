@@ -6,7 +6,7 @@ tests_path = "tests"
 
 @task
 def audit(ctx):
-    ctx.run("pip-audit", pty=True)
+    ctx.run("uv audit --preview-features audit-command", pty=True)
 
 
 @task
