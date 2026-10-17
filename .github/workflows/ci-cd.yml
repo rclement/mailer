@@ -11,6 +11,7 @@ on:
 
 env:
   BASE_URL_PREVIEW: mailer-romainclement.vercel.app
+  IMAGE_NAME: ghcr.io/${{ github.repository }}
 
 jobs:
   test:
@@ -123,31 +124,66 @@ jobs:
               })
             }
 
-  build-docker:
+  docker:
     name: Docker build
     runs-on: ubuntu-latest
     needs: test
+    permissions:
+      contents: read
+      packages: write
 
-    env:
-      IMAGE_NAME: ${{ secrets.DOCKER_USERNAME }}/mailer
-      IMAGE_TAG: latest
+    outputs:
+      image: ${{ env.IMAGE_NAME }}@${{ steps.push.outputs.digest }}
 
     steps:
       - uses: actions/checkout@v7
-      - name: Select Docker image tag (production only)
-        if: contains(github.ref, 'tags')
-        run: echo "IMAGE_TAG=${GITHUB_REF##*/}" >> $GITHUB_ENV
-      - name: Pull latest Docker image
-        run: docker pull $IMAGE_NAME:latest || true
-      - name: Build Docker image (${{ env.IMAGE_TAG }})
-        run: docker build -t $IMAGE_NAME:$IMAGE_TAG --cache-from $IMAGE_NAME:latest .
-      - name: Log into Docker Registry
-        if: contains(github.ref, 'master') || contains(github.ref, 'tags')
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-      - name: Push Docker image
-        if: contains(github.ref, 'master') || contains(github.ref, 'tags')
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v4
+      - name: Build image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          load: true
+          tags: ${{ env.IMAGE_NAME }}:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+      - name: Smoke test image
         run: |
-          docker push $IMAGE_NAME:$IMAGE_TAG
+          docker run -d --name mailer -p 8080:5000 \
+            -e SENDER_EMAIL=no-reply@example.com \
+            -e TO_EMAIL=me@example.com \
+            -e TO_NAME=Me \
+            -e SMTP_HOST=localhost \
+            -e SMTP_PORT=25 \
+            -e SMTP_TLS=false \
+            -e SMTP_SSL=false \
+            -e SMTP_USER= \
+            -e SMTP_PASSWORD= \
+            -e FORCE_HTTPS=false \
+            ${IMAGE_NAME}:ci
+          for i in $(seq 1 15); do
+            curl -fsS -o /dev/null http://localhost:8080/ && exit 0
+            sleep 1
+          done
+          docker logs mailer
+          exit 1
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Push image
+        id: push
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:sha-${{ github.sha }}
+            ${{ github.ref == 'refs/heads/master' && format('{0}:latest', env.IMAGE_NAME) || '' }}
+            ${{ startsWith(github.ref, 'refs/tags/') && format('{0}:{1}', env.IMAGE_NAME, github.ref_name) || '' }}
+          cache-from: type=gha
 
   build-docs:
     name: Build Documentation
@@ -205,7 +241,7 @@ jobs:
   deploy-vercel-setup:
     name: Deployment setup
     runs-on: ubuntu-latest
-    needs: build-docker
+    needs: docker
 
     outputs:
       github_ref_slug: ${{ steps.output_step.outputs.github_ref_slug }}
@@ -243,7 +279,7 @@ jobs:
   deploy-vercel-preview:
     name: Vercel preview deployment
     runs-on: ubuntu-latest
-    needs: deploy-vercel-setup
+    needs: [deploy-vercel-setup, docker]
     if: ${{ !contains(github.ref, 'tags') }}
     environment:
       name: preview/${{ needs.deploy-vercel-setup.outputs.github_ref_slug }}
@@ -253,11 +289,14 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DOCKER_IMAGE: ${{ needs.docker.outputs.image }}
 
     steps:
       - uses: actions/checkout@v7
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v5
+      - name: Generate Dockerfile.vercel from the CI-built image
+        # Vercel routes traffic to port 80, the image itself listens on 5000 by default
+        run: |
+          printf 'FROM %s\nENV PORT=80\nEXPOSE 80\n' "${DOCKER_IMAGE}" > Dockerfile.vercel
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Deploy to Vercel
@@ -269,7 +308,7 @@ jobs:
   deploy-vercel-production:
     name: Vercel production deployment
     runs-on: ubuntu-latest
-    needs: deploy-vercel-setup
+    needs: [deploy-vercel-setup, docker]
     if: contains(github.ref, 'tags')
 
     environment:
@@ -280,9 +319,14 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DOCKER_IMAGE: ${{ needs.docker.outputs.image }}
 
     steps:
       - uses: actions/checkout@v7
+      - name: Generate Dockerfile.vercel from the CI-built image
+        # Vercel routes traffic to port 80, the image itself listens on 5000 by default
+        run: |
+          printf 'FROM %s\nENV PORT=80\nEXPOSE 80\n' "${DOCKER_IMAGE}" > Dockerfile.vercel
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Deploy to Vercel
