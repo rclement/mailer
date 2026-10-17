@@ -279,7 +279,7 @@ jobs:
   deploy-vercel-preview:
     name: Vercel preview deployment
     runs-on: ubuntu-latest
-    needs: deploy-vercel-setup
+    needs: [deploy-vercel-setup, docker]
     if: ${{ !contains(github.ref, 'tags') }}
     environment:
       name: preview/${{ needs.deploy-vercel-setup.outputs.github_ref_slug }}
@@ -289,11 +289,14 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DOCKER_IMAGE: ${{ needs.docker.outputs.image }}
 
     steps:
       - uses: actions/checkout@v7
-      - name: Inject slug/short variables
-        uses: rlespinasse/github-slug-action@v5
+      - name: Generate Dockerfile.vercel from the CI-built image
+        # Vercel routes traffic to port 80, the image itself listens on 5000 by default
+        run: |
+          printf 'FROM %s\nENV PORT=80\nEXPOSE 80\n' "${DOCKER_IMAGE}" > Dockerfile.vercel
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Deploy to Vercel
@@ -305,7 +308,7 @@ jobs:
   deploy-vercel-production:
     name: Vercel production deployment
     runs-on: ubuntu-latest
-    needs: deploy-vercel-setup
+    needs: [deploy-vercel-setup, docker]
     if: contains(github.ref, 'tags')
 
     environment:
@@ -316,9 +319,14 @@ jobs:
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
       VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
       VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      DOCKER_IMAGE: ${{ needs.docker.outputs.image }}
 
     steps:
       - uses: actions/checkout@v7
+      - name: Generate Dockerfile.vercel from the CI-built image
+        # Vercel routes traffic to port 80, the image itself listens on 5000 by default
+        run: |
+          printf 'FROM %s\nENV PORT=80\nEXPOSE 80\n' "${DOCKER_IMAGE}" > Dockerfile.vercel
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
       - name: Deploy to Vercel

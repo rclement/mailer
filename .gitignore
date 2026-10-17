@@ -122,6 +122,7 @@ Thumbs.db
 *.swp
 .now
 .vercel
+Dockerfile.vercel
 
 # PGP
 *.asc
