@@ -98,7 +98,7 @@ Or you can also use the containerized version!
 
 ## Docker
 
-The Docker image is publicly available on [Docker Hub](https://hub.docker.com/r/rmnclmnt/mailer).
+The Docker image is publicly available on [GitHub Container Registry](https://github.com/rclement/mailer/pkgs/container/mailer).
 
 All stable versions are automatically deployed and available after each release.
 The `latest` tag will allow to retrieve non-stable changes
@@ -106,7 +106,7 @@ The `latest` tag will allow to retrieve non-stable changes
 If you want to quickly try the Docker image:
 
 ```bash
-docker run --env-file .env -p 5000:5000 rmnclmnt/mailer:latest
+docker run --env-file .env -p 5000:5000 ghcr.io/rclement/mailer:latest
 ```
 
 ## VPS
