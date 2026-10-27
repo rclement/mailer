@@ -37,7 +37,7 @@ dev = [
     "mkdocs-material==9.7.7",
     "mypy==2.4.0",
     "pre-commit==4.6.2",
-    "pytest==9.1.1",
+    "pytest==9.2.0",
     "pytest-cov==7.1.0",
     "pytest-mock==3.16.0",
     "python-dotenv==1.2.4",
